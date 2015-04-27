@@ -1,0 +1,435 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Download Attachments\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-02-09 13:49+0100\n"
+"PO-Revision-Date: 2015-02-09 14:27+0100\n"
+"Last-Translator: basbva\n"
+"Language-Team: basbva.nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-KeywordsList: gettext;gettext_noop;__;_e;esc_attr__;esc_attr_e;_n:1,2;_x:1,2c;_nx_noop:4c,1,2;_nx:4c,1,2;_ex:1,2c;_c,_nc:4c,1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: Dutch\n"
+"X-Poedit-Country: NETHERLANDS\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../download-attachments.php:256
+msgid "Index"
+msgstr "Index"
+
+#: ../download-attachments.php:257
+msgid "ID"
+msgstr "ID"
+
+#: ../download-attachments.php:258
+msgid "Exclude"
+msgstr "Sluit uit"
+
+#: ../download-attachments.php:259
+#: ../includes/functions.php:276
+#: ../includes/functions.php:354
+msgid "Added by"
+msgstr "Toegevoegd door"
+
+#: ../download-attachments.php:260
+msgid "Title"
+msgstr "Titel"
+
+#: ../download-attachments.php:261
+msgid "File type"
+msgstr "Bestandstype"
+
+#: ../download-attachments.php:262
+msgid "Icon"
+msgstr "Symbool"
+
+#: ../download-attachments.php:263
+msgid "Size"
+msgstr "Afmeting"
+
+#: ../download-attachments.php:264
+#: ../includes/functions.php:273
+#: ../includes/functions.php:350
+msgid "Date added"
+msgstr "Datum toegevoegd"
+
+#: ../download-attachments.php:265
+#: ../includes/functions.php:282
+#: ../includes/functions.php:362
+#: ../includes/media.php:55
+msgid "Downloads"
+msgstr "Downloads"
+
+#: ../download-attachments.php:353
+msgid "Are you sure you want to reset these settings to defaults?"
+msgstr "Weet je zeker dat je de standaard instellingen wilt herstellen?"
+
+#: ../download-attachments.php:354
+msgid "Are you sure you want to reset number of downloads of all attachments?"
+msgstr "Weet je zeker dat je het aantal getelde bijlage-downloads wilt resetten?"
+
+#: ../download-attachments.php:390
+msgid "Select Attachments"
+msgstr "Selecteer bijlagen"
+
+#: ../download-attachments.php:391
+msgid "Edit attachment"
+msgstr "Bijlage bewerken"
+
+#: ../download-attachments.php:392
+msgid "Add selected attachments"
+msgstr "Geselecteerde bijlagen toevoegen"
+
+#: ../download-attachments.php:393
+msgid "Save attachment"
+msgstr "Bewaar bijlage"
+
+#: ../download-attachments.php:394
+#: ../includes/metabox.php:342
+msgid "No attachments added yet."
+msgstr "Nog geen bijlagen toegevoegd"
+
+#: ../download-attachments.php:395
+msgid "Do you want to remove this attachment?"
+msgstr "Wil je deze bijlage verwijderen?"
+
+#: ../download-attachments.php:396
+msgid "Remove"
+msgstr "Verwijderen"
+
+#: ../download-attachments.php:397
+#: ../includes/metabox.php:500
+msgid "Edit"
+msgstr "Bewerken"
+
+#: ../download-attachments.php:399
+#: ../includes/metabox.php:174
+#: ../includes/metabox.php:214
+msgid "Unexpected error occured. Please refresh the page and try again."
+msgstr "Er is een onverwachte fout opgetreden. Ververs alsjeblieft de pagina en probeer opnieuw."
+
+#: ../download-attachments.php:446
+msgid "Support"
+msgstr "Support"
+
+#: ../download-attachments.php:468
+msgid "Settings"
+msgstr "Instellingen"
+
+#: ../includes/functions.php:187
+#: ../includes/shortcodes.php:58
+msgid "No attachments to download"
+msgstr "Geen bijlagen om op te halen"
+
+#: ../includes/functions.php:191
+#: ../includes/metabox.php:248
+#: ../includes/settings.php:107
+#: ../includes/settings.php:108
+#: ../includes/settings.php:123
+#: ../includes/settings.php:127
+#: ../includes/shortcodes.php:62
+msgid "Download Attachments"
+msgstr "Download Attachments"
+
+#: ../includes/functions.php:267
+msgid "File"
+msgstr "Bestand"
+
+#: ../includes/functions.php:270
+msgid "Description"
+msgstr "Beschrijving"
+
+#: ../includes/functions.php:279
+#: ../includes/functions.php:358
+msgid "File size"
+msgstr "Bestandsafmeting"
+
+#: ../includes/metabox.php:270
+#: ../includes/metabox.php:350
+msgid "Save"
+msgstr "Bewaar"
+
+#: ../includes/metabox.php:273
+msgid "Add new attachment"
+msgstr "Voeg nieuwe bijlage toe"
+
+#: ../includes/metabox.php:310
+msgid "Actions"
+msgstr "Acties"
+
+#: ../includes/settings.php:55
+msgid "Enable"
+msgstr "Inschakelen"
+
+#: ../includes/settings.php:56
+msgid "Disable"
+msgstr "Uitschakelen"
+
+#: ../includes/settings.php:60
+msgid "All files"
+msgstr "Alle bestanden"
+
+#: ../includes/settings.php:61
+msgid "Attached to a post only"
+msgstr "Alleen bijlagen bij een bericht"
+
+#: ../includes/settings.php:65
+msgid "Manage download attachments"
+msgstr "Beheer Download Attachments"
+
+#: ../includes/settings.php:69
+#: ../includes/settings.php:197
+msgid "Media Library"
+msgstr "Media bibliotheek"
+
+#: ../includes/settings.php:70
+msgid "Modal"
+msgstr "Ook elders"
+
+#: ../includes/settings.php:74
+msgid "before the content"
+msgstr "voor de inhoud"
+
+#: ../includes/settings.php:75
+msgid "after the content"
+msgstr "na de inhoud"
+
+#: ../includes/settings.php:76
+msgid "manually"
+msgstr "handmatig"
+
+#: ../includes/settings.php:80
+msgid "List"
+msgstr "Lijst"
+
+#: ../includes/settings.php:81
+msgid "Table"
+msgstr "Tabel"
+
+#: ../includes/settings.php:85
+msgid "caption"
+msgstr "onderschrift"
+
+#: ../includes/settings.php:86
+msgid "description"
+msgstr "beschrijving"
+
+#: ../includes/settings.php:129
+msgid "Need support?"
+msgstr "Hulp nodig?"
+
+#: ../includes/settings.php:130
+msgid "If you are having problems with this plugin, please talk about them in the"
+msgstr "Als je een probleem hebt met deze plugin meldt dit dan in het"
+
+#: ../includes/settings.php:130
+msgid "Support forum"
+msgstr "Support forum"
+
+#: ../includes/settings.php:132
+msgid "Do you like this plugin?"
+msgstr "Bevalt deze plugin?"
+
+#: ../includes/settings.php:133
+msgid "Rate it 5"
+msgstr "Beoordeel met 5 sterren"
+
+#: ../includes/settings.php:133
+msgid "on WordPress.org"
+msgstr "op WordPress.org"
+
+#: ../includes/settings.php:134
+msgid "Blog about it & link to the"
+msgstr "Blog erover & link naar de"
+
+#: ../includes/settings.php:134
+msgid "plugin page"
+msgstr "plugin-pagina"
+
+#: ../includes/settings.php:135
+msgid "Check out our other"
+msgstr "Bekijk ook onze andere"
+
+#: ../includes/settings.php:135
+msgid "WordPress plugins"
+msgstr "WordPress-plugins"
+
+#: ../includes/settings.php:144
+msgid "Created by"
+msgstr "Vervaardigd door"
+
+#: ../includes/settings.php:164
+msgid "Reset to defaults"
+msgstr "Herstel de standaard instellingen"
+
+#: ../includes/settings.php:168
+msgid "Reset downloads"
+msgstr "Reset de downloads-teller"
+
+#: ../includes/settings.php:186
+msgid "General settings"
+msgstr "Algemene instellingen"
+
+#: ../includes/settings.php:187
+msgid "Label"
+msgstr "Label"
+
+#: ../includes/settings.php:188
+msgid "Capabilities"
+msgstr "Rechten"
+
+#: ../includes/settings.php:189
+msgid "Supported Post Types"
+msgstr "Ondersteunde berichttypen"
+
+#: ../includes/settings.php:190
+msgid "Deactivation"
+msgstr "Deactivatie"
+
+#: ../includes/settings.php:193
+msgid "Admin settings"
+msgstr "Beheerdersinstellingen"
+
+#: ../includes/settings.php:194
+msgid "Backend Display"
+msgstr "Backend weergave"
+
+#: ../includes/settings.php:195
+msgid "Backend Downloads Description"
+msgstr "Backend downloads-beschrijving"
+
+#: ../includes/settings.php:196
+msgid "Edit attachment link"
+msgstr "Bijlagelink bewerken"
+
+#: ../includes/settings.php:198
+msgid "Downloads in Media Library"
+msgstr "Downloads in mediabibliotheek"
+
+#: ../includes/settings.php:201
+msgid "Frontend settings"
+msgstr "Frontend-instellingen"
+
+#: ../includes/settings.php:202
+msgid "Frontend Display"
+msgstr "Frontend weergave"
+
+#: ../includes/settings.php:203
+msgid "Display Style"
+msgstr "Weergavestijl"
+
+#: ../includes/settings.php:204
+msgid "Frontend Downloads Description"
+msgstr "Frontend downloads-beschrijving"
+
+#: ../includes/settings.php:205
+msgid "Use CSS style"
+msgstr "Gebruik CSS-stijl"
+
+#: ../includes/settings.php:206
+msgid "Pretty URLs"
+msgstr "Mooie URLs"
+
+#: ../includes/settings.php:207
+msgid "Downloads List Display"
+msgstr "Downloadslijst-weergave"
+
+#: ../includes/settings.php:244
+msgid "Select which post types would you like to enable for your downloads."
+msgstr "Selecteer welk berichttype je wilt inschakelen voor je downloads."
+
+#: ../includes/settings.php:268
+msgid "Select which columns would you like to enable on backend for your downloads."
+msgstr "Selecteer welke kolommen in de backend je wilt inschakelen voor je downloads."
+
+#: ../includes/settings.php:292
+msgid "Select which columns would you like to enable on frontend for your downloads."
+msgstr "Selecteer welke kolommen in de frontend je wilt inschakelen voor je downloads."
+
+#: ../includes/settings.php:315
+msgid "Select if you'd like to use bultin CSS style."
+msgstr "Inschakelen als je ingebouwde CSS-stijl wilt gebruiken."
+
+#: ../includes/settings.php:338
+msgid "Enable if you want to use pretty URLs."
+msgstr "Schakel in om mooie URLs te gebruiken."
+
+#: ../includes/settings.php:340
+msgid "Slug"
+msgstr "Slug"
+
+#: ../includes/settings.php:344
+msgid "Download link slug."
+msgstr "Downloadlink-slug."
+
+#: ../includes/settings.php:369
+msgid "Select where you would like your download attachments to be displayed."
+msgstr "Selecteer waar je wilt dat je download-bijlagen worden getoond."
+
+#: ../includes/settings.php:392
+msgid "Select display style for file attachments."
+msgstr "Selecteer de weergavestijl voor bijlagen."
+
+#: ../includes/settings.php:415
+msgid "Select what fields to use on backend for download attachments description."
+msgstr "Selecteer welke velden in de backend te gebruiken voor het beschrijven van de download-bijlage."
+
+#: ../includes/settings.php:438
+msgid "Select what fields to use on frontend for download attachments description."
+msgstr "Selecteer welke velden in de frontend te gebruiken voor het beschrijven van de download-bijlage."
+
+#: ../includes/settings.php:461
+msgid "Select where you would like to edit download attachments."
+msgstr "Selecteer waar je de download-bijlagen wilt kunnen bewerken."
+
+#: ../includes/settings.php:484
+msgid "Select which attachments should be visible in Media Library window."
+msgstr "Selecteer welke bijlagen er zichtbaar moeten zijn in het venster van de mediabibliotheek."
+
+#: ../includes/settings.php:507
+msgid "Enable if you want to display downloads count in your Media Library columns."
+msgstr "Schakel in om de downloads-teller in de kolommen van je mediabibliotheek weer te geven. "
+
+#: ../includes/settings.php:528
+msgid "Role"
+msgstr "Rol"
+
+#: ../includes/settings.php:533
+msgid "None"
+msgstr "Geen"
+
+#: ../includes/settings.php:566
+msgid "Select user roles allowed to add, remove and manage Download Attachments."
+msgstr "Selecteer gebruikersrollen die mogen toevoegen, verwijderen en Download Attachments mogen beheren."
+
+#: ../includes/settings.php:591
+msgid "Enable if you want all plugin data to be deleted on deactivation."
+msgstr "Schakel in om instellingen te wissen bij deactivatie van de plugin."
+
+#: ../includes/settings.php:746
+msgid "Settings restored to defaults."
+msgstr "Standaard instellingen zijn hersteld."
+
+#: ../includes/settings.php:764
+msgid "An error occurred while resetting the number of downloads."
+msgstr "Er is een  fout opgetreden bij het resetten van het tellen van downloads."
+
+#: ../includes/settings.php:766
+msgid "Number of downloads of all attachments has been reset."
+msgstr "Het aantal getelde bijlage-downloads is opnieuw ingesteld op 0."
+
+#~ msgid "Attachment size"
+#~ msgstr "Bijlage afmeting"
+#~ msgid ""
+#~ "Order of attachments has been changed but some of them no longer exists"
+#~ msgstr ""
+#~ "De volgorde van de bijlagen is verandert, maar sommigen bestaan niet meer."
+#~ msgid "Enter download attachments list label."
+#~ msgstr "Voer label in voor de bijlagedownload-lijst."
+

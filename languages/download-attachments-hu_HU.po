@@ -1,0 +1,403 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Download Attachments\n"
+"POT-Creation-Date: 2014-12-19 11:02+0100\n"
+"PO-Revision-Date: 2015-02-20 22:36+0100\n"
+"Last-Translator: Bartosz Arendt <info@dfactory.eu>\n"
+"Language-Team: dFactory <info@dfactory.pl>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.4\n"
+"X-Poedit-KeywordsList: gettext;gettext_noop;__;_e;esc_attr__;esc_attr_e;_n:1,2;_x:1,2c;_nx_noop:4c,1,2;_nx:4c,1,2;_ex:1,2c;_c,"
+"_nc:4c,1,2;esc_html__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../download-attachments.php:256
+msgid "Index"
+msgstr "Index"
+
+#: ../download-attachments.php:257
+msgid "ID"
+msgstr "ID"
+
+#: ../download-attachments.php:258
+msgid "Exclude"
+msgstr "Kizár"
+
+#: ../download-attachments.php:259 ../includes/functions.php:276 ../includes/functions.php:354
+msgid "Added by"
+msgstr "Hozzáadott"
+
+#: ../download-attachments.php:260
+msgid "Title"
+msgstr "Címke"
+
+#: ../download-attachments.php:261
+msgid "File type"
+msgstr "Fájl típus"
+
+#: ../download-attachments.php:262
+msgid "Icon"
+msgstr "Ikon"
+
+#: ../download-attachments.php:263
+msgid "Size"
+msgstr "Méret"
+
+#: ../download-attachments.php:264 ../includes/functions.php:273 ../includes/functions.php:350
+msgid "Date added"
+msgstr "Dátum hozzáadva"
+
+#: ../download-attachments.php:265 ../includes/functions.php:282 ../includes/functions.php:362 ../includes/media.php:55
+msgid "Downloads"
+msgstr "Letöltések"
+
+#: ../download-attachments.php:353
+msgid "Are you sure you want to reset these settings to defaults?"
+msgstr "Biztos benne, hogy vissza szeretné állítani ezeket a beállításokat az alapértékekre?"
+
+#: ../download-attachments.php:354
+msgid "Are you sure you want to reset number of downloads of all attachments?"
+msgstr "Biztos benne, hogy vissza akarja állítani a letöltések számát az összes csatolmánynál?"
+
+#: ../download-attachments.php:390
+msgid "Select Attachments"
+msgstr "Csatolmány kiválasztása"
+
+#: ../download-attachments.php:391
+msgid "Edit attachment"
+msgstr "Csatolmány szerkesztése"
+
+#: ../download-attachments.php:392
+msgid "Add selected attachments"
+msgstr "Kiválasztott csatolmány hozzáadása"
+
+#: ../download-attachments.php:393
+msgid "Save attachment"
+msgstr "Csatolmány mentése"
+
+#: ../download-attachments.php:394 ../includes/metabox.php:342
+msgid "No attachments added yet."
+msgstr "Nem csatolt hozzá még."
+
+#: ../download-attachments.php:395
+msgid "Do you want to remove this attachment?"
+msgstr "El akarja távolítani ezt a csatolmányt?"
+
+#: ../download-attachments.php:396
+msgid "Remove"
+msgstr "Eltávolítás"
+
+#: ../download-attachments.php:397 ../includes/metabox.php:500
+msgid "Edit"
+msgstr "Szerkesztés"
+
+#: ../download-attachments.php:399 ../includes/metabox.php:174 ../includes/metabox.php:214
+msgid "Unexpected error occured. Please refresh the page and try again."
+msgstr "Váratlan hiba történt. Kérjük, frissítse az oldalt, majd próbálja újra."
+
+#: ../download-attachments.php:446
+msgid "Support"
+msgstr "Támogatás"
+
+#: ../download-attachments.php:468
+msgid "Settings"
+msgstr "Beállítások"
+
+#: ../includes/functions.php:187 ../includes/shortcodes.php:58
+msgid "No attachments to download"
+msgstr "Nem tud csatolmányt letölteni"
+
+#: ../includes/functions.php:191 ../includes/metabox.php:248 ../includes/settings.php:107 ../includes/settings.php:108
+#: ../includes/settings.php:123 ../includes/settings.php:127 ../includes/shortcodes.php:62
+msgid "Download Attachments"
+msgstr "Csatolmány letöltés"
+
+#: ../includes/functions.php:267
+msgid "File"
+msgstr "Fájl"
+
+#: ../includes/functions.php:270
+msgid "Description"
+msgstr "Leírás"
+
+#: ../includes/functions.php:279 ../includes/functions.php:358
+msgid "File size"
+msgstr "Fájl méret"
+
+#: ../includes/metabox.php:270 ../includes/metabox.php:350
+msgid "Save"
+msgstr "Mentés"
+
+#: ../includes/metabox.php:273
+msgid "Add new attachment"
+msgstr "Új csatolmány hozzáadása"
+
+#: ../includes/metabox.php:310
+msgid "Actions"
+msgstr "Műveletek"
+
+#: ../includes/settings.php:55
+msgid "Enable"
+msgstr "Engedélyezve"
+
+#: ../includes/settings.php:56
+msgid "Disable"
+msgstr "Tiltva"
+
+#: ../includes/settings.php:60
+msgid "All files"
+msgstr "Minden fájl"
+
+#: ../includes/settings.php:61
+msgid "Attached to a post only"
+msgstr "Csak a hozzászólás csatolható"
+
+#: ../includes/settings.php:65
+msgid "Manage download attachments"
+msgstr "Csatolmány letöltés kezelése"
+
+#: ../includes/settings.php:69 ../includes/settings.php:197
+msgid "Media Library"
+msgstr "Média Könyvtár"
+
+#: ../includes/settings.php:70
+msgid "Modal"
+msgstr "Módbeli"
+
+#: ../includes/settings.php:74
+msgid "before the content"
+msgstr "a tartalom előtt"
+
+#: ../includes/settings.php:75
+msgid "after the content"
+msgstr "a tartalom után"
+
+#: ../includes/settings.php:76
+msgid "manually"
+msgstr "manuálisan"
+
+#: ../includes/settings.php:80
+msgid "List"
+msgstr "Lista"
+
+#: ../includes/settings.php:81
+msgid "Table"
+msgstr "Tábla"
+
+#: ../includes/settings.php:85
+msgid "caption"
+msgstr "felirat"
+
+#: ../includes/settings.php:86
+msgid "description"
+msgstr "leírás"
+
+#: ../includes/settings.php:129
+msgid "Need support?"
+msgstr "Támogatásra van szüksége?"
+
+#: ../includes/settings.php:130
+msgid "If you are having problems with this plugin, please talk about them in the"
+msgstr "Ha problémái vannak a bővítménnyel, kérjük, beszéljen róluk a"
+
+#: ../includes/settings.php:130
+msgid "Support forum"
+msgstr "Fórum támogatás"
+
+#: ../includes/settings.php:132
+msgid "Do you like this plugin?"
+msgstr "Kedveled ezt a bővítményt?"
+
+#: ../includes/settings.php:133
+msgid "Rate it 5"
+msgstr "5-re értékelje"
+
+#: ../includes/settings.php:133
+msgid "on WordPress.org"
+msgstr "WordPress.org-on"
+
+#: ../includes/settings.php:134
+msgid "Blog about it & link to the"
+msgstr "Blogról & linket a"
+
+#: ../includes/settings.php:134
+msgid "plugin page"
+msgstr "bővítmény oldal"
+
+#: ../includes/settings.php:135
+msgid "Check out our other"
+msgstr "Nézze meg a többit"
+
+#: ../includes/settings.php:135
+msgid "WordPress plugins"
+msgstr "WordPress bővítmények"
+
+#: ../includes/settings.php:144
+msgid "Created by"
+msgstr "Készítette"
+
+#: ../includes/settings.php:164
+msgid "Reset to defaults"
+msgstr "Alapértelmezett érték újraindítása"
+
+#: ../includes/settings.php:168
+msgid "Reset downloads"
+msgstr "Letöltések újraindítása"
+
+#: ../includes/settings.php:186
+msgid "General settings"
+msgstr "Általános beállítások"
+
+#: ../includes/settings.php:187
+msgid "Label"
+msgstr "Címke"
+
+#: ../includes/settings.php:188
+msgid "Capabilities"
+msgstr "Képességek"
+
+#: ../includes/settings.php:189
+msgid "Supported Post Types"
+msgstr "Támogatott üzenet típusok"
+
+#: ../includes/settings.php:190
+msgid "Deactivation"
+msgstr "Deaktíválás"
+
+#: ../includes/settings.php:193
+msgid "Admin settings"
+msgstr "Admin beállítások"
+
+#: ../includes/settings.php:194
+msgid "Backend Display"
+msgstr "Backend Kijelzés"
+
+#: ../includes/settings.php:195
+msgid "Backend Downloads Description"
+msgstr "Backend Letöltés Leírás"
+
+#: ../includes/settings.php:196
+msgid "Edit attachment link"
+msgstr "Csatolt link szerkesztése"
+
+#: ../includes/settings.php:198
+msgid "Downloads in Media Library"
+msgstr "Média Könyvtár letöltése"
+
+#: ../includes/settings.php:201
+msgid "Frontend settings"
+msgstr "Frontend beállítások"
+
+#: ../includes/settings.php:202
+msgid "Frontend Display"
+msgstr "Frontend Kijelzés"
+
+#: ../includes/settings.php:203
+msgid "Display Style"
+msgstr "Kijelző Stílus"
+
+#: ../includes/settings.php:204
+msgid "Frontend Downloads Description"
+msgstr "Frontend Letöltés Leírás"
+
+#: ../includes/settings.php:205
+msgid "Use CSS style"
+msgstr "CSS stílus használata"
+
+#: ../includes/settings.php:206
+msgid "Pretty URLs"
+msgstr "Szép URL-ek"
+
+#: ../includes/settings.php:207
+msgid "Downloads List Display"
+msgstr "Letöltések Lista Kijelzése"
+
+#: ../includes/settings.php:221
+msgid "Enter download attachments list label."
+msgstr "Adja letöltés mellékletek listának címkéit."
+
+#: ../includes/settings.php:244
+msgid "Select which post types would you like to enable for your downloads."
+msgstr "Válassza ki, melyik típusokhoz szeretne engedélyezni a letöltéseket."
+
+#: ../includes/settings.php:268
+msgid "Select which columns would you like to enable on backend for your downloads."
+msgstr "Válassza ki, hogy mely oszlopokat szeretné engedélyezni a backend letöltéseket."
+
+#: ../includes/settings.php:292
+msgid "Select which columns would you like to enable on frontend for your downloads."
+msgstr "Válassza ki, hogy mely oszlopokra szeretné engedélyezni a frontend a letöltéseket."
+
+#: ../includes/settings.php:315
+msgid "Select if you'd like to use bultin CSS style."
+msgstr "Válassza ki, ha szeretné használni beépített CSS stílust."
+
+#: ../includes/settings.php:338
+msgid "Enable if you want to use pretty URLs."
+msgstr "Engedélyezd, ha szeretnéd használni a szép URL-eket."
+
+#: ../includes/settings.php:340
+msgid "Slug"
+msgstr "Slug"
+
+#: ../includes/settings.php:344
+msgid "Download link slug."
+msgstr "Slug link letöltés"
+
+#: ../includes/settings.php:369
+msgid "Select where you would like your download attachments to be displayed."
+msgstr "Válassza ki, hová szeretné a letöltés csatolmányok megjelenítését."
+
+#: ../includes/settings.php:392
+msgid "Select display style for file attachments."
+msgstr "Válassza ki a megjelenítési stílust fájlmellékletekhez."
+
+#: ../includes/settings.php:415
+msgid "Select what fields to use on backend for download attachments description."
+msgstr "Válassza ki, hogy mely mezőket kívánja használni a backend letölthető mellékletek leírásánál."
+
+#: ../includes/settings.php:438
+msgid "Select what fields to use on frontend for download attachments description."
+msgstr "Válassza ki, hogy mely mezőket kívánja használni a frontend letölthető mellékletek leírásánál."
+
+#: ../includes/settings.php:461
+msgid "Select where you would like to edit download attachments."
+msgstr "Válassza ki, hogy hol szeretné szerkeszteni letöltés mellékleteket."
+
+#: ../includes/settings.php:484
+msgid "Select which attachments should be visible in Media Library window."
+msgstr "Válassza ki, melyik mellékleteknél kell, hogy látszódjon Média Könyvtár ablak."
+
+#: ../includes/settings.php:507
+msgid "Enable if you want to display downloads count in your Media Library columns."
+msgstr "Engedélyezze, ha azt szeretné, hogy megjelenjen letöltések száma a Média Könyvtár oszlopoknál."
+
+#: ../includes/settings.php:528
+msgid "Role"
+msgstr "Feladat"
+
+#: ../includes/settings.php:533
+msgid "None"
+msgstr "Nincs"
+
+#: ../includes/settings.php:566
+msgid "Select user roles allowed to add, remove and manage Download Attachments."
+msgstr "Felhasználó kiválaszthatja az engedélyezett feladatot hozzáadhatja, vagy eltávolíthatja és kezelheti csatolmány letöltést."
+
+#: ../includes/settings.php:591 ../includes/settings.php:746
+msgid "Settings restored to defaults."
+msgstr "Beállítások visszaállítása az alapértékekre."
+
+#: ../includes/settings.php:764
+msgid "An error occurred while resetting the number of downloads."
+msgstr "Hiba történt a visszaállításkor a letöltések számánál."
+
+#: ../includes/settings.php:766
+msgid "Number of downloads of all attachments has been reset."
+msgstr "Letöltések száma az összes csatolmánynál újraindult."

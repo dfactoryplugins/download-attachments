@@ -1,0 +1,40 @@
+/* Download attachments */
+.download-attachments .download-title {
+    font-size: 1.35em;
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 0.5em;
+}
+
+.download-attachments ul {
+    padding: 0;
+    margin: 0;
+}
+
+.download-attachments ul li {
+    list-style: none;
+    margin: 0.5em 0;
+    border-bottom: 1px dotted #eee;
+    padding-bottom: 0.5em;
+}
+
+.download-attachments img {
+    padding-right: 1em;
+    vertical-align: middle;
+}
+
+.download-attachments br {
+    display: block;
+    height: 0;
+}
+
+.download-attachments .attachment-description {
+    font-style: italic;
+}
+
+.attachment-label {
+    font-weight: normal;
+}
+
+.attachment-date, .attachment-user, .attachment-size, .attachment-downloads {
+    font-weight: bold;
+}

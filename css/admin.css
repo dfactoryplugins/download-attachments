@@ -1,0 +1,290 @@
+/* Download attachments settings */
+.df-sidebar {
+    float: right;
+    width: 280px;
+    margin: 20px -300px 20px 20px;
+    position: relative;
+}
+
+.df-ads a {
+    display: block;
+}
+
+.df-credits {
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.df-credits .inner {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.df-credits h3 {
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+    padding: 8px 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.df-credits .df-link {
+    font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+    font-style: italic;
+    padding-bottom: 10px;
+    margin: 0;
+}
+
+.df-credits .df-link a {
+    vertical-align: middle;
+    padding: 5px 0 0 4px;
+}
+
+.df-credits form {
+    min-width: 260px;
+    margin-bottom: 1em;
+}
+
+.df-credits form input {
+    margin: 0;
+    padding: 0;
+}
+
+.download-attachments-settings {
+    margin-right: 300px;
+}
+
+.download-attachments-settings hr,
+.df-credits hr {
+    border: solid #eee;
+    border-width: 1px 0 0;
+    clear: both;
+    height: 0;
+}
+
+.download-attachments-settings form {
+    float: left;
+    min-width: 260px;
+    width: auto;
+}
+
+.download-attachments-settings fieldset span.description {
+    margin-bottom: 8px;
+    margin-top: 4px;
+    display: block;
+}
+
+.download-attachments-settings .ui-button {
+    margin-bottom: 5px;
+}
+
+.download-attachments-settings .description {
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.download-attachments-settings .widefat td, .download-attachments-settings .widefat th {
+    padding: 8px 10px;
+}
+
+.download-attachments-settings .widefat td, .download-attachments-settings .widefat td p, .download-attachments-settings .widefat td ol, .download-attachments-settings .widefat td ul {
+    font-size: 13px;
+    line-height: 1.5em;
+}
+
+.download-attachments-settings .widefat * {
+    word-wrap: break-word;
+}
+
+/* Table */
+#da-add-new-file {
+    float: left;
+    margin: 5px 0 11px 9px;
+}
+
+.da-save-files {
+    float: left;
+    margin: 5px 0 0 0;
+}
+
+#da-infobox {
+    clear: both;
+    margin: 10px 0 0 0;
+}
+
+#da-info td {
+    text-align: center;
+}
+
+#da-files {
+    margin-bottom: 6px;
+}
+
+#da-files th[data-sort] {
+    cursor: pointer;
+}
+
+#da-files th[data-sort]:hover {
+}
+
+#da-files th.sorting-asc:after {
+    content: "\f142";
+    padding-left: 10px;
+    font-family: 'Dashicons';
+}
+
+#da-files th.sorting-desc:after {
+    content: "\f140";
+    padding-left: 10px;
+    font-family: 'Dashicons';
+}
+
+#da-files td.file-drag {
+    cursor: move;
+    width: 20px;
+}
+
+#da-files td.file-title {
+    word-break: break-all;
+    word-wrap: break-word;
+    width: 40%;
+}
+
+#da-files td.file-title span {
+    display: block;
+}
+
+#da-files td.file-title p {
+    margin: 0;
+}
+
+#da-files td.file-actions a, #da-files td.file-actions span {
+    margin-bottom: 3px;
+}
+
+#da-files tr.remove td, #da-files tr.remove td a, #da-files tr.remove td span {
+    color: #999;
+    cursor: default;
+}
+
+#da-spinner {
+    float: left;
+    display: none;
+    position: relative;
+    top: 9px;
+    left: 5px;
+    background: url('../../../../wp-admin/images/wpspin_light.gif') no-repeat;
+    background-size: 16px 16px;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    margin: 0;
+    padding: 0;
+    width: 16px;
+    height: 16px;
+}
+
+.ui-sortable-placeholder {
+    height: 50px;
+}
+
+/* Modal Edit */
+.hidden-attachment {
+    opacity: 0.3;
+    box-shadow: 0 0 0 1px #FFF, 0 0 0 3px #CCC !important;
+}
+
+.hidden-attachment div {
+    cursor: default !important;
+}
+
+.hidden-attachment div a.check {
+    cursor: default !important;
+    display: block !important;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4) !important;
+    background: #F1F1F1 !important;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#F1F1F1), to(#E1E1E1)) !important;
+    background-image: -webkit-linear-gradient(top, #F1F1F1, #E1E1E1) !important;
+    background-image: -moz-linear-gradient(top, #f1f1f1, #e1e1e1) !important;
+    background-image: -o-linear-gradient(top, #f1f1f1, #e1e1e1) !important;
+    background-image: linear-gradient(to bottom, #F1F1F1, #E1E1E1) !important;
+}
+
+.hidden-attachment div a.check div, .hidden-attachment div a.check:hover div {
+    background-position: -1px 0 !important;
+}
+
+.media-modal.da-edit-modal {
+    left: 15%;
+    right: 15%;
+    top: 100px;
+    bottom: 100px;
+}
+
+.media-modal.da-edit-modal .media-toolbar,
+.media-modal.da-edit-modal .attachments,
+.media-modal.da-edit-modal .media-sidebar {
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+
+.media-modal.da-edit-modal .media-frame-router,
+.media-modal.da-edit-modal .attachments,
+.media-modal.da-edit-modal .media-frame-content .media-toolbar {
+    display: none;
+}
+
+.media-modal.da-edit-modal .media-frame-content {
+    top: 45px;
+}
+
+.media-modal.da-edit-modal .media-frame-title {
+    border-bottom: 1px solid #DFDFDF;
+    box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.1);
+}
+
+.media-modal.da-edit-modal .media-frame-content .media-sidebar {
+    width: auto;
+    left: 0px;
+}
+
+.media-modal.da-edit-modal .media-toolbar {
+    right: 0;
+}
+
+@media (max-width: 960px) {
+    .media-modal.da-edit-modal {
+        left: 10%;
+        right: 10%;
+    }
+}
+
+/* All Mobile Sizes (devices and browser) */
+@media only screen and (max-width: 959px) {
+    .df-sidebar {
+        width: 100%;
+        float: none;
+        margin: 20px 0;
+    }
+
+    .df-credits {
+        width: 63%;
+        float: left;
+    }
+
+    .df-ads {
+        width: 35%;
+        float: right;
+        margin-left: 2%;
+    }
+
+    .df-ads img {
+        max-width: 100%;
+    }
+
+    .events-maker-settings {
+        margin-right: 0;
+    }
+}

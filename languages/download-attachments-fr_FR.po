@@ -1,0 +1,437 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Download Attachments\n"
+"POT-Creation-Date: 2014-12-19 11:02+0100\n"
+"PO-Revision-Date: 2014-12-19 12:10+0100\n"
+"Last-Translator: \n"
+"Language-Team: dFactory <info@dfactory.pl>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.1\n"
+"X-Poedit-KeywordsList: gettext;gettext_noop;__;_e;esc_attr__;esc_attr_e;"
+"_n:1,2;_x:1,2c;_nx_noop:4c,1,2;_nx:4c,1,2;_ex:1,2c;_c,_nc:4c,1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../download-attachments.php:256
+msgid "Index"
+msgstr "Index"
+
+#: ../download-attachments.php:257
+msgid "ID"
+msgstr "Id"
+
+#: ../download-attachments.php:258
+msgid "Exclude"
+msgstr "Exclure"
+
+#: ../download-attachments.php:259 ../includes/functions.php:276
+#: ../includes/functions.php:354
+msgid "Added by"
+msgstr "Ajouté par"
+
+#: ../download-attachments.php:260
+msgid "Title"
+msgstr "Titre"
+
+#: ../download-attachments.php:261
+msgid "File type"
+msgstr "Type de fichier"
+
+#: ../download-attachments.php:262
+msgid "Icon"
+msgstr "Icone"
+
+#: ../download-attachments.php:263
+msgid "Size"
+msgstr "Taille"
+
+#: ../download-attachments.php:264 ../includes/functions.php:273
+#: ../includes/functions.php:350
+msgid "Date added"
+msgstr "Ajouté le"
+
+#: ../download-attachments.php:265 ../includes/functions.php:282
+#: ../includes/functions.php:362 ../includes/media.php:55
+msgid "Downloads"
+msgstr "Téléchargements"
+
+#: ../download-attachments.php:353
+msgid "Are you sure you want to reset these settings to defaults?"
+msgstr "Etes-vous sûr de vouloir revenir aux options par défaut ?"
+
+#: ../download-attachments.php:354
+msgid "Are you sure you want to reset number of downloads of all attachments?"
+msgstr ""
+"Etes-vous sûr de vouloir remettre à zéro le nombre de téléchargements de "
+"toutes les pièces jointes ?"
+
+#: ../download-attachments.php:390
+msgid "Select Attachments"
+msgstr "Sélectionnez une pièce jointe"
+
+#: ../download-attachments.php:391
+msgid "Edit attachment"
+msgstr "Modifier une pièce jointe"
+
+#: ../download-attachments.php:392
+msgid "Add selected attachments"
+msgstr "Ajouter les pièces jointes sélectionnées"
+
+#: ../download-attachments.php:393
+msgid "Save attachment"
+msgstr "Enregistrer les modifications"
+
+#: ../download-attachments.php:394 ../includes/metabox.php:342
+msgid "No attachments added yet."
+msgstr "Pas de pièces jointes déjà ajoutées"
+
+#: ../download-attachments.php:395
+msgid "Do you want to remove this attachment?"
+msgstr "Voulez-vous supprimer cette pièce jointe ?"
+
+#: ../download-attachments.php:396
+msgid "Remove"
+msgstr "Supprimer"
+
+#: ../download-attachments.php:397 ../includes/metabox.php:500
+msgid "Edit"
+msgstr "Modifier"
+
+#: ../download-attachments.php:399 ../includes/metabox.php:174
+#: ../includes/metabox.php:214
+msgid "Unexpected error occured. Please refresh the page and try again."
+msgstr ""
+"Une erreur inattendue s'est produite. Rechargez la page et essayez de "
+"nouveau."
+
+#: ../download-attachments.php:446
+msgid "Support"
+msgstr "Aide"
+
+#: ../download-attachments.php:468
+msgid "Settings"
+msgstr "Options"
+
+#: ../includes/functions.php:187 ../includes/shortcodes.php:58
+msgid "No attachments to download"
+msgstr "Pas de pièce jointe à télécharger"
+
+#: ../includes/functions.php:191 ../includes/metabox.php:248
+#: ../includes/settings.php:107 ../includes/settings.php:108
+#: ../includes/settings.php:123 ../includes/settings.php:127
+#: ../includes/shortcodes.php:62
+msgid "Download Attachments"
+msgstr "Download Attachments"
+
+#: ../includes/functions.php:267
+msgid "File"
+msgstr "Fichier"
+
+#: ../includes/functions.php:270
+msgid "Description"
+msgstr "Description"
+
+#: ../includes/functions.php:279 ../includes/functions.php:358
+msgid "File size"
+msgstr "Taille"
+
+#: ../includes/metabox.php:270 ../includes/metabox.php:350
+msgid "Save"
+msgstr "Enregistrer"
+
+#: ../includes/metabox.php:273
+msgid "Add new attachment"
+msgstr "Ajouter une nouvelle pièce jointe"
+
+#: ../includes/metabox.php:310
+msgid "Actions"
+msgstr "Actions"
+
+#: ../includes/settings.php:55
+msgid "Enable"
+msgstr "Activer"
+
+#: ../includes/settings.php:56
+msgid "Disable"
+msgstr "Désactiver"
+
+#: ../includes/settings.php:60
+msgid "All files"
+msgstr "Tous les fichiers"
+
+#: ../includes/settings.php:61
+msgid "Attached to a post only"
+msgstr "Attacher seulement aux articles"
+
+#: ../includes/settings.php:65
+msgid "Manage download attachments"
+msgstr "Gérer les téléchargements"
+
+#: ../includes/settings.php:69 ../includes/settings.php:197
+msgid "Media Library"
+msgstr "Bibliothèque de média"
+
+#: ../includes/settings.php:70
+msgid "Modal"
+msgstr "Boite de dialogue"
+
+#: ../includes/settings.php:74
+msgid "before the content"
+msgstr "Avant le contenu"
+
+#: ../includes/settings.php:75
+msgid "after the content"
+msgstr "Après le contenu"
+
+#: ../includes/settings.php:76
+msgid "manually"
+msgstr "Manuellement"
+
+#: ../includes/settings.php:80
+msgid "List"
+msgstr "Liste"
+
+#: ../includes/settings.php:81
+msgid "Table"
+msgstr "Tableau"
+
+#: ../includes/settings.php:85
+msgid "caption"
+msgstr "Légende"
+
+#: ../includes/settings.php:86
+msgid "description"
+msgstr "Description"
+
+#: ../includes/settings.php:129
+msgid "Need support?"
+msgstr "Beoin d'aide ?"
+
+#: ../includes/settings.php:130
+msgid ""
+"If you are having problems with this plugin, please talk about them in the"
+msgstr "Si vous avez des problèmes avec ce plugin, discutez-en dans le "
+
+#: ../includes/settings.php:130
+msgid "Support forum"
+msgstr "Forum d'entraide (en anglais)"
+
+#: ../includes/settings.php:132
+msgid "Do you like this plugin?"
+msgstr "Aimez-vous ce plugin ?"
+
+#: ../includes/settings.php:133
+msgid "Rate it 5"
+msgstr "Donnez lui 5 étoiles"
+
+#: ../includes/settings.php:133
+msgid "on WordPress.org"
+msgstr "sur WordPress.org"
+
+#: ../includes/settings.php:134
+msgid "Blog about it & link to the"
+msgstr "Parlez-en sur votre blog et faites un lien vers la"
+
+#: ../includes/settings.php:134
+msgid "plugin page"
+msgstr "page du plugin"
+
+#: ../includes/settings.php:135
+msgid "Check out our other"
+msgstr "Découvrez nos autres"
+
+#: ../includes/settings.php:135
+msgid "WordPress plugins"
+msgstr "plugins WordPress"
+
+#: ../includes/settings.php:144
+msgid "Created by"
+msgstr "Créé par"
+
+#: ../includes/settings.php:164
+msgid "Reset to defaults"
+msgstr "Revenir aux options par défaut"
+
+#: ../includes/settings.php:168
+msgid "Reset downloads"
+msgstr "Réinitialiser les téléchargements"
+
+#: ../includes/settings.php:186
+msgid "General settings"
+msgstr "Options générales"
+
+#: ../includes/settings.php:187
+msgid "Label"
+msgstr "Titre de section"
+
+#: ../includes/settings.php:188
+msgid "Capabilities"
+msgstr "Permissions"
+
+#: ../includes/settings.php:189
+msgid "Supported Post Types"
+msgstr "Type de post supportés"
+
+#: ../includes/settings.php:190
+msgid "Deactivation"
+msgstr "Désactivation"
+
+#: ../includes/settings.php:193
+msgid "Admin settings"
+msgstr "Options administrateur"
+
+#: ../includes/settings.php:194
+msgid "Backend Display"
+msgstr "Affichage dans le tableau de bord"
+
+#: ../includes/settings.php:195
+msgid "Backend Downloads Description"
+msgstr "Description des téléchargements dans le tableau de bord"
+
+#: ../includes/settings.php:196
+msgid "Edit attachment link"
+msgstr "Modifier le lien "
+
+#: ../includes/settings.php:198
+msgid "Downloads in Media Library"
+msgstr "Téléchargements dans la bibliothèque de Média"
+
+#: ../includes/settings.php:201
+msgid "Frontend settings"
+msgstr "Options du site"
+
+#: ../includes/settings.php:202
+msgid "Frontend Display"
+msgstr "Affichage dans le site"
+
+#: ../includes/settings.php:203
+msgid "Display Style"
+msgstr "Présentation des téléchargements"
+
+#: ../includes/settings.php:204
+msgid "Frontend Downloads Description"
+msgstr "Description des téléchargements sur le site"
+
+#: ../includes/settings.php:205
+msgid "Use CSS style"
+msgstr "Utiliser les styles CSS"
+
+#: ../includes/settings.php:206
+msgid "Pretty URLs"
+msgstr "Pretty URLs"
+
+#: ../includes/settings.php:207
+msgid "Downloads List Display"
+msgstr "Affichage de la liste des pièces jointes"
+
+#: ../includes/settings.php:221
+msgid "Enter download attachments list label."
+msgstr "Entrez le libellé de la zone de téléchargement"
+
+#: ../includes/settings.php:244
+msgid "Select which post types would you like to enable for your downloads."
+msgstr ""
+"Sélectionnez les types de posts qui peuvent recevoir des pièces jointes"
+
+#: ../includes/settings.php:268
+msgid ""
+"Select which columns would you like to enable on backend for your downloads."
+msgstr "Sélectionnez quelles informations afficher dans le tableau de bord"
+
+#: ../includes/settings.php:292
+msgid ""
+"Select which columns would you like to enable on frontend for your downloads."
+msgstr "Sélectionnez quelles informations afficher sur le site"
+
+#: ../includes/settings.php:315
+msgid "Select if you'd like to use bultin CSS style."
+msgstr "Activer si vous voulez utiliser les styles prédéfinis"
+
+#: ../includes/settings.php:338
+msgid "Enable if you want to use pretty URLs."
+msgstr "Activez si vous voulez utiliser les \"pretty URLs\""
+
+#: ../includes/settings.php:340
+msgid "Slug"
+msgstr "Lien complet (Slug)"
+
+#: ../includes/settings.php:344
+msgid "Download link slug."
+msgstr "Lien complet de téléchargement (slug link)"
+
+#: ../includes/settings.php:369
+msgid "Select where you would like your download attachments to be displayed."
+msgstr "Indiquez où les pièces jointes doivent être affichées"
+
+#: ../includes/settings.php:392
+msgid "Select display style for file attachments."
+msgstr "Sélectionnez la présentation des téléchargement"
+
+#: ../includes/settings.php:415
+msgid ""
+"Select what fields to use on backend for download attachments description."
+msgstr ""
+"Indiquez les champs à afficher pour décrire les liens dans le tableau de bord"
+
+#: ../includes/settings.php:438
+msgid ""
+"Select what fields to use on frontend for download attachments description."
+msgstr "Indiquez les champs à afficher pour décrire les liens sur le site"
+
+#: ../includes/settings.php:461
+msgid "Select where you would like to edit download attachments."
+msgstr "Indiquez où vous voulez modifier les liens"
+
+#: ../includes/settings.php:484
+msgid "Select which attachments should be visible in Media Library window."
+msgstr ""
+"Indiquez quelles pièces jointes doivent être visibles dans la fenêtre de la "
+"bibliothèque de Média"
+
+#: ../includes/settings.php:507
+msgid ""
+"Enable if you want to display downloads count in your Media Library columns."
+msgstr ""
+"Activer si vous vous voulez afficher le nombre de téléchargements dans la "
+"bibliothèque de Média"
+
+#: ../includes/settings.php:528
+msgid "Role"
+msgstr "Rôle"
+
+#: ../includes/settings.php:533
+msgid "None"
+msgstr "Aucun"
+
+#: ../includes/settings.php:566
+msgid ""
+"Select user roles allowed to add, remove and manage Download Attachments."
+msgstr ""
+"Sélectionnez les rôles d'utilisateurs pouvant ajouter, supprimer et gérer "
+"les liens des pièces jointes"
+
+#: ../includes/settings.php:591
+msgid "Enable if you want all plugin data to be deleted on deactivation."
+msgstr ""
+"Activer si vous voulez effacer toutes les données du plugin à sa "
+"désactivation"
+
+#: ../includes/settings.php:746
+msgid "Settings restored to defaults."
+msgstr "Options reintialisées"
+
+#: ../includes/settings.php:764
+msgid "An error occurred while resetting the number of downloads."
+msgstr "Une erreur est survenue en réinitialisant le nombre de téléchargements"
+
+#: ../includes/settings.php:766
+msgid "Number of downloads of all attachments has been reset."
+msgstr "Le nombre de téléchargements a été réinitialisé"
+
+#~ msgid "Attachment size"
+#~ msgstr "Taille de la pièce jointe"

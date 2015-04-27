@@ -1,0 +1,509 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Download Attachments v1.0.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2013-12-26 13:34:41+0000\n"
+"Last-Translator: spyke <spyke113@mail.ru>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%100/10==1 ? 2 : n%10==1 ? 0 : (n+9)%10>3 ? 2 : 1;\n"
+"X-Generator: CSL v1.x\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#. translators: plugin header field 'Name'
+#: download-attachments.php:0
+#: includes/functions.php:191
+#: includes/metabox.php:307
+#: includes/settings.php:102
+#: includes/settings.php:103
+#: includes/settings.php:118
+#: includes/settings.php:144
+#: includes/shortcodes.php:60
+#@ download-attachments
+msgid "Download Attachments"
+msgstr "Настройки вложений"
+
+#. translators: plugin header field 'PluginURI'
+#: download-attachments.php:0
+#@ download-attachments
+msgid "http://www.dfactory.eu/plugins/download-attachments/"
+msgstr "http://www.dfactory.eu/plugins/download-attachments/"
+
+#. translators: plugin header field 'Description'
+#: download-attachments.php:0
+#@ download-attachments
+msgid "Download Attachments is a new approach to managing downloads in WordPress. It allows you to easily add and display download links in any post or page."
+msgstr "Этот плагин реализует новый подход к управлению вложениями в WordPress. Он позволяет легко добавлять и отображать вложения в любых записях или страницах."
+
+#. translators: plugin header field 'Author'
+#: download-attachments.php:0
+#@ download-attachments
+msgid "dFactory"
+msgstr "dFactory"
+
+#. translators: plugin header field 'AuthorURI'
+#: download-attachments.php:0
+#@ download-attachments
+msgid "http://www.dfactory.eu/"
+msgstr "http://www.dfactory.eu/"
+
+#. translators: plugin header field 'Version'
+#: download-attachments.php:0
+#@ download-attachments
+msgid "1.0.3"
+msgstr "1.0.3"
+
+#: download-attachments.php:259
+#@ download-attachments
+msgid "ID"
+msgstr "ID"
+
+#: download-attachments.php:260
+#: includes/functions.php:292
+#@ download-attachments
+msgid "Added by"
+msgstr "Добавлен"
+
+#: download-attachments.php:261
+#@ download-attachments
+msgid "Title"
+msgstr "Название"
+
+#: download-attachments.php:262
+#@ download-attachments
+msgid "File type"
+msgstr "Тип файла"
+
+#: download-attachments.php:263
+#@ download-attachments
+msgid "Icon"
+msgstr "Иконка"
+
+#: download-attachments.php:264
+#@ download-attachments
+msgid "Size"
+msgstr "Размер"
+
+#: download-attachments.php:265
+#: includes/functions.php:288
+#@ download-attachments
+msgid "Date added"
+msgstr "Дата добавления"
+
+#: download-attachments.php:266
+#: includes/functions.php:300
+#: includes/media.php:55
+#@ download-attachments
+msgid "Downloads"
+msgstr "Загрузок"
+
+#: download-attachments.php:362
+#@ download-attachments
+msgid "Are you sure you want to reset these settings to defaults?"
+msgstr "Вы действительно хотите вернуться к настройкам по-умолчанию?"
+
+#: download-attachments.php:363
+#@ download-attachments
+msgid "Are you sure you want to reset number of downloads of all attachments?"
+msgstr "Вы действительно хотите сбросить счетчик загрузок во всех вложениях?"
+
+#: download-attachments.php:379
+#@ download-attachments
+msgid "Select Attachments"
+msgstr "Выберите вложения"
+
+#: download-attachments.php:380
+#@ download-attachments
+msgid "Edit attachment"
+msgstr "Редактировать вложение"
+
+#: download-attachments.php:381
+#@ download-attachments
+msgid "Add selected attachments"
+msgstr "Добавить выбранные вложения"
+
+#: download-attachments.php:382
+#@ download-attachments
+msgid "Save attachment"
+msgstr "Сохранить вложение"
+
+#: download-attachments.php:383
+#: includes/metabox.php:503
+#@ download-attachments
+msgid "No attachments added yet."
+msgstr "Не добавлено еще ни одного вложения"
+
+#: download-attachments.php:384
+#@ download-attachments
+msgid "Do you want to remove this attachment?"
+msgstr "Вы хотите удалить это вложение со страницы?"
+
+#: download-attachments.php:385
+#: includes/metabox.php:466
+#@ download-attachments
+msgid "Remove"
+msgstr "Удалить"
+
+#: download-attachments.php:386
+#: includes/metabox.php:461
+#: includes/metabox.php:464
+#@ download-attachments
+msgid "Edit"
+msgstr "Редактировать"
+
+#: download-attachments.php:388
+#: includes/metabox.php:179
+#: includes/metabox.php:226
+#: includes/metabox.php:268
+#: includes/metabox.php:271
+#@ download-attachments
+msgid "Unexpected error occured. Please refresh the page and try again."
+msgstr "Произошла ошибка. Обновите страницу и попробуйте снова."
+
+#: download-attachments.php:445
+#@ download-attachments
+msgid "Support"
+msgstr "Поддержка"
+
+#: download-attachments.php:467
+#@ download-attachments
+msgid "Settings"
+msgstr "Настройки"
+
+#: includes/functions.php:187
+#: includes/shortcodes.php:56
+#@ download-attachments
+msgid "No attachments to download"
+msgstr "Нет вложений для загрузки"
+
+#: includes/functions.php:296
+#@ download-attachments
+msgid "Attachment size"
+msgstr "Размер файла"
+
+#: includes/metabox.php:261
+#@ download-attachments
+msgid "Order of attachments has been changed but some of them no longer exists"
+msgstr "Порядок вложений был изменен, но некоторых из них больше не существует"
+
+#: includes/metabox.php:329
+#@ download-attachments
+msgid "Add new attachment"
+msgstr "Добавить новое вложение"
+
+#: includes/metabox.php:424
+#@ download-attachments
+msgid "Actions"
+msgstr "Действия"
+
+#: includes/settings.php:55
+#@ download-attachments
+msgid "Enable"
+msgstr "вкл"
+
+#: includes/settings.php:56
+#@ download-attachments
+msgid "Disable"
+msgstr "выкл"
+
+#: includes/settings.php:60
+#@ download-attachments
+msgid "All files"
+msgstr "Все файлы"
+
+#: includes/settings.php:61
+#@ download-attachments
+msgid "Attached to a post only"
+msgstr "Только присоединенные"
+
+#: includes/settings.php:65
+#@ download-attachments
+msgid "Manage download attachments"
+msgstr "Управление вложениями"
+
+#: includes/settings.php:69
+#: includes/settings.php:177
+#@ download-attachments
+msgid "Media Library"
+msgstr "Библиотека"
+
+#: includes/settings.php:70
+#@ download-attachments
+msgid "Modal"
+msgstr "Модальное окно"
+
+#: includes/settings.php:74
+#@ download-attachments
+msgid "before the content"
+msgstr "перед содержимым"
+
+#: includes/settings.php:75
+#@ download-attachments
+msgid "after the content"
+msgstr "после содержимого"
+
+#: includes/settings.php:76
+#@ download-attachments
+msgid "manually"
+msgstr "с помощью шорткода"
+
+#: includes/settings.php:80
+#@ download-attachments
+msgid "caption"
+msgstr "название"
+
+#: includes/settings.php:81
+#@ download-attachments
+msgid "description"
+msgstr "описание"
+
+#: includes/settings.php:133
+#@ download-attachments
+msgid "Reset to defaults"
+msgstr "Сбросить к настройкам по-умолчанию"
+
+#: includes/settings.php:137
+#@ download-attachments
+msgid "Reset downloads"
+msgstr "Сбросить счетчики загрузок"
+
+#: includes/settings.php:146
+#@ download-attachments
+msgid "Need support?"
+msgstr "Требуется помощь?"
+
+#: includes/settings.php:147
+#@ download-attachments
+msgid "If you are having problems with this plugin, please talk about them in the"
+msgstr "Если Вам требуется помощь по данному плагину, напишите о проблеме в"
+
+#: includes/settings.php:147
+#@ download-attachments
+msgid "Support forum"
+msgstr "Форум поддержки"
+
+#: includes/settings.php:149
+#@ download-attachments
+msgid "Do you like this plugin?"
+msgstr "Вам понравился плагин?"
+
+#: includes/settings.php:150
+#@ download-attachments
+msgid "Rate it 5"
+msgstr "Поставьте 5"
+
+#: includes/settings.php:150
+#@ download-attachments
+msgid "on WordPress.org"
+msgstr "на WordPress.org"
+
+#: includes/settings.php:151
+#@ download-attachments
+msgid "Blog about it & link to the"
+msgstr "Информация и ссылка на"
+
+#: includes/settings.php:151
+#@ download-attachments
+msgid "plugin page"
+msgstr "странице плагина"
+
+#: includes/settings.php:152
+#@ download-attachments
+msgid "Check out our other"
+msgstr "Просмотрите наши другие"
+
+#: includes/settings.php:152
+#@ download-attachments
+msgid "WordPress plugins"
+msgstr "WordPress плагины"
+
+#: includes/settings.php:155
+#@ download-attachments
+msgid "Created by"
+msgstr "Создано"
+
+#: includes/settings.php:170
+#@ download-attachments
+msgid "General settings"
+msgstr "Основные настройки"
+
+#: includes/settings.php:171
+#@ download-attachments
+msgid "Label"
+msgstr "Заголовок"
+
+#: includes/settings.php:172
+#@ download-attachments
+msgid "Capabilities"
+msgstr "Уровень доступа"
+
+#: includes/settings.php:173
+#@ download-attachments
+msgid "Supported Post Types"
+msgstr "Поддерживаемые типы"
+
+#: includes/settings.php:174
+#@ download-attachments
+msgid "Backend Display"
+msgstr "Свойства вложений в админ-панели"
+
+#: includes/settings.php:175
+#@ download-attachments
+msgid "Backend Downloads Description"
+msgstr "Текст ссылки вложения в админ-панели"
+
+#: includes/settings.php:176
+#@ download-attachments
+msgid "Edit attachment link"
+msgstr "Редактирование вложения"
+
+#: includes/settings.php:178
+#@ download-attachments
+msgid "Downloads in Media Library"
+msgstr "Загрузки в библиотеке"
+
+#: includes/settings.php:179
+#@ download-attachments
+msgid "Frontend Display"
+msgstr "Свойства вложений на сайте"
+
+#: includes/settings.php:180
+#@ download-attachments
+msgid "Frontend Downloads Description"
+msgstr "Текст ссылки вложения на сайте"
+
+#: includes/settings.php:181
+#@ download-attachments
+msgid "Use CSS style"
+msgstr "CSS стиль плагина"
+
+#: includes/settings.php:182
+#@ download-attachments
+msgid "Pretty URLs"
+msgstr "Короткие ссылки"
+
+#: includes/settings.php:183
+#@ download-attachments
+msgid "Downloads List Display"
+msgstr "Расположение списка вложений"
+
+#: includes/settings.php:184
+#@ download-attachments
+msgid "Deactivation"
+msgstr "Деактивация"
+
+#: includes/settings.php:196
+#@ download-attachments
+msgid "Enter download attachments list label."
+msgstr "Заголовок перед списком вложений"
+
+#: includes/settings.php:217
+#@ download-attachments
+msgid "Select which post types would you like to enable for your downloads."
+msgstr "Выберите каким типам записей разрешить добавлять вложения"
+
+#: includes/settings.php:239
+#@ download-attachments
+msgid "Select which columns would you like to enable on backend for your downloads."
+msgstr "Выберите какие столбцы будут отображены в списке вложений при редактировании записей"
+
+#: includes/settings.php:261
+#@ download-attachments
+msgid "Select which columns would you like to enable on frontend for your downloads."
+msgstr "Выберите какие свойства вложений будут отображены в списке вложений на сайте"
+
+#: includes/settings.php:282
+#@ download-attachments
+msgid "Select if you'd like to use bultin CSS style."
+msgstr "Выберите, если хотите использовать предустановленный CSS стиль"
+
+#: includes/settings.php:303
+#@ download-attachments
+msgid "Enable if you want to use pretty URLs."
+msgstr "Включите, если хотите использовать короткие ссылки для загрузок вложений"
+
+#: includes/settings.php:305
+#@ download-attachments
+msgid "Slug"
+msgstr "Часть пути"
+
+#: includes/settings.php:309
+#@ download-attachments
+msgid "Download link slug."
+msgstr "Ссылки на загрузки вложений будут иметь такие пути"
+
+#: includes/settings.php:332
+#@ download-attachments
+msgid "Select where you would like your download attachments to be displayed."
+msgstr "Выберите, где будет отображаться список вложений к записи"
+
+#: includes/settings.php:353
+#@ download-attachments
+msgid "Select what fields to use on backend for download attachments description."
+msgstr "Выберите что использовать в качестве текста ссылки на вложение в админ-панели"
+
+#: includes/settings.php:374
+#@ download-attachments
+msgid "Select what fields to use on frontend for download attachments description."
+msgstr "Выберите что использовать в качестве текста ссылки на вложение на сайте"
+
+#: includes/settings.php:395
+#@ download-attachments
+msgid "Select where you would like to edit download attachments."
+msgstr "Выберите где редактировать прикрепленные к записи вложения"
+
+#: includes/settings.php:416
+#@ download-attachments
+msgid "Select which attachments should be visible in Media Library window."
+msgstr "Выберите, какие вложения будут отображаться в медиа-библиотеке"
+
+#: includes/settings.php:437
+#@ download-attachments
+msgid "Enable if you want to display downloads count in your Media Library columns."
+msgstr "Включите, если хотите показать количество загрузок в медиа-библиотеке"
+
+#: includes/settings.php:456
+#@ download-attachments
+msgid "Role"
+msgstr "Роль"
+
+#: includes/settings.php:461
+#@ download-attachments
+msgid "None"
+msgstr "Ничего"
+
+#: includes/settings.php:493
+#@ download-attachments
+msgid "Select user roles allowed to add, remove and manage Download Attachments."
+msgstr "Выберите роли пользователей, которым будут доступны добавление, удаление и редактирование вложений"
+
+#: includes/settings.php:516
+#@ download-attachments
+msgid "Enable if you want all plugin data to be deleted on deactivation."
+msgstr "Включите, если хотите удалить все данные плагина при его деактивации"
+
+#: includes/settings.php:667
+#@ download-attachments
+msgid "Settings restored to defaults."
+msgstr "Настройки сброшены по-умолчанию"
+
+#: includes/settings.php:685
+#@ download-attachments
+msgid "An error occurred while resetting the number of downloads."
+msgstr "Произошла ошибка при сбрасывании количества загрузок вложений"
+
+#: includes/settings.php:687
+#@ download-attachments
+msgid "Number of downloads of all attachments has been reset."
+msgstr "Количество загрузок во всех вложениях было сброшено"
+

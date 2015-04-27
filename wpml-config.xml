@@ -1,0 +1,7 @@
+<wpml-config>
+	<admin-texts>
+		<key name="download_attachments_general">
+			<key name="label" />
+		</key>
+	</admin-texts>    
+</wpml-config>

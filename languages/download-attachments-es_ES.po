@@ -1,0 +1,754 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: News Manager\n"
+"POT-Creation-Date: 2013-10-08 22:58+0100\n"
+"PO-Revision-Date: 2014-02-04 11:52+0100\n"
+"Last-Translator: Bartosz Arendt <info@digitalfactory.pl>\n"
+"Language-Team: dFactory <info@dfactory.pl>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.3\n"
+"X-Poedit-KeywordsList: gettext;gettext_noop;__;_e;esc_attr__;esc_attr_e;"
+"_n:1,2;_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../news-manager.php:359
+msgctxt "taxonomy general name"
+msgid "News Categories"
+msgstr "Categorias"
+
+#: ../news-manager.php:360
+msgctxt "taxonomy singular name"
+msgid "News Category"
+msgstr "Categoria"
+
+#: ../news-manager.php:361
+msgid "Search News Categories"
+msgstr "Buscar Categorias"
+
+#: ../news-manager.php:362
+msgid "All News Categories"
+msgstr "Todas las Categorias"
+
+#: ../news-manager.php:363
+msgid "Parent News Category"
+msgstr "Categoria Relacionada"
+
+#: ../news-manager.php:364
+msgid "Parent News Category:"
+msgstr "Categoria relacionada:"
+
+#: ../news-manager.php:365
+msgid "Edit News Category"
+msgstr "Editar Categoria"
+
+#: ../news-manager.php:366
+msgid "View News Category"
+msgstr "Ver Categoria"
+
+#: ../news-manager.php:367
+msgid "Update News Category"
+msgstr "Actualizar Categoria"
+
+#: ../news-manager.php:368
+msgid "Add New News Category"
+msgstr "Adherir nueva categoria"
+
+#: ../news-manager.php:369
+msgid "New News Category Name"
+msgstr "Nuevo nombre de categoria"
+
+#: ../news-manager.php:370 ../includes/settings.php:78
+#: ../includes/settings.php:283 ../includes/widgets.php:293
+#: ../includes/widgets.php:646 ../includes/widgets.php:970
+#: ../includes/widgets.php:977
+msgid "News Categories"
+msgstr "Categorias"
+
+#: ../news-manager.php:405
+msgctxt "taxonomy general name"
+msgid "News Tags"
+msgstr "Tags"
+
+#: ../news-manager.php:406
+msgctxt "taxonomy singular name"
+msgid "News Tag"
+msgstr "Tag"
+
+#: ../news-manager.php:407
+msgid "Search News Tags"
+msgstr "Buscar tags"
+
+#: ../news-manager.php:408
+msgid "Popular News Tags"
+msgstr "Tags Populares"
+
+#: ../news-manager.php:409
+msgid "All News Tags"
+msgstr "Todos los Tags"
+
+#: ../news-manager.php:412
+msgid "Edit News Tag"
+msgstr "Editar Tag"
+
+#: ../news-manager.php:413
+msgid "Update News Tag"
+msgstr "Actualizar Tag"
+
+#: ../news-manager.php:414
+msgid "Add New News Tag"
+msgstr "Adherir nuevo tag"
+
+#: ../news-manager.php:415
+msgid "New News Tag Name"
+msgstr "Nuevo Nombre de Tag"
+
+#: ../news-manager.php:416
+msgid "Separate news tags with commas"
+msgstr "Separar tags con comas"
+
+#: ../news-manager.php:417
+msgid "Add or remove news tags"
+msgstr "Adherir o quitar tags"
+
+#: ../news-manager.php:418
+msgid "Choose from the most used news tags"
+msgstr "Escoja los tags mas utilizados"
+
+#: ../news-manager.php:419 ../includes/settings.php:68
+#: ../includes/settings.php:280 ../includes/widgets.php:271
+#: ../includes/widgets.php:624 ../includes/widgets.php:848
+#: ../includes/widgets.php:855
+msgid "News Tags"
+msgstr "Tags"
+
+#: ../news-manager.php:460
+msgctxt "post type general name"
+msgid "News"
+msgstr "Noticias"
+
+#: ../news-manager.php:461
+msgctxt "post type singular name"
+msgid "News"
+msgstr "Noticias"
+
+#: ../news-manager.php:462 ../includes/settings.php:274
+#: ../includes/widgets.php:558
+msgid "News"
+msgstr "Noticias"
+
+#: ../news-manager.php:463
+msgid "All News"
+msgstr "Todas las Noticias"
+
+#: ../news-manager.php:464
+msgid "Add New"
+msgstr "Adherir nueva"
+
+#: ../news-manager.php:465
+msgid "Add New News"
+msgstr "Adherir nueva noticia"
+
+#: ../news-manager.php:466 ../includes/settings.php:139
+msgid "Edit News"
+msgstr "Editar noticia"
+
+#: ../news-manager.php:467
+msgid "New News"
+msgstr "Nueva Noticia"
+
+#: ../news-manager.php:468
+msgid "View News"
+msgstr "Ver Noticias"
+
+#: ../news-manager.php:469
+msgid "News Archive"
+msgstr "Archivo de Noticias"
+
+#: ../news-manager.php:470
+msgid "Search News"
+msgstr "Buscar Noticias"
+
+#: ../news-manager.php:471
+msgid "No news found"
+msgstr "No se encontro la noticia"
+
+#: ../news-manager.php:472
+msgid "No news found in trash"
+msgstr "No se encontro ninguna noticia en la papelera"
+
+#: ../news-manager.php:558
+#, php-format
+msgid "News updated. <a href=\"%s\">View news</a>"
+msgstr "Noticias Actualizadas <a href=\"%s\">Ver noticia</a>"
+
+#: ../news-manager.php:559
+msgid "Custom field updated."
+msgstr "Campo Actualizado"
+
+#: ../news-manager.php:560
+msgid "Custom field deleted."
+msgstr "Campo Borrado"
+
+#: ../news-manager.php:561
+msgid "News updated."
+msgstr "Noticias Actualizadas"
+
+#: ../news-manager.php:563
+#, php-format
+msgid "News restored to revision from %s"
+msgstr "Noticia restaurada para revisar desde %s"
+
+#: ../news-manager.php:564
+#, php-format
+msgid "News published. <a href=\"%s\">View news</a>"
+msgstr "Noticia Publicada. <a href=\"%s\">Ver Noticia</a>"
+
+#: ../news-manager.php:565
+msgid "News saved."
+msgstr "Noticia Salvada."
+
+#: ../news-manager.php:566
+#, php-format
+msgid "News submitted. <a target=\"_blank\" href=\"%s\">Preview news</a>"
+msgstr "Noticia Enviada <a target=\"_blank\" href=\"%s\">Previsualizar</a>"
+
+#: ../news-manager.php:567
+#, php-format
+msgid ""
+"News scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s"
+"\">Preview news</a>"
+msgstr ""
+"Noticias programada para el: <strong>%1$s</strong>. <a target=\"_blank\" "
+"href=\"%2$s\">Previsualizar</a>"
+
+#: ../news-manager.php:569
+msgid "M j, Y @ G:i"
+msgstr "M j, Y @ G:i"
+
+#: ../news-manager.php:570
+#, php-format
+msgid "News draft updated. <a target=\"_blank\" href=\"%s\">Preview news</a>"
+msgstr ""
+"Borrador de noticia actualizado. <a target=\"_blank\" href=\"%s"
+"\">Previsualizar</a>"
+
+#: ../news-manager.php:617
+msgid "Are you sure you want to reset these settings to defaults?"
+msgstr "Esta seguro que quiere resetear la configuracion a lo predeterminado?"
+
+#: ../news-manager.php:695
+msgid "Support"
+msgstr "Soporte"
+
+#: ../includes/functions.php:359 ../includes/widgets.php:566
+msgid "No News"
+msgstr "No hay noticias"
+
+#: ../includes/functions.php:411
+msgid "This post is password protected."
+msgstr "Esta entrada esta protegida por contraseña"
+
+#: ../includes/settings.php:61
+msgid "Enable"
+msgstr "Activar"
+
+#: ../includes/settings.php:62
+msgid "Disable"
+msgstr "Desactivar"
+
+#: ../includes/settings.php:69
+msgid "Tags dedicated for news post type only."
+msgstr "Tags dedicados a entradas de noticias solamente"
+
+#: ../includes/settings.php:72
+msgid "Tags"
+msgstr "Tags"
+
+#: ../includes/settings.php:73
+msgid "Default WordPress tags, same as for posts."
+msgstr "Tags predeterminados por wordpress, igual que para las entradas."
+
+#: ../includes/settings.php:79
+msgid "Categories dedicated for news post type only."
+msgstr "Categorias dedicadas a entradas de noticias solamente"
+
+#: ../includes/settings.php:82
+msgid "Categories"
+msgstr "Categorias"
+
+#: ../includes/settings.php:83
+msgid "Default WordPress categories, same as for posts."
+msgstr "Categorias predeterminados por wordpress, igual que para las entradas."
+
+#: ../includes/settings.php:89
+msgid "title"
+msgstr "Título"
+
+#: ../includes/settings.php:90
+msgid "editor"
+msgstr "editor"
+
+#: ../includes/settings.php:91
+msgid "author"
+msgstr "autor"
+
+#: ../includes/settings.php:92
+msgid "thumbnail"
+msgstr "miniatura"
+
+#: ../includes/settings.php:93
+msgid "excerpt"
+msgstr "fragmento"
+
+#: ../includes/settings.php:94
+msgid "custom fields"
+msgstr "Campos "
+
+#: ../includes/settings.php:95
+msgid "comments"
+msgstr "Comentarios"
+
+#: ../includes/settings.php:96
+msgid "trackbacks"
+msgstr "registros"
+
+#: ../includes/settings.php:97
+msgid "revisions"
+msgstr "revisiones"
+
+#: ../includes/settings.php:101
+msgid "General settings saved."
+msgstr "Configuracion general salvada"
+
+#: ../includes/settings.php:102
+msgid "Capabilities settings saved."
+msgstr "Configuracion de Permisos salvada"
+
+#: ../includes/settings.php:103
+msgid "Permalinks settings saved."
+msgstr "Links permanentes salvados"
+
+#: ../includes/settings.php:104
+msgid "General settings restored to defaults."
+msgstr "Configuracion general predeterminada restaurada."
+
+#: ../includes/settings.php:105
+msgid "Capabilities settings restored to defaults."
+msgstr "Configuracion de permisos predeterminados restaurada."
+
+#: ../includes/settings.php:106
+msgid "Permalinks settings restored to defaults."
+msgstr "Configuracion de links permanentes predeterminado restaurada."
+
+#: ../includes/settings.php:107
+msgid "Such menu does not exist."
+msgstr "Ese menú no existe"
+
+#: ../includes/settings.php:108
+msgid "Menu name can not be empty."
+msgstr "El nombre del menú no puede estar vacio"
+
+#: ../includes/settings.php:113
+msgid "General"
+msgstr "General"
+
+#: ../includes/settings.php:119
+msgid "Capabilities"
+msgstr "Permisos"
+
+#: ../includes/settings.php:125
+msgid "Permalinks"
+msgstr "Links permanentes"
+
+#: ../includes/settings.php:133
+msgid "Tag prefix"
+msgstr "Prefijo de Tag"
+
+#: ../includes/settings.php:134
+msgid "Category prefix"
+msgstr "Prefijo de Categoria"
+
+#: ../includes/settings.php:138
+msgid "Publish News"
+msgstr "Publicar noticia"
+
+#: ../includes/settings.php:140
+msgid "Edit Others News"
+msgstr "Editar otra noticia"
+
+#: ../includes/settings.php:141
+msgid "Edit Published News"
+msgstr "Editar noticia publicada"
+
+#: ../includes/settings.php:142
+msgid "Delete Published News"
+msgstr "Borrar noticia publicada"
+
+#: ../includes/settings.php:143
+msgid "Delete News"
+msgstr "Borrar noticia"
+
+#: ../includes/settings.php:144
+msgid "Delete Others News"
+msgstr "Borrar otras noticias"
+
+#: ../includes/settings.php:145
+msgid "Read Private News"
+msgstr "Leer noticias privadas"
+
+#: ../includes/settings.php:146 ../includes/settings.php:153
+msgid "Manage News Categories"
+msgstr "Administrar Categorias"
+
+#: ../includes/settings.php:150
+msgid "Manage News Tags"
+msgstr "Administrar Tags"
+
+#: ../includes/settings.php:171 ../includes/settings.php:184
+msgid "Settings"
+msgstr "Configuracion"
+
+#: ../includes/settings.php:197 ../includes/settings.php:230
+msgid "News Manager"
+msgstr "Administrador de Noticias"
+
+#: ../includes/settings.php:223
+msgid "Reset to defaults"
+msgstr "Resetear a Predeterminado"
+
+#: ../includes/settings.php:232
+msgid "Need support?"
+msgstr "Necesita soporte?"
+
+#: ../includes/settings.php:233
+msgid ""
+"If you are having problems with this plugin, please talk about them in the"
+msgstr ""
+"Si tiene problemas con este plugin, por favor hable acerca de ello en el"
+
+#: ../includes/settings.php:233
+msgid "Support forum"
+msgstr "Foro de soporte"
+
+#: ../includes/settings.php:235
+msgid "Do you like this plugin?"
+msgstr "Le gusta este plugin?"
+
+#: ../includes/settings.php:236
+msgid "Rate it 5"
+msgstr "Ponle 5"
+
+#: ../includes/settings.php:236
+msgid "on WordPress.org"
+msgstr "en WordPress.org"
+
+#: ../includes/settings.php:237
+msgid "Blog about it & link to the"
+msgstr "Escriba algo y enlacelo a la "
+
+#: ../includes/settings.php:237
+msgid "plugin page"
+msgstr "pagina de plugins"
+
+#: ../includes/settings.php:238
+msgid "Check out our other"
+msgstr "Revisa nuestros otros "
+
+#: ../includes/settings.php:238
+msgid "WordPress plugins"
+msgstr "plugins para WordPress"
+
+#: ../includes/settings.php:241
+msgid "Created by"
+msgstr "creado por"
+
+#: ../includes/settings.php:256
+msgid "General settings"
+msgstr "Configuracion General"
+
+#: ../includes/settings.php:257
+msgid "News features support"
+msgstr "Soporte de noticias destacadas"
+
+#: ../includes/settings.php:258
+msgid "Use Tags"
+msgstr "Utilizar Tags"
+
+#: ../includes/settings.php:259
+msgid "Use Categories"
+msgstr "Utilizar Categorias"
+
+#: ../includes/settings.php:260
+msgid "News in RSS"
+msgstr "Noticias en RSS"
+
+#: ../includes/settings.php:261
+msgid "News in Tags & Categories"
+msgstr "Noticias en Tags y Categorias"
+
+#: ../includes/settings.php:262
+msgid "Show link in menu"
+msgstr "Mostrar link en el menu"
+
+#: ../includes/settings.php:263
+msgid "Date and time format"
+msgstr "Formato de hora y fecha"
+
+#: ../includes/settings.php:264
+msgid "First day of week"
+msgstr "Primer dia de la semana"
+
+#: ../includes/settings.php:265
+msgid "Delete plugin settings on deactivation"
+msgstr "Borrar la configuracion del plugin en la desactivacion"
+
+#: ../includes/settings.php:269
+msgid "Capabilities settings"
+msgstr "Configuracion de permisos"
+
+#: ../includes/settings.php:273
+msgid "Permalinks settings"
+msgstr "Configuracion de links permanentes"
+
+#: ../includes/settings.php:277
+msgid "Single News prefix"
+msgstr "Prefijo de noticias simples"
+
+#: ../includes/settings.php:303
+msgid "Select which features would you like to enable for your news."
+msgstr "Seleccion que opciones quiere utilizar en su noticias"
+
+#: ../includes/settings.php:326
+msgid "Select if you want to automatically add news archive link to nav menu."
+msgstr ""
+"Seleccion si quiere adherir noticias de archivo automaticamente al menu de "
+"navegacion"
+
+#: ../includes/settings.php:332
+msgid "Menu"
+msgstr "Menu"
+
+#: ../includes/settings.php:344 ../includes/widgets.php:95
+#: ../includes/widgets.php:258 ../includes/widgets.php:578
+#: ../includes/widgets.php:610 ../includes/widgets.php:897
+#: ../includes/widgets.php:1019
+msgid "Title"
+msgstr "Titulo"
+
+#: ../includes/settings.php:349
+msgid "Note: there is no menu to which you could add news archive link."
+msgstr ""
+"Nota: no hay ningun menu al cual pueda adherir links de noticias de archivo"
+
+#: ../includes/settings.php:364
+msgid "Date"
+msgstr "Fecha"
+
+#: ../includes/settings.php:367
+msgid "Time"
+msgstr "Hora"
+
+#: ../includes/settings.php:369
+msgid "Enter your preffered date and time formatting."
+msgstr "Introduzca su formato de fecha y hora preferido."
+
+#: ../includes/settings.php:387
+msgid "Select preffered first day of the week for the calendar display."
+msgstr ""
+"Seleccion el primer dia de la semana para que se dezplegue en el calendario"
+
+#: ../includes/settings.php:408
+msgid "Enable if you want to use News Categories."
+msgstr "Activar si quiere utilizar Categorias de Noticia"
+
+#: ../includes/settings.php:441
+msgid "Include news post type in main RSS feed."
+msgstr "Incluya nuevas noticias en el alimentador de RSS."
+
+#: ../includes/settings.php:462
+msgid ""
+"By default Category and Tags archive pages include only default posts. "
+"Enable this if you want to display News (news post type) alongside posts."
+msgstr ""
+"Por efecto las categorias y los tags. Włącz tę opcję, jeśli razem z wpisami "
+"na stronach tagów i kategorii chcesz wyświetlić także aktualności."
+
+#: ../includes/settings.php:483
+msgid "Enable if you want to use News Tags."
+msgstr "Activar si quiere utilizar Tags"
+
+#: ../includes/settings.php:516
+msgid "Enable if you want all plugin data to be deleted on deactivation."
+msgstr ""
+"Activar si quiere que la informacion del plugin sea borrada en la "
+"desactivacion"
+
+#: ../includes/settings.php:541
+msgid "General News root slug to prefix all your news pages with."
+msgstr ""
+"Anexará el prefijo de noticias generales  a todas sus paginas de noticias"
+
+#: ../includes/settings.php:557
+msgid "News Tags archive page slug."
+msgstr "Pagian de archivo de Tags"
+
+#: ../includes/settings.php:573
+msgid "News Categories archive page slug."
+msgstr "Pagina de archivos de categorias"
+
+#: ../includes/settings.php:595
+msgid ""
+"Do you want to prefix your news with the news category or news tag it "
+"belongs to.<br /><strong>Notice:</strong> This is an experimental feature "
+"and may not work on some permalink configurations."
+msgstr ""
+"Quiere prefijar sus noticias con las categoria y los tags a los que "
+"corresponde? <br /><strong>Nota:</strong> Esta es una opcion experimental y "
+"puede que no funcione con los links permanentes"
+
+#: ../includes/settings.php:626
+msgid "Role"
+msgstr "Rol"
+
+#: ../includes/settings.php:630
+msgid "None"
+msgstr "Ninguno"
+
+#: ../includes/widgets.php:52 ../includes/widgets.php:59
+msgid "News Archives"
+msgstr "Archivo de Noticias"
+
+#: ../includes/widgets.php:54
+msgid "Displays news archives"
+msgstr "Mostrar archivo de noticias"
+
+#: ../includes/widgets.php:68
+msgid "Monthly"
+msgstr "Mensual"
+
+#: ../includes/widgets.php:69
+msgid "Yearly"
+msgstr "Anual"
+
+#: ../includes/widgets.php:73 ../includes/widgets.php:582
+#: ../includes/widgets.php:869 ../includes/widgets.php:991
+msgid "Ascending"
+msgstr "Ascendente"
+
+#: ../includes/widgets.php:74 ../includes/widgets.php:583
+#: ../includes/widgets.php:870 ../includes/widgets.php:992
+msgid "Descending"
+msgstr "Descendente"
+
+#: ../includes/widgets.php:99 ../includes/widgets.php:901
+#: ../includes/widgets.php:1023
+msgid "Display as dropdown"
+msgstr "Mostrar menu desplegable"
+
+#: ../includes/widgets.php:100
+msgid "Show number of news"
+msgstr "Mostras numero de noticias"
+
+#: ../includes/widgets.php:103
+msgid "Display Type"
+msgstr "Mostrar tipo"
+
+#: ../includes/widgets.php:116 ../includes/widgets.php:676
+#: ../includes/widgets.php:920 ../includes/widgets.php:1042
+msgid "Order"
+msgstr "Orden"
+
+#: ../includes/widgets.php:128
+msgid "Limit"
+msgstr "Limite"
+
+#: ../includes/widgets.php:170 ../includes/widgets.php:184
+msgid "News Calendar"
+msgstr "Calendario de Noticias"
+
+#: ../includes/widgets.php:172
+msgid "Displays news calendar"
+msgstr "Mostrar Calendario de Noticias"
+
+#: ../includes/widgets.php:191 ../includes/widgets.php:572
+msgid "all"
+msgstr "Todas"
+
+#: ../includes/widgets.php:192 ../includes/widgets.php:573
+msgid "selected"
+msgstr "Seleccionado"
+
+#: ../includes/widgets.php:262
+msgid "Highlight weekends"
+msgstr "Remarcar Fines de semana"
+
+#: ../includes/widgets.php:547
+msgid "News List"
+msgstr "Lista de noticias"
+
+#: ../includes/widgets.php:549
+msgid "Displays a list of news"
+msgstr "Mostrar lista de noticias"
+
+#: ../includes/widgets.php:577
+msgid "Publish date"
+msgstr "Fecha de publicacion"
+
+#: ../includes/widgets.php:614
+msgid "Number of news"
+msgstr "Numero de Noticias"
+
+#: ../includes/widgets.php:664 ../includes/widgets.php:908
+#: ../includes/widgets.php:1030
+msgid "Order by"
+msgstr "Ordenado por"
+
+#: ../includes/widgets.php:689
+msgid "Display news thumbnail"
+msgstr "Mostrar miniaturas"
+
+#: ../includes/widgets.php:691
+msgid "Display news excerpt"
+msgstr "Mostrar Fragmento de noticias"
+
+#: ../includes/widgets.php:694
+msgid "No news message"
+msgstr "No hay mensajes de noticias"
+
+#: ../includes/widgets.php:698
+msgid "Date format"
+msgstr "Formato de Fecha"
+
+#: ../includes/widgets.php:700
+msgid "Time format"
+msgstr "Formato de Hora"
+
+#: ../includes/widgets.php:850
+msgid "Displays a list of news tags"
+msgstr "Desplegar lista de tags"
+
+#: ../includes/widgets.php:864 ../includes/widgets.php:986
+msgid "ID"
+msgstr "ID"
+
+#: ../includes/widgets.php:865 ../includes/widgets.php:987
+msgid "Name"
+msgstr "Nombre"
+
+#: ../includes/widgets.php:903 ../includes/widgets.php:1025
+msgid "Show hierarchy"
+msgstr "Mostrar Jerarquicamente"
+
+#: ../includes/widgets.php:905 ../includes/widgets.php:1027
+msgid "Hide empty"
+msgstr "Esconder Vacios"
+
+#: ../includes/widgets.php:972
+msgid "Displays a list of news categories"
+msgstr "Mostrar lista de categorias"
