@@ -1,10 +1,17 @@
 <?php
-// exit if accessed directly
-if ( ! defined( 'ABSPATH' ) )
-	exit;
+// get the path
+$path_raw = $_SERVER['SCRIPT_FILENAME'];
 
-$path = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] );
-include_once($path[0] . 'wp-load.php');
+// sanitize path
+$path_raw = str_replace( "\"", "", $path_raw );
+$path_raw = str_replace( "`", "", $path_raw );
+$path_raw = str_replace( "..", "", $path_raw );
+$path_raw = str_replace( "./", "", $path_raw );
+$path_raw = str_replace( ":", "", $path_raw );
+
+$path = explode( 'wp-content', $path_raw );
+
+// load wp core
+include_once( $path[0] . 'wp-load.php' );
 
 da_download_attachment( isset( $_GET['id'] ) ? (int) $_GET['id'] : 0 );
-?>
