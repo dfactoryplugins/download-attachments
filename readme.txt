@@ -4,7 +4,7 @@ Donate link: http://www.dfactory.eu/
 Tags: attachment, attachments, file, files, download, downloads, download manager, download monitor, download count, hits, file manager, upload, doc, document, documents, pdf, zip
 Requires at least: 3.9
 Tested up to: 4.2.1
-Stable tag: 1.2.6
+Stable tag: 1.2.7
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 
@@ -42,6 +42,7 @@ For more information, check out plugin page at [dFactory](http://www.dfactory.eu
 * Danish - by Martin Schulze
 * Dutch - by [Sebas Blom](http://www.basbva.nl/)
 * French - by Jean-Philippe Gurecki
+* Finnish - by [Daniel Storgards](www.danielstorgards.com)
 * German - by [Sascha Brendel](http://sascha-brendel.de/blog/)
 * Greek - by vas gargan
 * Hungarian - by Meszaros Tamas
@@ -73,6 +74,9 @@ A. Chances are, someone else has asked it. Check out the support forum at: http:
 3. screenshot-3.png
 
 == Changelog ==
+
+= 1.2.7 =
+* New: Finnish translation, thanks to [Daniel Storgards](www.danielstorgards.com)
 
 = 1.2.6 =
 * Fix: Download issues with pretty urls disabled
@@ -147,5 +151,5 @@ Initial release
 
 == Upgrade Notice ==
 
-= 1.2.6 =
-* Fix: Download issues with pretty urls disabled
+= 1.2.7 =
+* New: Finnish translation, thanks to [Daniel Storgards](www.danielstorgards.com)

@@ -2,7 +2,7 @@
 /*
 Plugin Name: Download Attachments
 Description: Download Attachments is a new approach to managing downloads in WordPress. It allows you to easily add and display download links in any post or page.
-Version: 1.2.6
+Version: 1.2.7
 Author: dFactory
 Author URI: http://www.dfactory.eu/
 Plugin URI: http://www.dfactory.eu/plugins/download-attachments/
@@ -82,11 +82,11 @@ class Download_Attachments {
 				'manage_download_attachments'
 			)
 		),
-		'version'	 => '1.2.6'
+		'version'	 => '1.2.7'
 	);
 
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 */
 	public function __construct() {
 		register_activation_hook( __FILE__, array( &$this, 'multisite_activation' ) );
@@ -134,7 +134,7 @@ class Download_Attachments {
 	}
 
 	/**
-	 * Activation
+	 * Single site activation.
 	 */
 	public function activate_single() {
 		global $wp_roles;
@@ -156,7 +156,7 @@ class Download_Attachments {
 	}
 
 	/**
-	 * Multisite deactivation
+	 * Multisite deactivation.
 	 */
 	public function multisite_deactivation( $networkwide ) {
 		if ( is_multisite() && $networkwide ) {
@@ -183,7 +183,7 @@ class Download_Attachments {
 	}
 
 	/**
-	 * Deactivation
+	 * Single site deactivation.
 	 */
 	public function deactivate_single( $multi = false ) {
 		global $wp_roles;
@@ -208,21 +208,21 @@ class Download_Attachments {
 	}
 
 	/**
-	 * Gets default settings
+	 * Get default settings.
 	 */
 	public function get_defaults() {
 		return $this->defaults;
 	}
 
 	/**
-	 * Gets columns
+	 * Get columns.
 	 */
 	public function get_columns() {
 		return $this->columns;
 	}
 
 	/**
-	 * Passes variables to other classes
+	 * Pass variables to other classes.
 	 */
 	public function pass_variables() {
 		$this->columns = array(
@@ -240,14 +240,14 @@ class Download_Attachments {
 	}
 
 	/**
-	 * Loads text domain
+	 * Load text domain.
 	 */
 	public function load_textdomain() {
 		load_plugin_textdomain( 'download-attachments', false, DOWNLOAD_ATTACHMENTS_REL_PATH . 'languages/' );
 	}
 
 	/**
-	 * Recognizes download URL
+	 * Recognize download URL.
 	 */
 	function download_redirect() {
 		global $wp;
@@ -257,7 +257,7 @@ class Download_Attachments {
 	}
 
 	/**
-	 * Adds frontend attachments box
+	 * Add frontend attachments box.
 	 */
 	public function add_content( $content ) {
 		if ( ! is_singular() || ! in_array( get_post_type(), array_keys( $this->options['general']['post_types'], true ) ) || $this->options['general']['download_box_display'] === 'manually' )
@@ -283,16 +283,16 @@ class Download_Attachments {
 			}
 		}
 
-		//after content
+		// after content
 		if ( $this->options['general']['download_box_display'] === 'after_content' )
 			return $content . do_shortcode( '[download-attachments' . $args . ']' );
-		//before content
+		// before content
 		else
 			return do_shortcode( '[download-attachments' . $args . ']' ) . $content;
 	}
 
 	/**
-	 * Adds scripts and styles to backend
+	 * Add scripts and styles to backend.
 	 */
 	public function admin_scripts_styles( $page ) {
 		wp_register_style(
@@ -361,7 +361,7 @@ class Download_Attachments {
 	}
 
 	/**
-	 * Adds scripts and styles to frontend
+	 * Add scripts and styles to frontend.
 	 */
 	public function frontend_scripts_styles() {
 		if ( $this->options['general']['use_css_style'] === true ) {
@@ -374,7 +374,7 @@ class Download_Attachments {
 	}
 
 	/**
-	 * Adds links to Support Forum
+	 * Add links to Support Forum.
 	 */
 	public function plugin_extend_links( $links, $file ) {
 		if ( ! current_user_can( 'install_plugins' ) )
@@ -392,7 +392,7 @@ class Download_Attachments {
 	}
 
 	/**
-	 * Add links to Settings page
+	 * Add links to Settings page.
 	 */
 	public function plugin_settings_link( $links, $file ) {
 		if ( ! current_user_can( 'manage_options' ) )
