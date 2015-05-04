@@ -1,0 +1,412 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Download Attachments\n"
+"POT-Creation-Date: 2014-12-19 11:02+0100\n"
+"PO-Revision-Date: 2015-05-03 11:11+0200\n"
+"Last-Translator: Daniel Storgårds <daniel.storgards@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.6\n"
+"X-Poedit-KeywordsList: gettext;gettext_noop;__;_e;esc_attr__;esc_attr_e;_n:1,2;_x:1,2c;_nx_noop:4c,1,2;_nx:4c,1,2;_ex:1,2c;_c,_nc:4c,1,2;esc_html__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: sv_SE\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../download-attachments.php:256
+msgid "Index"
+msgstr "Index"
+
+#: ../download-attachments.php:257
+msgid "ID"
+msgstr "ID"
+
+#: ../download-attachments.php:258
+msgid "Exclude"
+msgstr "Uteslut"
+
+#: ../download-attachments.php:259 ../includes/functions.php:276
+#: ../includes/functions.php:354
+msgid "Added by"
+msgstr "Tillagt av"
+
+#: ../download-attachments.php:260
+msgid "Title"
+msgstr "Titel"
+
+#: ../download-attachments.php:261
+msgid "File type"
+msgstr "Filtyp"
+
+#: ../download-attachments.php:262
+msgid "Icon"
+msgstr "Ikon"
+
+#: ../download-attachments.php:263
+msgid "Size"
+msgstr "Storlek"
+
+#: ../download-attachments.php:264 ../includes/functions.php:273
+#: ../includes/functions.php:350
+msgid "Date added"
+msgstr "Datum"
+
+#: ../download-attachments.php:265 ../includes/functions.php:282
+#: ../includes/functions.php:362 ../includes/media.php:55
+msgid "Downloads"
+msgstr "Nedladdningar"
+
+#: ../download-attachments.php:353
+msgid "Are you sure you want to reset these settings to defaults?"
+msgstr "Är du säker på att du vill återställa dessa inställningar till standardvärden?"
+
+#: ../download-attachments.php:354
+msgid "Are you sure you want to reset number of downloads of all attachments?"
+msgstr "Är du säker på att du vill nollställa antalet nedladdningar av alla bilagor?"
+
+#: ../download-attachments.php:390
+msgid "Select Attachments"
+msgstr "Välj bilagor"
+
+#: ../download-attachments.php:391
+msgid "Edit attachment"
+msgstr "Redigera bilaga"
+
+#: ../download-attachments.php:392
+msgid "Add selected attachments"
+msgstr "Lägg till valda bilagor"
+
+#: ../download-attachments.php:393
+msgid "Save attachment"
+msgstr "Spara bilaga"
+
+#: ../download-attachments.php:394 ../includes/metabox.php:342
+msgid "No attachments added yet."
+msgstr "Inga bilagor har lagts till."
+
+#: ../download-attachments.php:395
+msgid "Do you want to remove this attachment?"
+msgstr "Vill du ta bort denna bilaga?"
+
+#: ../download-attachments.php:396
+msgid "Remove"
+msgstr "Ta bort"
+
+#: ../download-attachments.php:397 ../includes/metabox.php:500
+msgid "Edit"
+msgstr "Redigera"
+
+#: ../download-attachments.php:399 ../includes/metabox.php:174
+#: ../includes/metabox.php:214
+msgid "Unexpected error occured. Please refresh the page and try again."
+msgstr "Oväntat fel inträffade. Uppdatera sidan och försök igen."
+
+#: ../download-attachments.php:446
+msgid "Support"
+msgstr "Support"
+
+#: ../download-attachments.php:468
+msgid "Settings"
+msgstr "Inställningar"
+
+#: ../includes/functions.php:187 ../includes/shortcodes.php:58
+msgid "No attachments to download"
+msgstr "Det finns inga bilagor att ladda ner."
+
+#: ../includes/functions.php:191 ../includes/metabox.php:248
+#: ../includes/settings.php:107 ../includes/settings.php:108
+#: ../includes/settings.php:123 ../includes/settings.php:127
+#: ../includes/shortcodes.php:62
+msgid "Download Attachments"
+msgstr "Download Attachments"
+
+#: ../includes/functions.php:267
+msgid "File"
+msgstr "Fil"
+
+#: ../includes/functions.php:270
+msgid "Description"
+msgstr "Beskrivning"
+
+#: ../includes/functions.php:279 ../includes/functions.php:358
+msgid "File size"
+msgstr "Filstorlek"
+
+#: ../includes/metabox.php:270 ../includes/metabox.php:350
+msgid "Save"
+msgstr "Spara"
+
+#: ../includes/metabox.php:273
+msgid "Add new attachment"
+msgstr "Lägg till bilaga"
+
+#: ../includes/metabox.php:310
+msgid "Actions"
+msgstr "Åtgärder"
+
+#: ../includes/settings.php:55
+msgid "Enable"
+msgstr "Aktivera"
+
+#: ../includes/settings.php:56
+msgid "Disable"
+msgstr "Inaktivera"
+
+#: ../includes/settings.php:60
+msgid "All files"
+msgstr "Alla filer"
+
+#: ../includes/settings.php:61
+msgid "Attached to a post only"
+msgstr "Endast bilagor som är bifogade till inlägg"
+
+#: ../includes/settings.php:65
+msgid "Manage download attachments"
+msgstr "Hantera bilagor"
+
+#: ../includes/settings.php:69 ../includes/settings.php:197
+msgid "Media Library"
+msgstr "Mediabibliotek"
+
+#: ../includes/settings.php:70
+msgid "Modal"
+msgstr "Popup-fönster (Modal)"
+
+#: ../includes/settings.php:74
+msgid "before the content"
+msgstr "före innehållet"
+
+#: ../includes/settings.php:75
+msgid "after the content"
+msgstr "efter innehållet"
+
+#: ../includes/settings.php:76
+msgid "manually"
+msgstr "manuell"
+
+#: ../includes/settings.php:80
+msgid "List"
+msgstr "Lista"
+
+#: ../includes/settings.php:81
+msgid "Table"
+msgstr "Tabell"
+
+#: ../includes/settings.php:85
+msgid "caption"
+msgstr "bildtext"
+
+#: ../includes/settings.php:86
+msgid "description"
+msgstr "beskrivning"
+
+#: ../includes/settings.php:129
+msgid "Need support?"
+msgstr "Behöver du hjälp?"
+
+#: ../includes/settings.php:130
+msgid "If you are having problems with this plugin, please talk about them in the"
+msgstr "Om du har problem med detta tillägg så kan du besöka vårt"
+
+#: ../includes/settings.php:130
+msgid "Support forum"
+msgstr "Supportforum"
+
+#: ../includes/settings.php:132
+msgid "Do you like this plugin?"
+msgstr "Tycker du om detta tillägg?"
+
+#: ../includes/settings.php:133
+msgid "Rate it 5"
+msgstr "Ge det en 5:a"
+
+#: ../includes/settings.php:133
+msgid "on WordPress.org"
+msgstr "på WordPress.org"
+
+#: ../includes/settings.php:134
+msgid "Blog about it & link to the"
+msgstr "Blogga om det och länka till"
+
+#: ../includes/settings.php:134
+msgid "plugin page"
+msgstr "tilläggets webbplats"
+
+#: ../includes/settings.php:135
+msgid "Check out our other"
+msgstr "Kolla våra andra"
+
+#: ../includes/settings.php:135
+msgid "WordPress plugins"
+msgstr "WordPress tillägg"
+
+#: ../includes/settings.php:144
+msgid "Created by"
+msgstr "Skapad av"
+
+#: ../includes/settings.php:164
+msgid "Reset to defaults"
+msgstr "Återställ till standardvärden"
+
+#: ../includes/settings.php:168
+msgid "Reset downloads"
+msgstr "Återställ nedladdningar"
+
+#: ../includes/settings.php:186
+msgid "General settings"
+msgstr "Allmänna inställningar"
+
+#: ../includes/settings.php:187
+msgid "Label"
+msgstr "Rubrik"
+
+#: ../includes/settings.php:188
+msgid "Capabilities"
+msgstr "Rättigheter"
+
+#: ../includes/settings.php:189
+msgid "Supported Post Types"
+msgstr "Innehållstyper som stöds"
+
+#: ../includes/settings.php:190
+msgid "Deactivation"
+msgstr "Avaktivering"
+
+#: ../includes/settings.php:193
+msgid "Admin settings"
+msgstr "Admin inställningar"
+
+#: ../includes/settings.php:194
+msgid "Backend Display"
+msgstr "Backend-vyn"
+
+#: ../includes/settings.php:195
+msgid "Backend Downloads Description"
+msgstr "Beskrivning av bilagor i backend-vyn"
+
+#: ../includes/settings.php:196
+msgid "Edit attachment link"
+msgstr "Redigering av bilaga"
+
+#: ../includes/settings.php:198
+msgid "Downloads in Media Library"
+msgstr "Nedladdningar i mediabiblioteket"
+
+#: ../includes/settings.php:201
+msgid "Frontend settings"
+msgstr "Frontend-inställningar"
+
+#: ../includes/settings.php:202
+msgid "Frontend Display"
+msgstr "Frontend-vyn"
+
+#: ../includes/settings.php:203
+msgid "Display Style"
+msgstr "Visningsformat"
+
+#: ../includes/settings.php:204
+msgid "Frontend Downloads Description"
+msgstr "Beskrivning av bilagor i frontend-vyn"
+
+#: ../includes/settings.php:205
+msgid "Use CSS style"
+msgstr "Använd CSS-stil"
+
+#: ../includes/settings.php:206
+msgid "Pretty URLs"
+msgstr "Pretty URLs"
+
+#: ../includes/settings.php:207
+msgid "Downloads List Display"
+msgstr "Placering av listan med bilagor"
+
+#: ../includes/settings.php:221
+msgid "Enter download attachments list label."
+msgstr "Ange rubrik för listan med bilagor"
+
+#: ../includes/settings.php:244
+msgid "Select which post types would you like to enable for your downloads."
+msgstr "Välj vilka innehållstyper du vill aktivera för dina bilagor."
+
+#: ../includes/settings.php:268
+msgid "Select which columns would you like to enable on backend for your downloads."
+msgstr "Välj vilka kolumner du vill aktivera på backend-vyn."
+
+#: ../includes/settings.php:292
+msgid "Select which columns would you like to enable on frontend for your downloads."
+msgstr "Välj vilka kolumner du vill aktivera på frontend-vyn."
+
+#: ../includes/settings.php:315
+msgid "Select if you'd like to use bultin CSS style."
+msgstr "Välj om du vill använda tilläggets inbyggda CSS-stil."
+
+#: ../includes/settings.php:338
+msgid "Enable if you want to use pretty URLs."
+msgstr "Aktivera om du vill använda pretty URLs"
+
+#: ../includes/settings.php:340
+msgid "Slug"
+msgstr "Kortlänk"
+
+#: ../includes/settings.php:344
+msgid "Download link slug."
+msgstr "Bilagans kortlänk"
+
+#: ../includes/settings.php:369
+msgid "Select where you would like your download attachments to be displayed."
+msgstr "Välj var du vill att dina bilagor ska visas."
+
+#: ../includes/settings.php:392
+msgid "Select display style for file attachments."
+msgstr "Välj visningsformat för bilagor."
+
+#: ../includes/settings.php:415
+msgid "Select what fields to use on backend for download attachments description."
+msgstr "Välj vilka fält som ska användas på backend-vyn för att beskriva bilagor."
+
+#: ../includes/settings.php:438
+msgid "Select what fields to use on frontend for download attachments description."
+msgstr "Välj vilka fält som ska användas på frontend-vyn för att beskriva bilagor."
+
+#: ../includes/settings.php:461
+msgid "Select where you would like to edit download attachments."
+msgstr "Välj var du vill redigera bilagor."
+
+#: ../includes/settings.php:484
+msgid "Select which attachments should be visible in Media Library window."
+msgstr "Välj vilka bilagor som ska synas i mediabiblioteket."
+
+#: ../includes/settings.php:507
+msgid "Enable if you want to display downloads count in your Media Library columns."
+msgstr "Aktivera om du vill visa antalet nedladdningar i mediabiblioteks kolumner."
+
+#: ../includes/settings.php:528
+msgid "Role"
+msgstr "Roll"
+
+#: ../includes/settings.php:533
+msgid "None"
+msgstr "Ingen"
+
+#: ../includes/settings.php:566
+msgid "Select user roles allowed to add, remove and manage Download Attachments."
+msgstr "Välj användarroller som får lägga till, ta bort och hantera bilagor."
+
+#: ../includes/settings.php:591
+msgid "Enable if you want all plugin data to be deleted on deactivation."
+msgstr "Aktivera om du vill att all data ska tas bort vid avaktivering av tillägget."
+
+#: ../includes/settings.php:746
+msgid "Settings restored to defaults."
+msgstr "Inställningarna har återställts till standardvärden."
+
+#: ../includes/settings.php:764
+msgid "An error occurred while resetting the number of downloads."
+msgstr "Ett fel uppstod vid återställningen av antalet nedladdningar."
+
+#: ../includes/settings.php:766
+msgid "Number of downloads of all attachments has been reset."
+msgstr "Antal nedladdningar av alla bilagor har återställts."
