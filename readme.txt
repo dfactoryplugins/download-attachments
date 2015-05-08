@@ -3,8 +3,8 @@ Contributors: dfactory
 Donate link: http://www.dfactory.eu/
 Tags: attachment, attachments, file, files, download, downloads, download manager, download monitor, download count, hits, file manager, upload, doc, document, documents, pdf, zip
 Requires at least: 3.9
-Tested up to: 4.2.1
-Stable tag: 1.2.8
+Tested up to: 4.2.2
+Stable tag: 1.2.9
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 
@@ -48,6 +48,7 @@ For more information, check out plugin page at [dFactory](http://www.dfactory.eu
 * Hungarian - by Meszaros Tamas
 * Italian - by Enzo Costantini
 * Polish - by Bartosz Arendt
+* ROmanian - by Andrei Gabriel Grimpels
 * Russian - by Semion Zuev
 * Spanish - by [Cristian Sierra](http://www.truedacolor.com/)
 * Swedish - by [Daniel Storgards](www.danielstorgards.com)
@@ -75,6 +76,10 @@ A. Chances are, someone else has asked it. Check out the support forum at: http:
 3. screenshot-3.png
 
 == Changelog ==
+
+= 1.2.9 =
+* New: Romanian translation, thanks to Andrei Gabriel Grimpels
+* Fix: Pretty URL 404 issue for wp installed in a separate folder - switched from site_url() to home_url()
 
 = 1.2.8 =
 * New: Swedish translation, thanks to [Daniel Storgards](www.danielstorgards.com)
@@ -155,5 +160,5 @@ Initial release
 
 == Upgrade Notice ==
 
-= 1.2.8 =
-* New: Swedish translation, thanks to [Daniel Storgards](www.danielstorgards.com)
+= 1.2.9 =
+* New: Romanian translation, thanks to Andrei Gabriel Grimpels

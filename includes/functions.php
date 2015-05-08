@@ -314,7 +314,7 @@ function da_display_download_attachments( $post_id = 0, $args = array() ) {
 				$html .= '<span class="attachment-link-before">' . $args['link_before'] . '</span>';
 
 			// link
-			$html .= '<a href="' . ($options['pretty_urls'] === true ? site_url( '/' . $options['download_link'] . '/' . $attachment['attachment_id'] . '/' ) : plugins_url( 'download-attachments/includes/download.php?id=' . $attachment['attachment_id'] )) . '" class="attachment-link" title="' . $title . '">' . $title . '</a>';
+			$html .= '<a href="' . ($options['pretty_urls'] === true ? home_url( '/' . $options['download_link'] . '/' . $attachment['attachment_id'] . '/' ) : plugins_url( 'download-attachments/includes/download.php?id=' . $attachment['attachment_id'] )) . '" class="attachment-link" title="' . $title . '">' . $title . '</a>';
 
 			// link after
 			if ( $args['link_after'] !== '' )
@@ -401,7 +401,7 @@ function da_download_attachment_link( $attachment_id = 0, $echo = false ) {
 		$options = get_option( 'download_attachments_general' );
 		$title = get_the_title( $attachment_id );
 
-		$link = '<a href="' . ($options['pretty_urls'] === true ? site_url( '/' . $options['download_link'] . '/' . $attachment_id . '/' ) : plugins_url( 'download-attachments/includes/download.php?id=' . $attachment_id )) . '" title="' . $title . '">' . $title . '</a>';
+		$link = '<a href="' . ($options['pretty_urls'] === true ? home_url( '/' . $options['download_link'] . '/' . $attachment_id . '/' ) : plugins_url( 'download-attachments/includes/download.php?id=' . $attachment_id )) . '" title="' . $title . '">' . $title . '</a>';
 	} else {
 		$link = '';
 	}
@@ -423,7 +423,7 @@ function da_download_attachment_url( $attachment_id = 0 ) {
 	if ( get_post_type( $attachment_id ) === 'attachment' ) {
 		$options = get_option( 'download_attachments_general' );
 
-		return ($options['pretty_urls'] === true ? site_url( '/' . $options['download_link'] . '/' . $attachment_id . '/' ) : plugins_url( 'download-attachments/includes/download.php?id=' . $attachment_id ));
+		return ($options['pretty_urls'] === true ? home_url( '/' . $options['download_link'] . '/' . $attachment_id . '/' ) : plugins_url( 'download-attachments/includes/download.php?id=' . $attachment_id ));
 	} else {
 		return '';
 	}
@@ -460,7 +460,7 @@ function da_get_download_attachment( $attachment_id = 0 ) {
 	$attachment['size'] = size_format( (file_exists( $filename ) ? filesize( $filename ) : 0 ) );
 	$attachment['type'] = $extension;
 	$attachment['downloads'] = (int) get_post_meta( $attachment_id, '_da_downloads', true );
-	$attachment['url'] = ($options['pretty_urls'] === true ? site_url( '/' . $options['download_link'] . '/' . $attachment_id . '/' ) : plugins_url( 'download-attachments/includes/download.php?id=' . $attachment_id ));
+	$attachment['url'] = ($options['pretty_urls'] === true ? home_url( '/' . $options['download_link'] . '/' . $attachment_id . '/' ) : plugins_url( 'download-attachments/includes/download.php?id=' . $attachment_id ));
 	$attachment['icon_url'] = ( file_exists( DOWNLOAD_ATTACHMENTS_PATH . 'images/ext/' . $extension . '.gif' ) ? DOWNLOAD_ATTACHMENTS_URL . '/images/ext/' . $extension . '.gif' : DOWNLOAD_ATTACHMENTS_URL . '/images/ext/unknown.gif' );
 
 	return apply_filters( 'da_get_download_attachment', $attachment, $attachment_id );
