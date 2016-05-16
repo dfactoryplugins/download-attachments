@@ -2,16 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Download Attachments\n"
 "POT-Creation-Date: 2013-11-26 19:48+0100\n"
-"PO-Revision-Date: 2015-05-07 19:36+0100\n"
-"Last-Translator: Bartosz Arendt <info@dfactory.eu>\n"
+"PO-Revision-Date: 2013-12-31 10:12+0100\n"
+"Last-Translator: Andrei Gabriel Grimpels\n"
 "Language-Team: dFactory <info@dfactory.pl>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.5\n"
-"X-Poedit-KeywordsList: gettext;gettext_noop;__;_e;esc_attr__;esc_attr_e;_n:1,2;"
-"_x:1,2c\n"
+"X-Generator: Poedit 1.6.3\n"
+"X-Poedit-KeywordsList: gettext;gettext_noop;__;_e;esc_attr__;esc_attr_e;"
+"_n:1,2;_x:1,2c\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
@@ -194,7 +194,8 @@ msgid "Need support?"
 msgstr "Ai nevoie de ajutor?"
 
 #: ../includes/settings.php:147
-msgid "If you are having problems with this plugin, please talk about them in the"
+msgid ""
+"If you are having problems with this plugin, please talk about them in the"
 msgstr "Daca ai probleme cu pluginul, te rog dicuta-le pe"
 
 #: ../includes/settings.php:147
@@ -223,11 +224,11 @@ msgstr "pagina de pluginuri"
 
 #: ../includes/settings.php:152
 msgid "Check out our other"
-msgstr "Vezi alte"
+msgstr "Vedeti alte"
 
 #: ../includes/settings.php:152
-msgid "pluginuri pentru WordPress"
-msgstr ""
+msgid "WordPress plugins"
+msgstr "pluginuri wordpress de la noi"
 
 #: ../includes/settings.php:155
 msgid "Created by"
@@ -298,11 +299,13 @@ msgid "Select which post types would you like to enable for your downloads."
 msgstr "Selecteaza ce fel de posturi ai vrea sa activezi pentru descarcare."
 
 #: ../includes/settings.php:239
-msgid "Select which columns would you like to enable on backend for your downloads."
+msgid ""
+"Select which columns would you like to enable on backend for your downloads."
 msgstr "Selecteaza ce coloane vrei sa se afiseze in backend pentru descarcari."
 
 #: ../includes/settings.php:261
-msgid "Select which columns would you like to enable on frontend for your downloads."
+msgid ""
+"Select which columns would you like to enable on frontend for your downloads."
 msgstr "Selecteaza ce coloane vrei sa se afiseze in frontend pentru descarcari."
 
 #: ../includes/settings.php:282
@@ -326,12 +329,16 @@ msgid "Select where you would like your download attachments to be displayed."
 msgstr "Alege unde vrei sa ti se afiseze atasamentele pentru descarcare."
 
 #: ../includes/settings.php:353
-msgid "Select what fields to use on backend for download attachments description."
-msgstr "Alege ce campuri sa folosesti in backend pentru descrierea atasamentelor."
+msgid ""
+"Select what fields to use on backend for download attachments description."
+msgstr ""
+"Alege ce campuri sa folosesti in backend pentru descrierea atasamentelor."
 
 #: ../includes/settings.php:374
-msgid "Select what fields to use on frontend for download attachments description."
-msgstr "Alege ce campuri sa folosesti in frontend pentru descrierea atasamentelor."
+msgid ""
+"Select what fields to use on frontend for download attachments description."
+msgstr ""
+"Alege ce campuri sa folosesti in frontend pentru descrierea atasamentelor."
 
 #: ../includes/settings.php:395
 msgid "Select where you would like to edit download attachments."
@@ -339,13 +346,15 @@ msgstr "Selecteaza unde vrei sa editezi atasamentele."
 
 #: ../includes/settings.php:416
 msgid "Select which attachments should be visible in Media Library window."
-msgstr "Alege ce atasamente sa fie vizibile in fereastra bibliotecii media."
+msgstr ""
+"Alege ce atasamente sa fie vizibile in fereastra bibliotecii media."
 
 #: ../includes/settings.php:437
-msgid "Enable if you want to display downloads count in your Media Library columns."
+msgid ""
+"Enable if you want to display downloads count in your Media Library columns."
 msgstr ""
-"Activeaza daca vrei sa ai numarul de descarcari vizibil in coloanele  bibliotecii "
-"media"
+"Activeaza daca vrei sa ai numarul de descarcari vizibil in coloanele  "
+"bibliotecii media"
 
 #: ../includes/settings.php:456
 msgid "Role"
@@ -356,15 +365,16 @@ msgid "None"
 msgstr "Nimic"
 
 #: ../includes/settings.php:493
-msgid "Select user roles allowed to add, remove and manage Download Attachments."
+msgid ""
+"Select user roles allowed to add, remove and manage Download Attachments."
 msgstr ""
-"Alege rolurile utilizatorilor ce au voie sa adauge, sa scoata si sa administreze "
-"atasamentele."
+"Alege rolurile utilizatorilor ce au voie sa adauge, sa scoata si sa "
+"administreze atasamentele."
 
 #: ../includes/settings.php:516
 msgid "Enable if you want all plugin data to be deleted on deactivation."
-msgstr ""
-"Activeaza daca vrei sa se stearga toate datele salvate de plugin.la dezactivare"
+msgstr "Activeaza daca vrei sa se stearga toate datele salvate de plugin."
+"la dezactivare"
 
 #: ../includes/settings.php:667
 msgid "Settings restored to defaults."
@@ -379,8 +389,8 @@ msgid "Number of downloads of all attachments has been reset."
 msgstr "Numarul descarcarilor a fost resetat pentru toate atasamentele."
 
 #~ msgid ""
-#~ "This is an auto-draft. You can not add attachments here. Please save your post "
-#~ "first."
+#~ "This is an auto-draft. You can not add attachments here. Please save your "
+#~ "post first."
 #~ msgstr ""
 #~ "Acesta este un sablon automat. Nu poti adauga atasamente aici. Te rog, salveaza "
 #~ "postul inainte."

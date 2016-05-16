@@ -2,9 +2,9 @@
 Contributors: dfactory
 Donate link: http://www.dfactory.eu/
 Tags: attachment, attachments, file, files, download, downloads, download manager, download monitor, download count, hits, file manager, upload, doc, document, documents, pdf, zip
-Requires at least: 3.9
-Tested up to: 4.2.2
-Stable tag: 1.2.9
+Requires at least: 4.0
+Tested up to: 4.5
+Stable tag: 1.2.14
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 
@@ -37,8 +37,13 @@ For more information, check out plugin page at [dFactory](http://www.dfactory.eu
 * Compatible with WPML & Polylang
 * .pot file for translations included
 
+= Get involved =
+
+Feel free to contribute to the source code on the [dFactory GitHub Repository](https://github.com/dfactoryplugins).
+
 = Translations: =
 
+* Czech - by Martin Kokes
 * Danish - by Martin Schulze
 * Dutch - by [Sebas Blom](http://www.basbva.nl/)
 * French - by Jean-Philippe Gurecki
@@ -52,10 +57,6 @@ For more information, check out plugin page at [dFactory](http://www.dfactory.eu
 * Russian - by Semion Zuev
 * Spanish - by [Cristian Sierra](http://www.truedacolor.com/)
 * Swedish - by [Daniel Storgards](www.danielstorgards.com)
-
-= Get involved =
-
-Feel free to contribute to the source code on the [dFactory GitHub Repository](https://github.com/dfactoryplugins).
 
 == Installation ==
 
@@ -76,6 +77,24 @@ A. Chances are, someone else has asked it. Check out the support forum at: http:
 3. screenshot-3.png
 
 == Changelog ==
+
+= 1.2.14 =
+* Fix: TinyMCE editor broken on post types
+* Fix: Attachments not displayed outside of the loop
+
+= 1.2.13 =
+* New: Insert download attachment link TinyMCE editor button
+* Fix: Attached to a post option not working properly
+* Fix: Switched from wp_upload_dir() url to baseurl for redirect method
+
+= 1.2.12 =
+* New: Option to select download method - force download or redirect to file
+
+= 1.2.11 =
+* Tweak: More flexible way of including wp-load.php
+
+= 1.2.10 =
+* New: Czech translation, thanks to Martin Kokes
 
 = 1.2.9 =
 * New: Romanian translation, thanks to Andrei Gabriel Grimpels
@@ -160,5 +179,6 @@ Initial release
 
 == Upgrade Notice ==
 
-= 1.2.9 =
-* New: Romanian translation, thanks to Andrei Gabriel Grimpels
+= 1.2.14 =
+* Fix: TinyMCE editor broken on post types
+* Fix: Attachments not displayed outside of the loop

@@ -2,7 +2,7 @@
 /*
 Plugin Name: Download Attachments
 Description: Download Attachments is a new approach to managing downloads in WordPress. It allows you to easily add and display download links in any post or page.
-Version: 1.2.9
+Version: 1.2.14
 Author: dFactory
 Author URI: http://www.dfactory.eu/
 Plugin URI: http://www.dfactory.eu/plugins/download-attachments/
@@ -12,7 +12,7 @@ Text Domain: download-attachments
 Domain Path: /languages
 
 Download Attachments
-Copyright (C) 2013-2015, Digital Factory - info@digitalfactory.pl
+Copyright (C) 2013-2016, Digital Factory - info@digitalfactory.pl
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -25,23 +25,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
-define( 'DOWNLOAD_ATTACHMENTS_URL', plugins_url( '', __FILE__ ) );
-define( 'DOWNLOAD_ATTACHMENTS_PATH', plugin_dir_path( __FILE__ ) );
-define( 'DOWNLOAD_ATTACHMENTS_REL_PATH', dirname( plugin_basename( __FILE__ ) ) . '/' );
+if ( ! class_exists( 'Download_Attachments' ) ) :
 
-$download_attachments = new Download_Attachments();
-
-include_once(DOWNLOAD_ATTACHMENTS_PATH . 'includes/update.php');
-include_once(DOWNLOAD_ATTACHMENTS_PATH . 'includes/functions.php');
-include_once(DOWNLOAD_ATTACHMENTS_PATH . 'includes/shortcodes.php');
-include_once(DOWNLOAD_ATTACHMENTS_PATH . 'includes/settings.php');
-include_once(DOWNLOAD_ATTACHMENTS_PATH . 'includes/metabox.php');
-include_once(DOWNLOAD_ATTACHMENTS_PATH . 'includes/media.php');
-
+/**
+ * Download_Attachments final class.
+ *
+ * @class Download_Attachments
+ * @version	1.2.14
+ */
 class Download_Attachments {
 
-	private $options = array();
-	private $defaults = array(
+	private static $instance;
+	public $options = array();
+	public $defaults = array(
 		'general'	 => array(
 			'pretty_urls'					=> false,
 			'use_css_style'					=> true,
@@ -49,6 +45,7 @@ class Download_Attachments {
 			'attachment_link'				=> 'modal',
 			'download_box_display'			=> 'after_content',
 			'library'						=> 'all',
+			'download_method'				=> 'force',
 			'downloads_in_media_library'	=> true,
 			'deactivation_delete'			=> false,
 			'display_style'					=> 'list',
@@ -82,32 +79,86 @@ class Download_Attachments {
 				'manage_download_attachments'
 			)
 		),
-		'version'	 => '1.2.9'
+		'version'	 => '1.2.14'
 	);
+	
+	/**
+	 * Disable object clone.
+	 */
+	private function __clone() {}
+
+	/**
+	 * Disable unserializing of the class.
+	 */
+	private function __wakeup() {}
+	
+	/**
+	 * Main Post_Ratings instance,
+	 * Insures that only one instance of Post_Ratings exists in memory at one time.
+	 * 
+	 * @return object
+	 */
+	public static function instance() {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {
+			self::$instance = new self();
+			self::$instance->define_constants();
+
+			add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
+
+			self::$instance->includes();
+		}
+		return self::$instance;
+	}
+	
+	/**
+	 * Setup plugin constants.
+	 *
+	 * @return void
+	 */
+	private function define_constants() {
+		define( 'DOWNLOAD_ATTACHMENTS_URL', plugins_url( '', __FILE__ ) );
+		define( 'DOWNLOAD_ATTACHMENTS_PATH', plugin_dir_path( __FILE__ ) );
+		define( 'DOWNLOAD_ATTACHMENTS_REL_PATH', dirname( plugin_basename( __FILE__ ) ) . '/' );
+	}
+	
+	/**
+	 * Include required files
+	 *
+	 * @return void
+	 */
+	private function includes() {
+		if ( is_admin() ) {
+			include_once(DOWNLOAD_ATTACHMENTS_PATH . 'includes/settings.php');
+			include_once(DOWNLOAD_ATTACHMENTS_PATH . 'includes/update.php');
+			include_once(DOWNLOAD_ATTACHMENTS_PATH . 'includes/metabox.php');
+			include_once(DOWNLOAD_ATTACHMENTS_PATH . 'includes/media.php');
+		}
+		include_once(DOWNLOAD_ATTACHMENTS_PATH . 'includes/functions.php');
+		include_once(DOWNLOAD_ATTACHMENTS_PATH . 'includes/shortcodes.php');	
+	}
 
 	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
-		register_activation_hook( __FILE__, array( &$this, 'multisite_activation' ) );
-		register_deactivation_hook( __FILE__, array( &$this, 'multisite_deactivation' ) );
+		register_activation_hook( __FILE__, array( $this, 'multisite_activation' ) );
+		register_deactivation_hook( __FILE__, array( $this, 'multisite_deactivation' ) );
 
 		// settings
-		$this->options = array_merge(
-			array( 'general' => get_option( 'download_attachments_general' ) )
-		);
+		$this->options = array( 'general' => get_option( 'download_attachments_general', $this->defaults['general'] ) );
 
 		// actions
-		add_action( 'plugins_loaded', array( &$this, 'load_textdomain' ) );
-		add_action( 'after_setup_theme', array( &$this, 'pass_variables' ), 9 );
-		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_scripts_styles' ) );
-		add_action( 'wp_enqueue_scripts', array( &$this, 'frontend_scripts_styles' ) );
-		add_action( 'send_headers', array( &$this, 'download_redirect' ) );
+		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
+		add_action( 'after_setup_theme', array( $this, 'load_defaults' ) );
+		add_action( 'admin_head', array( $this, 'button_init' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts_styles' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts_styles' ) );
+		add_action( 'send_headers', array( $this, 'download_redirect' ) );
 
 		// filters
-		add_filter( 'the_content', array( &$this, 'add_content' ) );
-		add_filter( 'plugin_row_meta', array( &$this, 'plugin_extend_links' ), 10, 2 );
-		add_filter( 'plugin_action_links', array( &$this, 'plugin_settings_link' ), 10, 2 );
+		add_action( 'wp', array( $this, 'run' ) );
+		add_filter( 'plugin_row_meta', array( $this, 'plugin_extend_links' ), 10, 2 );
+		add_filter( 'plugin_action_links', array( $this, 'plugin_settings_link' ), 10, 2 );
 	}
 
 	/**
@@ -208,23 +259,9 @@ class Download_Attachments {
 	}
 
 	/**
-	 * Get default settings.
-	 */
-	public function get_defaults() {
-		return $this->defaults;
-	}
-
-	/**
-	 * Get columns.
-	 */
-	public function get_columns() {
-		return $this->columns;
-	}
-
-	/**
 	 * Pass variables to other classes.
 	 */
-	public function pass_variables() {
+	public function load_defaults() {
 		$this->columns = array(
 			'index'		 => __( 'Index', 'download-attachments' ),
 			'id'		 => __( 'ID', 'download-attachments' ),
@@ -249,18 +286,55 @@ class Download_Attachments {
 	/**
 	 * Recognize download URL.
 	 */
-	function download_redirect() {
+	public function download_redirect() {
 		global $wp;
 
 		if ( preg_match( '/^' . $this->options['general']['download_link'] . '\/(\d+)$/', $wp->request, $vars ) === 1 )
 			da_download_attachment( (int) $vars[1] );
 	}
+	
+	/**
+	 * Run the shortcode on specific filter
+	 */
+	public function run() {
+		if ( is_admin() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) )
+			return;
+		
+		$filter = apply_filters( 'da_shortcode_filter_hook', 'the_content' );
+		
+		if ( ! empty( $filter ) && is_string( $filter ) ) {
+			add_filter( $filter, array( $this, 'add_content' ) );
+		}
+	}
 
 	/**
 	 * Add frontend attachments box.
+	 * 
+	 * @param mixed
+	 * @return mixed
 	 */
 	public function add_content( $content ) {
-		if ( ! is_singular() || ! in_array( get_post_type(), array_keys( $this->options['general']['post_types'], true ) ) || $this->options['general']['download_box_display'] === 'manually' )
+		// hold display var
+		$display = true;
+		
+		// check for post type
+		if ( ! in_array( get_post_type(), array_keys( $this->options['general']['post_types'], true ) ) || $this->options['general']['download_box_display'] === 'manually' )
+			$display = false;
+		
+		// check if singular
+		if ( ! is_singular() )
+			$display = false;
+		
+		// check if in the loop
+		// if ( ! in_the_loop() )
+			// $display = false;
+		
+		// we don't want to insert our html in excerpts...
+		if ( in_array( current_filter(), array( 'get_the_excerpt', 'the_excerpt' ) ) )
+			$display = false;
+		
+		// decide whether to add shortcode or not
+		if ( (bool) apply_filters( 'da_add_shortcode_to_content', $display ) === false )		
 			return $content;
 
 		$args = '';
@@ -282,6 +356,8 @@ class Download_Attachments {
 					break;
 			}
 		}
+		
+		$args = apply_filters( 'da_add_shortcode_to_content_args', $args );
 
 		// after content
 		if ( $this->options['general']['download_box_display'] === 'after_content' )
@@ -316,7 +392,7 @@ class Download_Attachments {
 			wp_enqueue_style( 'download-attachments-admin' );
 		}
 		// metabox
-		elseif ( in_array( $page, array( 'post.php', 'post-new.php' ), true ) && in_array( get_post_type(), array_keys( $this->options['general']['post_types'] ), true ) ) {
+		elseif ( in_array( $page, array( 'post.php', 'post-new.php' ), true ) ) {
 			wp_register_script(
 				'download-attachments-admin-post', DOWNLOAD_ATTACHMENTS_URL . '/js/admin-post.js', array( 'jquery' )
 			);
@@ -340,6 +416,8 @@ class Download_Attachments {
 				'editTitle'				 => __( 'Edit attachment', 'download-attachments' ),
 				'buttonAddNewFile'		 => __( 'Add selected attachments', 'download-attachments' ),
 				'buttonEditFile'		 => __( 'Save attachment', 'download-attachments' ),
+				'selectTitle'			 => __( 'Insert download link', 'download-attachments' ),
+				'buttonInsertLink'		 => __( 'Insert into post', 'download-attachments' ),
 				'noFiles'				 => __( 'No attachments added yet.', 'download-attachments' ),
 				'deleteFile'			 => __( 'Do you want to remove this attachment?', 'download-attachments' ),
 				'removeFile'			 => __( 'Remove', 'download-attachments' ),
@@ -371,6 +449,72 @@ class Download_Attachments {
 
 			wp_enqueue_style( 'download-attachments-frontend' );
 		}
+	}
+	
+	/**
+	 * Editor button init.
+	 * 
+	 * @global $post_type;
+	 * @global $pagenow;
+	 */
+	public function button_init() {
+		global $post_type, $pagenow;
+		
+		/* check for post type
+		if( ! in_array( $post_type, array_keys( $this->options['general']['post_types'], true ) ) ) {
+			return;
+		} */
+		
+		// check for admin page
+		if ( $pagenow != 'post-new.php' && $pagenow != 'post.php' ) {
+			return;
+		}
+		
+		$post_type_obj = get_post_type_object( $post_type );
+		
+		if ( ! current_user_can( $post_type_obj->cap->edit_posts ) ) {
+			return;
+		}
+		
+		// check if WYSIWYG is enabled
+		if ( get_user_option( 'rich_editing' ) == 'true' ) {
+			add_filter( 'mce_buttons', array( $this, 'filter_mce_button' ) );
+			add_filter( 'mce_external_plugins', array( $this, 'filter_mce_plugin' ) );
+			// add_filter( 'mce_external_languages', array( $this, 'filter_mce_lang') );
+		}
+	}
+	
+	/**
+	 * Add tinymce toolbar button.
+	 * 
+	 * @param	array	$buttons
+	 * @return	array
+	 */
+	public function filter_mce_button( $buttons ) {
+		array_push( $buttons, 'download_attachments' );
+		return $buttons;
+	}
+	
+	/**
+	 * Handle tinymce button.
+	 * 
+	 * @param	array	$plugins
+	 * @return	array
+	 */
+	public function filter_mce_plugin( $plugins ) {
+		$plugins['download_attachments'] = plugins_url( 'js/tinymce-plugin.js', __FILE__ );
+		return $plugins;
+	}
+	
+	/**
+	 * Handle button languages.
+	 * 
+	 * @param	array	$locales
+	 * @return	array
+	 */
+	public function filter_mce_lang( $locales ) {
+		$locales['download_attachments'] = plugin_dir_path( __FILE__ ) . 'includes/tinymce-lang.php';
+		return $locales;
 	}
 
 	/**
@@ -409,3 +553,22 @@ class Download_Attachments {
 	}
 
 }
+
+endif; // end if class_exists check
+
+/**
+ * Initialise Post Views Counter.
+ * 
+ * @return object
+ */
+function Download_Attachments() {
+	static $instance;
+
+	// first call to instance() initializes the plugin
+	if ( $instance === null || ! ( $instance instanceof Download_Attachments ) )
+		$instance = Download_Attachments::instance();
+
+	return $instance;
+}
+
+Download_Attachments();

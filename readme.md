@@ -54,6 +54,10 @@ Feel free to contribute to the source code on the [dFactory GitHub Repository](h
 
 ## Changelog ##
 
+#### 1.2.14 ####
+* Fix: TinyMCE editor broken on post types
+* Fix: Attachments not displayed outside of the loop
+
 #### 1.2.5 ####
 * New: Italian translation, thanks to Enzo Costantini
 

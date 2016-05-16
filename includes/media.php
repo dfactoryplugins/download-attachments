@@ -3,21 +3,12 @@
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
-new Download_Attachments_Media();
-
 class Download_Attachments_Media {
-
-	private $options = array();
 
 	/**
 	 * Constructor.
 	 */
 	public function __construct() {
-		// settings
-		$this->options = array_merge(
-			array( 'general' => get_option( 'download_attachments_general' ) )
-		);
-
 		// actions
 		add_action( 'manage_media_custom_column', array( &$this, 'custom_media_column_content' ), 10, 2 );
 
@@ -31,7 +22,7 @@ class Download_Attachments_Media {
 	 * Display attachments download count.
 	 */
 	public function custom_media_column_content( $column, $id ) {
-		if ( $this->options['general']['downloads_in_media_library'] === true && $column === 'downloads_count' )
+		if ( Download_Attachments()->options['general']['downloads_in_media_library'] === true && $column === 'downloads_count' )
 			echo (int) get_post_meta( $id, '_da_downloads', true );
 	}
 
@@ -39,7 +30,7 @@ class Download_Attachments_Media {
 	 * Add new custom column to Media Library.
 	 */
 	public function downloads_media_column_title( $columns ) {
-		if ( $this->options['general']['downloads_in_media_library'] === true ) {
+		if ( Download_Attachments()->options['general']['downloads_in_media_library'] === true ) {
 			$two_last = array_slice( $columns, -2, 2, true );
 
 			foreach ( $two_last as $column => $name ) {
@@ -60,7 +51,7 @@ class Download_Attachments_Media {
 	 * Sort new custom column in Media Library.
 	 */
 	public function sort_custom_columns( $vars ) {
-		if ( $this->options['general']['downloads_in_media_library'] === true && isset( $vars['orderby'] ) && $vars['orderby'] === 'downloads' )
+		if ( Download_Attachments()->options['general']['downloads_in_media_library'] === true && isset( $vars['orderby'] ) && $vars['orderby'] === 'downloads' )
 			$vars = array_merge(
 				$vars, array(
 				'meta_key'	 => '_da_downloads',
@@ -75,10 +66,12 @@ class Download_Attachments_Media {
 	 * Register sortable custom column in Media Library.
 	 */
 	public function register_sortable_custom_column( $columns ) {
-		if ( $this->options['general']['downloads_in_media_library'] === true )
+		if ( Download_Attachments()->options['general']['downloads_in_media_library'] === true )
 			$columns['downloads_count'] = 'downloads';
 
 		return $columns;
 	}
 
 }
+
+new Download_Attachments_Media();

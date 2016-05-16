@@ -3,7 +3,7 @@
 	$( document ).ready( function () {
 
 		var daEditFrame = null,
-				daAddFrame = null;
+			daAddFrame = null;
 
 		// modal window settings
 		daAddFrame = wp.media( {
@@ -14,7 +14,12 @@
 				text: daArgs.buttonAddNewFile
 			},
 			states: [
-				new wp.media.controller.Library( {
+				new wp.media.controller.Library( daArgs.library == 0 ? {
+					multiple: 'add',
+					priority: 20,
+					filterable: false,
+					library: wp.media.query( { post_parent: wp.media.model.settings.post.id } )
+				} : {
 					multiple: 'add',
 					priority: 20,
 					filterable: 'all'

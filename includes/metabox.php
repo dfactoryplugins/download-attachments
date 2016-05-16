@@ -3,44 +3,17 @@
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
-new Download_Attachments_Metabox( $download_attachments );
-
 class Download_Attachments_Metabox {
-
-	private $columns = array();
-	private $options = array();
-	private $defaults = array();
-	private $download_attachments = '';
-
+	
 	/**
 	 * Constructor.
 	 */
-	public function __construct( $download_attachments = '' ) {
-		// settings
-		$this->options = array_merge(
-			array( 'general' => get_option( 'download_attachments_general' ) )
-		);
-
-		if ( $download_attachments !== '' ) {
-			// passed vars
-			$this->download_attachments = $download_attachments;
-			$this->defaults = $download_attachments->get_defaults();
-			unset( $download_attachments );
-		}
-
+	public function __construct() {
 		// actions
 		add_action( 'add_meta_boxes', array( &$this, 'add_download_meta_box' ) );
-		add_action( 'after_setup_theme', array( &$this, 'set_columns' ) );
 		add_action( 'delete_attachment', array( &$this, 'remove_attachment' ) );
 		add_action( 'wp_ajax_da-save-files', array( &$this, 'ajax_save_files' ) );
 		add_action( 'wp_ajax_da-new-file', array( &$this, 'ajax_update_attachments' ) );
-	}
-
-	/**
-	 * Set columns passed from base class.
-	 */
-	public function set_columns() {
-		$this->columns = $this->download_attachments->get_columns();
 	}
 
 	/**
@@ -194,7 +167,7 @@ class Download_Attachments_Metabox {
 		$context = apply_filters( 'da_metabox_context', 'normal' );
 		$priority = apply_filters( 'da_metabox_priority', 'high' );
 
-		foreach ( $this->options['general']['post_types'] as $post_type => $bool ) {
+		foreach ( Download_Attachments()->options['general']['post_types'] as $post_type => $bool ) {
 			if ( $bool === true ) {
 				if ( isset( $_GET['post'] ) )
 					$post_id = $_GET['post'];
@@ -233,8 +206,8 @@ class Download_Attachments_Metabox {
 					<tr>
 						<th class="file-drag"></th>';
 
-		foreach ( $this->columns as $column => $name ) {
-			if ( $column === 'exclude' || ( ! in_array( $column, array( 'index', 'icon' ) ) && $this->options['general']['backend_columns'][$column] === true) ) {
+		foreach ( Download_Attachments()->columns as $column => $name ) {
+			if ( $column === 'exclude' || ( ! in_array( $column, array( 'index', 'icon' ) ) && Download_Attachments()->options['general']['backend_columns'][$column] === true) ) {
 				switch ( $column ) {
 					case 'id':
 					case 'downloads':
@@ -278,7 +251,7 @@ class Download_Attachments_Metabox {
 		} else {
 			$columns = 0;
 
-			foreach ( $this->options['general']['backend_columns'] as $column => $bool ) {
+			foreach ( Download_Attachments()->options['general']['backend_columns'] as $column => $bool ) {
 				if ( $bool )
 					$columns ++;
 			}
@@ -349,10 +322,10 @@ class Download_Attachments_Metabox {
 					$filename = get_attached_file( $file->ID );
 					$filetype = wp_check_filetype( $filename );
 
-					if ( $this->options['general']['backend_content']['caption'] === true )
+					if ( Download_Attachments()->options['general']['backend_content']['caption'] === true )
 						$title .= '<span class="caption">' . esc_attr( $file->post_excerpt ) . '</span>';
 
-					if ( $this->options['general']['backend_content']['description'] === true )
+					if ( Download_Attachments()->options['general']['backend_content']['description'] === true )
 						$title .= '<span class="description">' . esc_attr( $file->post_content ) . '</span>';
 
 					// old file, was on the list already
@@ -405,8 +378,8 @@ class Download_Attachments_Metabox {
 	public function get_table_row( $post_id = 0, $ajax = false, $file = array() ) {
 		$html = '<tr' . ($ajax === true ? ' style="display: none;"' : '') . ' id="att-' . $file['file_id'] . '"><td class="file-drag"><span class="dashicons dashicons-menu"></span></td>';
 
-		foreach ( $this->columns as $column => $name ) {
-			if ( $column === 'exclude' || ( ! in_array( $column, array( 'index', 'icon' ) ) && $this->options['general']['backend_columns'][$column] === true) ) {
+		foreach ( Download_Attachments()->columns as $column => $name ) {
+			if ( $column === 'exclude' || ( ! in_array( $column, array( 'index', 'icon' ) ) && Download_Attachments()->options['general']['backend_columns'][$column] === true) ) {
 				if ( $column === 'size' )
 					$value = ' data-sort-value="' . $file['file_size_bytes'] . '"';
 				elseif ( $column === 'date' )
@@ -425,7 +398,7 @@ class Download_Attachments_Metabox {
 		$html .= '<td class="file-actions">';
 
 		if ( current_user_can( 'edit_post', $file['file_id'] ) )
-			$html .= '<a href="' . ($this->options['general']['attachment_link'] === 'modal' ? '#' : esc_url( admin_url( 'post.php?post=' . $file['file_id'] . '&action=edit' ) )) . '"><span class="dashicons dashicons-edit da-edit-file"></span></a> ';
+			$html .= '<a href="' . (Download_Attachments()->options['general']['attachment_link'] === 'modal' ? '#' : esc_url( admin_url( 'post.php?post=' . $file['file_id'] . '&action=edit' ) )) . '"><span class="dashicons dashicons-edit da-edit-file"></span></a> ';
 		else
 			$html .= '<span class="button-secondary" disabled="disabled">' . __( 'Edit', 'download-attachments' ) . '</span> ';
 
@@ -435,3 +408,5 @@ class Download_Attachments_Metabox {
 	}
 
 }
+
+new Download_Attachments_Metabox();
