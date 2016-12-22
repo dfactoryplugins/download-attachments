@@ -3,10 +3,15 @@
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
+/**
+ * Download_Attachments_Metabox class.
+ * 
+ * @class Download_Attachments_Metabox
+ */
 class Download_Attachments_Shortcodes {
 
 	/**
-	 * Constructor.
+	 * Constructor class.
 	 */
 	public function __construct() {
 		// actions
@@ -23,6 +28,9 @@ class Download_Attachments_Shortcodes {
 
 	/**
 	 * Handle download-attachments shortcode.
+	 * 
+	 * @param array $args
+	 * @return mixed
 	 */
 	public function download_attachments_shortcode( $args ) {
 		$defaults = array(
@@ -30,17 +38,17 @@ class Download_Attachments_Shortcodes {
 			'container'				 => 'div',
 			'container_class'		 => 'download-attachments',
 			'container_id'			 => '',
-			'style'					 => isset( Download_Attachments()->options['general']['display_style'] ) ? esc_attr( Download_Attachments()->options['general']['display_style'] ) : 'list',
+			'style'					 => isset( Download_Attachments()->options['display_style'] ) ? esc_attr( Download_Attachments()->options['display_style'] ) : 'list',
 			'link_before'			 => '',
 			'link_after'			 => '',
 			'display_index'			 => isset( $options['frontend_columns']['index'] ) ? (int) $options['frontend_columns']['index'] : 0,
-			'display_user'			 => (int) Download_Attachments()->options['general']['frontend_columns']['author'],
-			'display_icon'			 => (int) Download_Attachments()->options['general']['frontend_columns']['icon'],
-			'display_count'			 => (int) Download_Attachments()->options['general']['frontend_columns']['downloads'],
-			'display_size'			 => (int) Download_Attachments()->options['general']['frontend_columns']['size'],
-			'display_date'			 => (int) Download_Attachments()->options['general']['frontend_columns']['date'],
-			'display_caption'		 => (int) Download_Attachments()->options['general']['frontend_content']['caption'],
-			'display_description'	 => (int) Download_Attachments()->options['general']['frontend_content']['description'],
+			'display_user'			 => (int) Download_Attachments()->options['frontend_columns']['author'],
+			'display_icon'			 => (int) Download_Attachments()->options['frontend_columns']['icon'],
+			'display_count'			 => (int) Download_Attachments()->options['frontend_columns']['downloads'],
+			'display_size'			 => (int) Download_Attachments()->options['frontend_columns']['size'],
+			'display_date'			 => (int) Download_Attachments()->options['frontend_columns']['date'],
+			'display_caption'		 => (int) Download_Attachments()->options['frontend_content']['caption'],
+			'display_description'	 => (int) Download_Attachments()->options['frontend_content']['description'],
 			'display_empty'			 => 0,
 			'display_option_none'	 => __( 'No attachments to download', 'download-attachments' ),
 			'use_desc_for_title'	 => 0,
@@ -60,8 +68,8 @@ class Download_Attachments_Shortcodes {
 		if ( ! isset( $args['title'] ) ) {
 			$args['title'] = '';
 
-			if ( Download_Attachments()->options['general']['label'] !== '' )
-				$args['title'] = Download_Attachments()->options['general']['label'];
+			if ( Download_Attachments()->options['label'] !== '' )
+				$args['title'] = Download_Attachments()->options['label'];
 		}
 
 		$args = shortcode_atts( $defaults, $args );
@@ -80,17 +88,28 @@ class Download_Attachments_Shortcodes {
 	 */
 	public function download_attachment_shortcode( $args ) {
 		$defaults = array(
-			'attachment_id' => 0, // deprecated
-			'id' => 0,
-			'title' => ''
+			'attachment_id'	 => 0, // deprecated
+			'id'			 => 0,
+			'title'			 => '',
+			'class'			 => ''
 		);
 
 		$args = shortcode_atts( $defaults, $args );
-		
+
 		// deprecated attachment_id parameter support
 		$args['id'] = ! empty( $args['attachment_id'] ) ? (int) $args['attachment_id'] : (int) $args['id'];
 
-		return da_download_attachment_link( (int) $args['id'], false, array( 'title' => $args['title'] ) );
+		$atts = array();
+
+		if ( ! empty( $args['title'] ) ) {
+			$atts['title'] = $args['title'];
+		}
+
+		if ( ! empty( $args['class'] ) ) {
+			$atts['class'] = $args['class'];
+		}
+
+		return da_download_attachment_link( (int) $args['id'], false, $atts );
 	}
 
 }

@@ -3,8 +3,8 @@ Contributors: dfactory
 Donate link: http://www.dfactory.eu/
 Tags: attachment, attachments, file, files, download, downloads, download manager, download monitor, download count, hits, file manager, upload, doc, document, documents, pdf, zip
 Requires at least: 4.0
-Tested up to: 4.5
-Stable tag: 1.2.14
+Tested up to: 4.7
+Stable tag: 1.2.17
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 
@@ -23,10 +23,12 @@ For more information, check out plugin page at [dFactory](http://www.dfactory.eu
 * Select list or table display style
 * Downloads count
 * Advanced attachments sorting
+* Most Downloaded Attachments widget
 * Drag & drop files ordering
 * Based on Media Library attachments
 * Easy customisation of Frontend & Backend display
 * Pretty URLs for download links
+* Option to encrypt URLs
 * Custom download slug
 * Custom permission for metabox display
 * Option to exclude selected attachments from display
@@ -40,23 +42,6 @@ For more information, check out plugin page at [dFactory](http://www.dfactory.eu
 = Get involved =
 
 Feel free to contribute to the source code on the [dFactory GitHub Repository](https://github.com/dfactoryplugins).
-
-= Translations: =
-
-* Czech - by Martin Kokes
-* Danish - by Martin Schulze
-* Dutch - by [Sebas Blom](http://www.basbva.nl/)
-* French - by Jean-Philippe Gurecki
-* Finnish - by [Daniel Storgards](www.danielstorgards.com)
-* German - by [Sascha Brendel](http://sascha-brendel.de/blog/)
-* Greek - by vas gargan
-* Hungarian - by Meszaros Tamas
-* Italian - by Enzo Costantini
-* Polish - by Bartosz Arendt
-* ROmanian - by Andrei Gabriel Grimpels
-* Russian - by Semion Zuev
-* Spanish - by [Cristian Sierra](http://www.truedacolor.com/)
-* Swedish - by [Daniel Storgards](www.danielstorgards.com)
 
 == Installation ==
 
@@ -77,6 +62,17 @@ A. Chances are, someone else has asked it. Check out the support forum at: http:
 3. screenshot-3.png
 
 == Changelog ==
+
+= 1.2.17 =
+* New: Encrypt URL's option
+* Fix: Missing docx and xlsx file icons
+* Tweak: Revamped admin inteface
+
+= 1.2.16 =
+* New: Most Downloaded Attachments widget
+
+= 1.2.15 =
+* Tweak: Removed local translation files in favor of WP repository translations.
 
 = 1.2.14 =
 * Fix: TinyMCE editor broken on post types
@@ -179,6 +175,7 @@ Initial release
 
 == Upgrade Notice ==
 
-= 1.2.14 =
-* Fix: TinyMCE editor broken on post types
-* Fix: Attachments not displayed outside of the loop
+= 1.2.17 =
+* New: Encrypt URL's option
+* Fix: Missing docx and xlsx file icons
+* Tweak: Revamped admin inteface

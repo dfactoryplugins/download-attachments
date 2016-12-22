@@ -97,6 +97,16 @@
     word-wrap: break-word;
 }
 
+/* Metabox */
+#download_attachments_metabox > h2:before {
+    display: inline-block;
+    font: 400 13px/1 dashicons;
+    vertical-align: middle;
+    padding-right: 5px;
+    margin-top: -2px;
+    content: "\f546";
+}
+
 /* Table */
 #da-add-new-file {
     float: left;

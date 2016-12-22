@@ -1,14 +1,15 @@
 <?php
+
 // exit if accessed directly
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
 /**
- * Get download attachments data for a given post
+ * Get download attachments data for a given post.
  * 
- * @param 	int $post_id
- * @param	array $args
- * @return 	array
+ * @param int $post_id
+ * @param array $args
+ * @return array
  */
 function da_get_download_attachments( $post_id = 0, $args = array() ) {
 	$post_id = (int) (empty( $post_id ) ? get_the_ID() : $post_id);
@@ -33,7 +34,7 @@ function da_get_download_attachments( $post_id = 0, $args = array() ) {
 		$args['include'] = $ids;
 	} elseif ( is_numeric( $args['include'] ) ) {
 		$args['include'] = array( (int) $args['include'] );
-	// shortcode
+		// shortcode
 	} elseif ( is_string( $args['include'] ) && ! empty( $args['include'] ) ) {
 		$args['include'] = json_decode( '[' . $args['include'] . ']', true );
 	} else {
@@ -70,10 +71,10 @@ function da_get_download_attachments( $post_id = 0, $args = array() ) {
 			// all
 			if ( empty( $args['include'] ) && empty( $args['exclude'] ) ) {
 				$add = true;
-			// include
+				// include
 			} elseif ( ! empty( $args['include'] ) && empty( $args['exclude'] ) && in_array( $file['file_id'], $args['include'] ) ) {
 				$add = true;
-			// exclude
+				// exclude
 			} elseif ( empty( $args['include'] ) && ! empty( $args['exclude'] ) ) {
 				$add = true;
 
@@ -98,15 +99,15 @@ function da_get_download_attachments( $post_id = 0, $args = array() ) {
 
 	if ( ! empty( $args['include'] ) ) {
 		$files_data = get_posts(
-			apply_filters( 'da_get_download_attachments_args', array(
-				'include'		 => $args['include'],
-				'posts_per_page' => -1,
-				'offset'		 => 0,
-				'orderby'		 => 'post_date',
-				'order'			 => 'DESC',
-				'post_type'		 => 'attachment',
-				'post_status'	 => 'any'
-			) )
+		apply_filters( 'da_get_download_attachments_args', array(
+			'include'		 => $args['include'],
+			'posts_per_page' => -1,
+			'offset'		 => 0,
+			'orderby'		 => 'post_date',
+			'order'			 => 'DESC',
+			'post_type'		 => 'attachment',
+			'post_status'	 => 'any'
+		) )
 		);
 
 		if ( ! empty( $files_data ) ) {
@@ -114,7 +115,23 @@ function da_get_download_attachments( $post_id = 0, $args = array() ) {
 				if ( isset( $files[$file->ID] ) ) {
 					$filename = get_attached_file( $file->ID );
 					$filetype = wp_check_filetype( $filename );
-					$extension = ($filetype['ext'] === 'jpeg' ? 'jpg' : $filetype['ext']);
+					
+					switch ( $filetype['ext'] ) {
+						case 'jpeg' :
+							$extension = 'jpg';
+							break;
+						case 'docx' :
+							$extension = 'doc';
+							break;
+						case 'xlsx' :
+							$extension = 'xls';
+							break;
+						default :
+							$extension = $filetype['ext'];
+							break;
+					}
+
+					$extension = apply_filters( 'da_file_extension_type', $extension );
 
 					$files[$file->ID]['attachment_title'] = trim( esc_attr( $file->post_title ) );
 					$files[$file->ID]['attachment_caption'] = trim( esc_attr( $file->post_excerpt ) );
@@ -154,16 +171,16 @@ function da_get_download_attachments( $post_id = 0, $args = array() ) {
 }
 
 /**
- * Display download attachments for a given post
+ * Display download attachments for a given post.
  * 
- * @param 	int $post_id
- * @param	array $args
- * @return 	mixed
+ * @param int $post_id
+ * @param array $args
+ * @return mixed
  */
 function da_display_download_attachments( $post_id = 0, $args = array() ) {
 	$post_id = (int) (empty( $post_id ) ? get_the_ID() : $post_id);
 
-	$options = get_option( 'download_attachments_general' );
+	$options = Download_Attachments()->options;
 
 	$defaults = array(
 		'container'				 => 'div',
@@ -174,14 +191,14 @@ function da_display_download_attachments( $post_id = 0, $args = array() ) {
 		'link_after'			 => '',
 		'content_before'		 => '',
 		'content_after'			 => '',
-		'display_index'			 => isset( $options['frontend_columns']['index'] ) ? (int) $options['frontend_columns']['index'] : false,
-		'display_user'			 => (int) $options['frontend_columns']['author'],
-		'display_icon'			 => (int) $options['frontend_columns']['icon'],
-		'display_count'			 => (int) $options['frontend_columns']['downloads'],
-		'display_size'			 => (int) $options['frontend_columns']['size'],
-		'display_date'			 => (int) $options['frontend_columns']['date'],
-		'display_caption'		 => (int) $options['frontend_content']['caption'],
-		'display_description'	 => (int) $options['frontend_content']['description'],
+		'display_index'			 => isset( $options['frontend_columns']['index'] ) ? (int) $options['frontend_columns']['index'] : Download_Attachments()->defaults['general']['frontend_columns']['index'],
+		'display_user'			 => isset( $options['frontend_columns']['author'] ) ? (int) $options['frontend_columns']['author'] : Download_Attachments()->defaults['general']['frontend_columns']['author'],
+		'display_icon'			 => isset( $options['frontend_columns']['icon'] ) ? (int) $options['frontend_columns']['icon'] : Download_Attachments()->defaults['general']['frontend_columns']['icon'],
+		'display_count'			 => isset( $options['frontend_columns']['downloads'] ) ? (int) $options['frontend_columns']['downloads'] : Download_Attachments()->defaults['general']['frontend_columns']['downloads'],
+		'display_size'			 => isset( $options['frontend_columns']['size'] ) ? (int) $options['frontend_columns']['size'] : Download_Attachments()->defaults['general']['frontend_columns']['size'],
+		'display_date'			 => isset( $options['frontend_columns']['date'] ) ? (int) $options['frontend_columns']['date'] : Download_Attachments()->defaults['general']['frontend_columns']['date'],
+		'display_caption'		 => isset( $options['frontend_content']['caption'] ) ? (int) $options['frontend_content']['caption'] : Download_Attachments()->defaults['general']['frontend_content']['caption'],
+		'display_description'	 => isset( $options['frontend_content']['description'] ) ? (int) $options['frontend_content']['description'] : Download_Attachments()->defaults['general']['frontend_content']['description'],
 		'display_empty'			 => 0,
 		'display_option_none'	 => __( 'No attachments to download', 'download-attachments' ),
 		'use_desc_for_title'	 => 0,
@@ -218,14 +235,14 @@ function da_display_download_attachments( $post_id = 0, $args = array() ) {
 	$args['title'] = apply_filters( 'da_display_attachments_title', trim( $args['title'] ) );
 
 	$attachments = da_get_download_attachments(
-		$post_id, apply_filters(
-			'da_display_attachments_args', array(
-				'include'	 => $args['include'],
-				'exclude'	 => $args['exclude'],
-				'orderby'	 => $args['orderby'],
-				'order'		 => $args['order']
-			)
-		)
+	$post_id, apply_filters(
+	'da_display_attachments_args', array(
+		'include'	 => $args['include'],
+		'exclude'	 => $args['exclude'],
+		'orderby'	 => $args['orderby'],
+		'order'		 => $args['order']
+	)
+	)
 	);
 
 	$count = count( $attachments );
@@ -314,7 +331,7 @@ function da_display_download_attachments( $post_id = 0, $args = array() ) {
 				$html .= '<span class="attachment-link-before">' . $args['link_before'] . '</span>';
 
 			// link
-			$html .= '<a href="' . ($options['pretty_urls'] === true ? home_url( '/' . $options['download_link'] . '/' . $attachment['attachment_id'] . '/' ) : DOWNLOAD_ATTACHMENTS_URL . '/includes/download.php?id=' . $attachment['attachment_id'] ) . '" class="attachment-link" title="' . esc_html( $title ) . '">' . $title . '</a>';
+			$html .= '<a href="' . da_get_download_attachment_url( $attachment['attachment_id'] ) . '" class="attachment-link" title="' . esc_html( $title ) . '">' . $title . '</a>';
 
 			// link after
 			if ( $args['link_after'] !== '' )
@@ -390,18 +407,27 @@ function da_display_download_attachments( $post_id = 0, $args = array() ) {
 }
 
 /**
- * Get single attachment download link
+ * Get single attachment download link.
  * 
- * @param 	int $attachment_id
- * @param	bool $echo
- * @return 	mixed
+ * @param int $attachment_id
+ * @param bool $echo
+ * @return mixed
  */
 function da_download_attachment_link( $attachment_id = 0, $echo = false, $attr = array() ) {
 	if ( get_post_type( $attachment_id ) === 'attachment' ) {
-		$options = get_option( 'download_attachments_general' );
-		$title = ! empty( $attr['title'] ) ? esc_attr( $attr['title'] ) : get_the_title( $attachment_id );
 
-		$link = '<a href="' . ($options['pretty_urls'] === true ? home_url( '/' . $options['download_link'] . '/' . $attachment_id . '/' ) : DOWNLOAD_ATTACHMENTS_URL . '/includes/download.php?id=' . $attachment_id ) . '" title="' . $title . '">' . $title . '</a>';
+		$attr['title'] = ! empty( $attr['title'] ) ? $attr['title'] : get_the_title( $attachment_id );
+		$attr['class'] = ! empty( $attr['class'] ) ? $attr['class'] : "da-download-link da-download-attachment-$attachment_id";
+
+		$attr = apply_filters( 'da_download_attachment_link_attributes', $attr, $attachment_id );
+		$attr = array_map( 'esc_attr', $attr );
+		$attr_html = '';
+
+		foreach ( $attr as $name => $value ) {
+			$attr_html .= " $name=" . '"' . $value . '"';
+		}
+
+		$link = '<a href="' . da_get_download_attachment_url( $attachment_id ) . '"' . $attr_html . '">' . $attr['title'] . '</a>';
 	} else {
 		$link = '';
 	}
@@ -414,26 +440,93 @@ function da_download_attachment_link( $attachment_id = 0, $echo = false, $attr =
 }
 
 /**
- * Get single attachment download url
+ * Get single attachment download url.
  * 
- * @param 	int $attachment_id
- * @return 	mixed
+ * @param int $attachment_id
+ * @return mixed
  */
-function da_download_attachment_url( $attachment_id = 0 ) {
-	if ( get_post_type( $attachment_id ) === 'attachment' ) {
-		$options = get_option( 'download_attachments_general' );
-
-		return ($options['pretty_urls'] === true ? home_url( '/' . $options['download_link'] . '/' . $attachment_id . '/' ) : DOWNLOAD_ATTACHMENTS_URL . '/includes/download.php?id=' . $attachment_id );
-	} else {
+function da_get_download_attachment_url( $attachment_id = 0 ) {
+	if ( get_post_type( $attachment_id ) != 'attachment' )
 		return '';
-	}
+	
+	$options = Download_Attachments()->options;
+	
+	$encrypted_id = isset( $options['encrypt_urls'] ) && $options['encrypt_urls'] ? da_encrypt_attachment_id( $attachment_id ) : $attachment_id;
+
+	$url = untrailingslashit( esc_url( isset( $options['pretty_urls'] ) && $options['pretty_urls'] === true ? home_url( '/' . $options['download_link'] . '/' . $encrypted_id . '/' ) : DOWNLOAD_ATTACHMENTS_URL . '/includes/download.php?id=' . $encrypted_id ) );
+
+	return apply_filters( 'da_get_download_attachment_url', $url, $attachment_id );
 }
 
 /**
- * Get single attachment download data
+ * Encrypt attachment id for the url
  * 
- * @param 	int $attachment_id
- * @return 	array
+ * @param int $id
+ * @return string $encrypted_id
+ */
+function da_encrypt_attachment_id( $id ) {
+	$auth_key = defined( 'AUTH_KEY' ) ? AUTH_KEY : '';
+	$auth_iv = defined( 'NONCE_KEY' ) ? NONCE_KEY : '';
+
+	// strong encryption
+	if ( function_exists( 'mcrypt_encrypt' ) && defined( 'MCRYPT_BLOWFISH' ) && MCRYPT_BLOWFISH ) {
+		// get max key size of the mcrypt mode
+		$max_key_size = mcrypt_get_key_size( MCRYPT_BLOWFISH, MCRYPT_MODE_CBC );
+		$max_iv_size = mcrypt_get_iv_size( MCRYPT_BLOWFISH, MCRYPT_MODE_CBC );
+		
+		$encrypt_key = mb_strimwidth( $auth_key, 0, $max_key_size );
+		$encrypt_iv = mb_strimwidth( $auth_iv, 0, $max_iv_size );
+		
+		$encrypted_id = strtr( base64_encode( mcrypt_encrypt( MCRYPT_BLOWFISH, $encrypt_key, $id, MCRYPT_MODE_CBC, $encrypt_iv ) ), '+/=', '-_,' );
+	// simple encryption
+	} elseif ( function_exists( 'gzdeflate' ) ) {
+		$encrypted_id = base64_encode( convert_uuencode( gzdeflate( $id ) ) );
+	// no encryption
+	} else {
+		$encrypted_id = strtr( base64_encode( convert_uuencode( $id ) ), '+/=', '-_,' );
+	}
+	
+	da_decrypt_attachment_id( $encrypted_id );
+
+	return apply_filters( 'da_encrypt_attachment_id', $encrypted_id, $id );
+}
+
+/**
+ * Decrypt attachment id for the url
+ * 
+ * @param int $encrypted_id
+ * @return string $id
+ */
+function da_decrypt_attachment_id( $encrypted_id ) {
+	$auth_key = defined( 'AUTH_KEY' ) ? AUTH_KEY : '';
+	$auth_iv = defined( 'NONCE_KEY' ) ? NONCE_KEY : '';
+
+	// strong encryption
+	if ( function_exists( 'mcrypt_decrypt' ) && defined( 'MCRYPT_BLOWFISH' ) && MCRYPT_BLOWFISH ) {
+		// get max key size of the mcrypt mode
+		$max_key_size = mcrypt_get_key_size( MCRYPT_BLOWFISH, MCRYPT_MODE_CBC );
+		$max_iv_size = mcrypt_get_iv_size( MCRYPT_BLOWFISH, MCRYPT_MODE_CBC );
+		
+		$encrypt_key = mb_strimwidth( $auth_key, 0, $max_key_size );
+		$encrypt_iv = mb_strimwidth( $auth_iv, 0, $max_iv_size );
+
+		$id = mcrypt_decrypt( MCRYPT_BLOWFISH, $encrypt_key, base64_decode( strtr( $encrypted_id, '-_,', '+/=' ) ), MCRYPT_MODE_CBC, $encrypt_iv );
+	// simple encryption
+	} elseif ( function_exists( 'gzinflate' ) ) {
+		$id = gzinflate( convert_uudecode( base64_decode( $encrypted_id ) ) );
+	// no encryption
+	} else {
+		$id = convert_uudecode( base64_decode( strtr( $encrypted_id, '-_,', '+/=' ) ) );
+	}
+	
+	return apply_filters( 'da_decrypt_attachment_id', $id, $encrypted_id );
+}
+
+/**
+ * Get single attachment download data.
+ * 
+ * @param int $attachment_id
+ * @return array
  */
 function da_get_download_attachment( $attachment_id = 0 ) {
 	$attachment_id = ! empty( $attachment_id ) ? absint( $attachment_id ) : 0;
@@ -446,12 +539,27 @@ function da_get_download_attachment( $attachment_id = 0 ) {
 	if ( get_post_type( $attachment_id ) != 'attachment' )
 		return false;
 
-	$options = get_option( 'download_attachments_general' );
-
 	$file = get_post( $attachment_id );
 	$filename = get_attached_file( $attachment_id );
 	$filetype = wp_check_filetype( $filename );
-	$extension = ($filetype['ext'] === 'jpeg' ? 'jpg' : $filetype['ext']);
+	
+	// adjust extension type
+	switch ( $filetype['ext'] ) {
+		case 'jpeg' :
+			$extension = 'jpg';
+			break;
+		case 'docx' :
+			$extension = 'doc';
+			break;
+		case 'xlsx' :
+			$extension = 'xls';
+			break;
+		default :
+			$extension = $filetype['ext'];
+			break;
+	}
+
+	$extension = apply_filters( 'da_file_extension_type', $extension );
 
 	$attachment['title'] = get_the_title( $attachment_id );
 	$attachment['caption'] = trim( esc_attr( $file->post_excerpt ) );
@@ -460,7 +568,7 @@ function da_get_download_attachment( $attachment_id = 0 ) {
 	$attachment['size'] = size_format( (file_exists( $filename ) ? filesize( $filename ) : 0 ) );
 	$attachment['type'] = $extension;
 	$attachment['downloads'] = (int) get_post_meta( $attachment_id, '_da_downloads', true );
-	$attachment['url'] = ($options['pretty_urls'] === true ? home_url( '/' . $options['download_link'] . '/' . $attachment_id . '/' ) : DOWNLOAD_ATTACHMENTS_URL . '/download.php?id=' . $attachment_id );
+	$attachment['url'] = da_get_download_attachment_url( $attachment_id );
 	$attachment['icon_url'] = ( file_exists( DOWNLOAD_ATTACHMENTS_PATH . 'images/ext/' . $extension . '.gif' ) ? DOWNLOAD_ATTACHMENTS_URL . '/images/ext/' . $extension . '.gif' : DOWNLOAD_ATTACHMENTS_URL . '/images/ext/unknown.gif' );
 
 	return apply_filters( 'da_get_download_attachment', $attachment, $attachment_id );
@@ -469,13 +577,13 @@ function da_get_download_attachment( $attachment_id = 0 ) {
 /**
  * Process attachment download function
  * 
- * @param 	int $attachment_id
- * @return 	mixed
+ * @param int $attachment_id
+ * @return mixed
  */
 function da_download_attachment( $attachment_id = 0 ) {
 	if ( get_post_type( $attachment_id ) === 'attachment' ) {
 		// get options
-		$options = get_option( 'download_attachments_general' );
+		$options = Download_Attachments()->options;
 
 		if ( ! isset( $options['download_method'] ) )
 			$options['download_method'] = 'force';
@@ -485,6 +593,9 @@ function da_download_attachment( $attachment_id = 0 ) {
 
 		// get file name
 		$attachment = get_post_meta( $attachment_id, '_wp_attached_file', true );
+
+		// get downloads count
+		$downloads_count = (int) get_post_meta( $attachment_id, '_da_downloads', true );
 
 		// force download
 		if ( $options['download_method'] === 'force' ) {
@@ -504,20 +615,17 @@ function da_download_attachment( $attachment_id = 0 ) {
 			// disable compression
 			if ( ini_get( 'zlib.output_compression' ) )
 				@ini_set( 'zlib.output_compression', 0 );
-			
-			if ( function_exists( 'apache_setenv' ) ) {
+
+			if ( function_exists( 'apache_setenv' ) )
 				@apache_setenv( 'no-gzip', 1 );
-			}
-			
+
 			// disable max execution time limit
-			if ( ! in_array( 'set_time_limit', explode( ',',  ini_get( 'disable_functions' ) ) ) && ! ini_get( 'safe_mode' ) ) {
-				@set_time_limit(0);
-			}
-			
+			if ( ! in_array( 'set_time_limit', explode( ',', ini_get( 'disable_functions' ) ) ) && ! ini_get( 'safe_mode' ) )
+				@set_time_limit( 0 );
+
 			// disable magic quotes runtime
-			if ( function_exists( 'get_magic_quotes_runtime' ) && get_magic_quotes_runtime() && version_compare( phpversion(), '5.4', '<' ) ) {
-				set_magic_quotes_runtime(0);
-			}
+			if ( function_exists( 'get_magic_quotes_runtime' ) && get_magic_quotes_runtime() && version_compare( phpversion(), '5.4', '<' ) )
+				set_magic_quotes_runtime( 0 );
 
 			// set needed headers
 			nocache_headers();
@@ -533,8 +641,8 @@ function da_download_attachment( $attachment_id = 0 ) {
 			header( 'Content-Length: ' . filesize( $filepath ) );
 
 			// increase downloads count
-			update_post_meta( $attachment_id, '_da_downloads', (int) get_post_meta( $attachment_id, '_da_downloads', true ) + 1 );
-			
+			update_post_meta( $attachment_id, '_da_downloads', $downloads_count + 1, $downloads_count );
+
 			// action hook
 			do_action( 'da_process_file_download', $attachment_id );
 
@@ -550,11 +658,13 @@ function da_download_attachment( $attachment_id = 0 ) {
 				return false;
 
 			exit;
+		
 		// redirect to file
 		} else {
+
 			// increase downloads count
-			update_post_meta( $attachment_id, '_da_downloads', (int) get_post_meta( $attachment_id, '_da_downloads', true ) + 1 );
-			
+			update_post_meta( $attachment_id, '_da_downloads', $downloads_count + 1, $downloads_count );
+
 			// action hook
 			do_action( 'da_process_file_download', $attachment_id );
 
@@ -562,6 +672,177 @@ function da_download_attachment( $attachment_id = 0 ) {
 			header( 'Location: ' . apply_filters( 'da_download_attachment_filepath', $uploads['baseurl'] . '/' . $attachment, $attachment_id ) );
 			exit;
 		}
+	// not an attachment
 	} else
 		return false;
+}
+
+/**
+ * Get most downloaded attachments.
+ * 
+ * @param array	$args Arguments
+ * @return array Attachments
+ */
+if ( ! function_exists( 'da_get_most_downloaded_attachments' ) ) {
+
+	function da_get_most_downloaded_attachments( $args = array() ) {
+		$args = array_merge(
+		array(
+			'posts_per_page' => 10,
+			'order'			 => 'desc'
+		), $args
+		);
+
+		$args = apply_filters( 'da_get_most_downloaded_attachments_args', $args );
+
+		// force important arguments
+		$args['suppress_filters'] = false;
+		$args['post_type'] = 'attachment';
+		$args['orderby'] = 'meta_value_num';
+		$args['meta_key'] = '_da_downloads';
+		$args['fields'] = '';
+
+		$args['meta_query'] = array(
+			'relation' => 'OR',
+			array(
+				'key'		 => '_da_downloads',
+				'compare'	 => 'EXISTS'
+			),
+			array(
+				'key'		 => '_da_downloads',
+				'value'		 => 'something',
+				'compare'	 => 'NOT EXISTS'
+			)
+		);
+
+		return apply_filters( 'da_get_most_downloaded_attachments', get_posts( $args ), $args );
+	}
+
+}
+
+/**
+ * Get attachment downloads.
+ *
+ * @param int $post_id Attachment ID
+ * @return int Number of attachment downloads
+ */
+if ( ! function_exists( 'da_get_attachment_downloads' ) ) {
+
+	function da_get_attachment_downloads( $post_id = 0 ) {
+		$post_id = (int) $post_id;
+		$downloads = ( $post_id > 0 ? (int) get_post_meta( $post_id, '_da_downloads', true ) : 0 );
+
+		return apply_filters( 'da_get_attachment_downloads', $downloads, $post_id );
+	}
+
+}
+
+/**
+ * Display a list of most downloaded attachments.
+ * 
+ * @param array	$post_id Post ID
+ * @param boolean $display Whether to display or return output
+ * @return mixed HTML output or void
+ */
+if ( ! function_exists( 'da_most_downloaded_attachments' ) ) {
+
+	function da_most_downloaded_attachments( $args = array(), $display = true ) {
+		$defaults = array(
+			'number_of_posts'			 => 5,
+			'link_type'					 => 'page',
+			'order'						 => 'desc',
+			'show_attachment_downloads'	 => true,
+			'show_attachment_icon'		 => true,
+			'show_attachment_excerpt'	 => false,
+			'no_attachments_message'	 => __( 'No Attachments', 'download-attachments' )
+		);
+
+		$args = apply_filters( 'da_most_downloaded_attachments_args', wp_parse_args( $args, $defaults ) );
+
+		$args['show_attachment_downloads'] = (bool) $args['show_attachment_downloads'];
+		$args['show_attachment_icon'] = (bool) $args['show_attachment_icon'];
+		$args['show_attachment_excerpt'] = (bool) $args['show_attachment_excerpt'];
+
+		$attachments = da_get_most_downloaded_attachments(
+		array(
+			'posts_per_page' => ( isset( $args['number_of_posts'] ) ? (int) $args['number_of_posts'] : $defaults['number_of_posts'] ),
+			'order'			 => ( isset( $args['order'] ) ? $args['order'] : $defaults['order'] )
+		)
+		);
+
+		if ( ! empty( $attachments ) ) {
+			$html = '
+		<ul>';
+
+			foreach ( $attachments as $attachment ) {
+				setup_postdata( $attachment );
+
+				$filetype = wp_check_filetype( get_attached_file( $attachment->ID ) );
+				
+				// adjust extension type
+				switch ( $filetype['ext'] ) {
+					case 'jpeg' :
+						$extension = 'jpg';
+						break;
+					case 'docx' :
+						$extension = 'doc';
+						break;
+					case 'xlsx' :
+						$extension = 'xls';
+						break;
+					default :
+						$extension = $filetype['ext'];
+						break;
+				}
+
+				$extension = apply_filters( 'da_file_extension_type', $extension );
+
+				$html .= '
+		    <li>';
+
+				if ( $args['show_attachment_icon'] ) {
+					$html .= '
+			<span class="post-icon">
+			    <img class="attachment-icon" src="' . ( file_exists( DOWNLOAD_ATTACHMENTS_PATH . 'images/ext/' . $extension . '.gif' ) ? DOWNLOAD_ATTACHMENTS_URL . '/images/ext/' . $extension . '.gif' : DOWNLOAD_ATTACHMENTS_URL . '/images/ext/unknown.gif' ) . '" alt="" />
+			</span>';
+				}
+
+				$html .= '
+			<a class="post-title" href="' . ( $args['link_type'] === 'page' ? get_permalink( $attachment->ID ) : da_get_download_attachment_url( $attachment->ID ) ) . '">' . esc_html( get_the_title( $attachment->ID ) ) . '</a>' . ( $args['show_attachment_downloads'] ? ' <span class="count">(' . number_format_i18n( da_get_attachment_downloads( $attachment->ID ) ) . ')</span>' : '' );
+
+				$excerpt = '';
+
+				if ( $args['show_attachment_excerpt'] ) {
+					if ( empty( $attachment->post_excerpt ) )
+						$text = $attachment->post_content;
+					else
+						$text = $attachment->post_excerpt;
+
+					if ( ! empty( $text ) )
+						$excerpt = wp_trim_words( str_replace( ']]>', ']]&gt;', strip_shortcodes( $text ) ), apply_filters( 'excerpt_length', 55 ), apply_filters( 'excerpt_more', ' ' . '[&hellip;]' ) );
+				}
+
+				if ( ! empty( $excerpt ) )
+					$html .= '
+			<div class="post-excerpt">' . esc_html( $excerpt ) . '</div>';
+
+				$html .= '
+		    </li>';
+			}
+
+			wp_reset_postdata();
+
+			$html .= '
+		</ul>';
+		} else
+			$html = $args['no_attachments_message'];
+
+		$html = apply_filters( 'da_most_downloaded_attachments_html', $html, $args );
+
+		if ( $display )
+			echo $html;
+		else
+			return $html;
+	}
+
 }
