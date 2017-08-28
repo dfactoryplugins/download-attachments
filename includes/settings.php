@@ -81,11 +81,6 @@ class Download_Attachments_Settings {
 			'manually'		 => __( 'manually', 'download-attachments' )
 		);
 
-		$this->display_styles = array(
-			'list'	 => __( 'List', 'download-attachments' ),
-			'table'	 => __( 'Table', 'download-attachments' )
-		);
-
 		$this->download_methods = array(
 			'force'		 => __( 'Force download', 'download-attachments' ),
 			'redirect'	 => __( 'Redirect to file', 'download-attachments' )
@@ -120,7 +115,7 @@ class Download_Attachments_Settings {
 	 * @return mixed
 	 */
 	public function options_page() {
-		$tab_key = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'general' );
+		$tab_key = ( isset( $_GET['tab'] ) ? esc_attr( $_GET['tab'] ) : 'general' );
 		$options_page = 'options-general.php';
 		$form_page = 'options.php';
 		
@@ -146,12 +141,12 @@ class Download_Attachments_Settings {
 						<h3 class="hndle">' . __( 'Download Attachments', 'download-attachments' ) . ' ' . Download_Attachments()->defaults['version'] . '</h3>
 						<div class="inside">
 							<h4 class="inner">' . __( 'Need support?', 'download-attachments' ) . '</h4>
-							<p class="inner">' . __( 'If you are having problems with this plugin, please talk about them in the', 'download-attachments' ) . ' <a href="http://www.dfactory.eu/support/?utm_source=download-attachments-settings&utm_medium=link&utm_campaign=support" target="_blank" title="' . __( 'Support forum', 'download-attachments' ) . '">' . __( 'Support forum', 'download-attachments' ) . '</a></p>
+							<p class="inner">' . sprintf( __( 'If you are having problems with this plugin, please browse it\'s <a href="%s" target="_blank">Documentation</a> or talk about them in the <a href="%s" target="_blank">Support forum</a>', 'download-attachments' ), 'https://www.dfactory.eu/docs/download-attachments/?utm_source=download-attachments-settings&utm_medium=link&utm_campaign=docs', 'https://www.dfactory.eu/support/?utm_source=download-attachments-settings&utm_medium=link&utm_campaign=support' ) . '</p>
 							<hr/>
 							<h4 class="inner">' . __( 'Do you like this plugin?', 'download-attachments' ) . '</h4>
-							<p class="inner"><a href="http://wordpress.org/support/view/plugin-reviews/download-attachments" target="_blank" title="' . __( 'Rate it 5', 'download-attachments' ) . '">' . __( 'Rate it 5', 'download-attachments' ) . '</a> ' . __( 'on WordPress.org', 'download-attachments' ) . '<br/>' .
-					__( 'Blog about it & link to the', 'download-attachments' ) . ' <a href="http://www.dfactory.eu/plugins/download-attachments/?utm_source=download-attachments-settings&utm_medium=link&utm_campaign=blog-about" target="_blank" title="' . __( 'plugin page', 'download-attachments' ) . '">' . __( 'plugin page', 'download-attachments' ) . '</a><br/>' .
-					__( 'Check out our other', 'download-attachments' ) . ' <a href="http://www.dfactory.eu/plugins/?utm_source=download-attachments-settings&utm_medium=link&utm_campaign=other-plugins" target="_blank" title="' . __( 'WordPress plugins', 'download-attachments' ) . '">' . __( 'WordPress plugins', 'download-attachments' ) . '</a>
+							<p class="inner">' . sprintf( __( '<a href="%s" target="_blank">Rate it 5</a> on WordPress.org', 'download-attachments' ), 'https://wordpress.org/support/plugin/download-attachments/reviews/?filter=5' ) . '<br />' .
+							sprintf( __( 'Blog about it & link to the <a href="%s" target="_blank">plugin page</a>.', 'download-attachments' ), 'https://dfactory.eu/plugins/download-attachments/?utm_source=download-attachments-settings&utm_medium=link&utm_campaign=blog-about' ) . '<br />' .
+							sprintf( __( 'Check out our other <a href="%s" target="_blank">WordPress plugins</a>.', 'download-attachments' ), 'https://dfactory.eu/plugins/?utm_source=download-attachments-settings&utm_medium=link&utm_campaign=other-plugins' ) . '
 							</p>
 							<hr/>
 							<p class="df-link inner">' . __( 'Created by', 'download-attachments' ) . ' <a href="http://www.dfactory.eu/?utm_source=download-attachments-settings&utm_medium=link&utm_campaign=created-by" target="_blank" title="dFactory - Quality plugins for WordPress"><img src="' . DOWNLOAD_ATTACHMENTS_URL . '/images/logo-dfactory.png' . '" title="dFactory - Quality plugins for WordPress" alt="dFactory - Quality plugins for WordPress"/></a></p>
@@ -215,6 +210,7 @@ class Download_Attachments_Settings {
 		add_settings_section( 'download_attachments_admin', __( 'Admin settings', 'download-attachments' ), '', 'download_attachments_admin' );
 		add_settings_field( 'da_general_backend_display', __( 'Fields display', 'download-attachments' ), array( $this, 'da_general_backend_display' ), 'download_attachments_admin', 'download_attachments_admin' );
 		add_settings_field( 'da_general_backend_content', __( 'Downloads description', 'download-attachments' ), array( $this, 'da_general_backend_content' ), 'download_attachments_admin', 'download_attachments_admin' );
+		add_settings_field( 'da_restrict_edit_downloads', __( 'Restrict Edit', 'download-attachments' ), array( $this, 'da_restrict_edit_downloads' ), 'download_attachments_admin', 'download_attachments_admin' );
 		add_settings_field( 'da_general_attachment_link', __( 'Edit attachment link', 'download-attachments' ), array( $this, 'da_general_attachment_link' ), 'download_attachments_admin', 'download_attachments_admin' );
 		add_settings_field( 'da_general_libraries', __( 'Media Library', 'download-attachments' ), array( $this, 'da_general_libraries' ), 'download_attachments_admin', 'download_attachments_admin' );
 		add_settings_field( 'da_general_downloads_in_media_library', __( 'Downloads count', 'download-attachments' ), array( $this, 'da_general_downloads_in_media_library' ), 'download_attachments_admin', 'download_attachments_admin' );
@@ -369,7 +365,7 @@ class Download_Attachments_Settings {
 		<div id="da_general_display_style">
 			<fieldset>';
 
-			foreach ( $this->display_styles as $val => $trans ) {
+			foreach ( Download_Attachments()->display_styles as $val => $trans ) {
 				echo '
 			<input id="da-general-display-style-' . $val . '" type="radio" name="download_attachments_general[display_style]" value="' . esc_attr( $val ) . '" ' . checked( $val, isset( Download_Attachments()->options['display_style'] ) ? esc_attr( Download_Attachments()->options['display_style'] ) : Download_Attachments()->defaults['general']['display_style'], false ) . '/><label for="da-general-display-style-' . $val . '">' . $trans . '</label>';
 			}
@@ -392,6 +388,18 @@ class Download_Attachments_Settings {
 
 			echo '
 			<p class="description">' . __( 'Select what fields to use on backend for download attachments description.', 'download-attachments' ) . '</p>
+			</fieldset>
+		</div>';
+	}
+
+	/**
+	 * Limit views edit to admins.
+	 */
+	public function da_restrict_edit_downloads() {
+		echo '
+		<div id="da_restrict_edit_downloads">
+			<fieldset>
+				<label><input type="checkbox" name="download_attachments_general[restrict_edit_downloads]" value="1" ' . checked( true, Download_Attachments()->options['restrict_edit_downloads'], false ) . ' />' . __( 'Enable to restrict downloads count editing to admins only.', 'download-attachments' ) . '</label>
 			</fieldset>
 		</div>';
 	}
@@ -619,7 +627,7 @@ class Download_Attachments_Settings {
 			$new_input['frontend_content'] = $contents;
 			
 			// display style
-			$new_input['display_style'] = isset( $input['display_style'], $this->display_styles[$input['display_style']] ) ? $input['display_style'] : Download_Attachments()->defaults['general']['display_style'];
+			$new_input['display_style'] = isset( $input['display_style'], Download_Attachments()->display_styles[$input['display_style']] ) ? $input['display_style'] : Download_Attachments()->defaults['general']['display_style'];
 
 			// use css style
 			$new_input['use_css_style'] = (isset( $input['use_css_style'] ) && in_array( $input['use_css_style'], array_keys( $this->choices ), true ) ? ($input['use_css_style'] === 'yes' ? true : false) : Download_Attachments()->defaults['general']['use_css_style']);
@@ -631,9 +639,8 @@ class Download_Attachments_Settings {
 			
 		// save admin
 		} elseif ( isset( $_POST['save_da_admin'] ) ) {
-			
 			$new_input = $old_input;
-			
+
 			// backend columns
 			$columns = array();
 			$input['backend_columns'] = (isset( $input['backend_columns'] ) ? $input['backend_columns'] : array());
@@ -648,7 +655,9 @@ class Download_Attachments_Settings {
 			}
 
 			$new_input['backend_columns'] = $columns;
-			
+
+			$new_input['restrict_edit_downloads'] = array_key_exists( 'restrict_edit_downloads', $input );
+
 			// backend content
 			$contents = array();
 			$input['backend_content'] = (isset( $input['backend_content'] ) ? $input['backend_content'] : array());

@@ -1,10 +1,10 @@
 === Download Attachments ===
 Contributors: dfactory
 Donate link: http://www.dfactory.eu/
-Tags: attachment, attachments, file, files, download, downloads, download manager, download monitor, download count, hits, file manager, upload, doc, document, documents, pdf, zip
+Tags: attachment, attachments, file, files, download, downloads, upload, doc, document, documents, monitor, manager
 Requires at least: 4.0
-Tested up to: 4.7
-Stable tag: 1.2.17
+Tested up to: 4.7.4
+Stable tag: 1.2.20
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 
@@ -20,7 +20,7 @@ For more information, check out plugin page at [dFactory](http://www.dfactory.eu
 
 * Automatic or manual download links display
 * Select post types where Download Attachments should be used
-* Select list or table display style
+* Select list, table or sortable, dynamic table display style
 * Downloads count
 * Advanced attachments sorting
 * Most Downloaded Attachments widget
@@ -29,6 +29,7 @@ For more information, check out plugin page at [dFactory](http://www.dfactory.eu
 * Easy customisation of Frontend & Backend display
 * Pretty URLs for download links
 * Option to encrypt URLs
+* Customizable tamplates engine
 * Custom download slug
 * Custom permission for metabox display
 * Option to exclude selected attachments from display
@@ -62,6 +63,22 @@ A. Chances are, someone else has asked it. Check out the support forum at: http:
 3. screenshot-3.png
 
 == Changelog ==
+
+= 1.2.20 =
+* Fix: Fatal error on da_get_download_attachment function call
+* Tweak: Style none for attachments list display
+
+= 1.2.19 =
+* New: Dynamic, sortable table display mode
+* New: Templates engine for the attachment display
+* New: Option to edit attachment downloads count
+* New: Attachments widget redesign
+* Fix: 404 error with pretty urls enabled
+* Tweak: Stronger openssl url encryption method
+
+= 1.2.18 =
+* Fix: Undefined encrypt_urls variable notice
+* Tweak: Added plugin documentation link
 
 = 1.2.17 =
 * New: Encrypt URL's option
@@ -175,7 +192,6 @@ Initial release
 
 == Upgrade Notice ==
 
-= 1.2.17 =
-* New: Encrypt URL's option
-* Fix: Missing docx and xlsx file icons
-* Tweak: Revamped admin inteface
+= 1.2.20 =
+* Fix: Fatal error on da_get_download_attachment function call
+* Tweak: Style none for attachments list display

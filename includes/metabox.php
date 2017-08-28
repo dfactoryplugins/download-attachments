@@ -15,10 +15,11 @@ class Download_Attachments_Metabox {
 	 */
 	public function __construct() {
 		// actions
-		add_action( 'add_meta_boxes', array( &$this, 'add_download_meta_box' ) );
-		add_action( 'delete_attachment', array( &$this, 'remove_attachment' ) );
-		add_action( 'wp_ajax_da-save-files', array( &$this, 'ajax_save_files' ) );
-		add_action( 'wp_ajax_da-new-file', array( &$this, 'ajax_update_attachments' ) );
+		add_action( 'add_meta_boxes', array( $this, 'add_download_meta_box' ) );
+		add_action( 'delete_attachment', array( $this, 'remove_attachment' ) );
+		add_action( 'wp_ajax_da-save-files', array( $this, 'ajax_save_files' ) );
+		add_action( 'wp_ajax_da-new-file', array( $this, 'ajax_update_attachments' ) );
+		add_action( 'save_post', array( $this, 'save_attachments_data' ), 10, 2 );
 	}
 
 	/**
@@ -29,9 +30,9 @@ class Download_Attachments_Metabox {
 	public function remove_attachment( $attachment_id ) {
 		$attachment_id = (int) $attachment_id;
 
-		if ( ($files_meta = get_post_meta( $attachment_id, '_da_posts', true )) !== '' && is_array( $files_meta ) && ! empty( $files_meta ) ) {
+		if ( ( $files_meta = get_post_meta( $attachment_id, '_da_posts', true ) ) !== '' && is_array( $files_meta ) && ! empty( $files_meta ) ) {
 			foreach ( $files_meta as $id ) {
-				if ( ($files = get_post_meta( $id, '_da_attachments', true )) !== '' && is_array( $files ) && ! empty( $files ) ) {
+				if ( ( $files = get_post_meta( $id, '_da_attachments', true ) ) !== '' && is_array( $files ) && ! empty( $files ) ) {
 					foreach ( $files as $key => $file ) {
 						if ( (int) $file['file_id'] === $attachment_id ) {
 							unset( $files[$key] );
@@ -46,88 +47,130 @@ class Download_Attachments_Metabox {
 	}
 
 	/**
+	 * Save attachments attached to a post.
+	 * 
+	 * @param integer $post_id
+	 * @param object $post
+	 * @return void
+	 */
+	public function save_attachments_data( $post_id, $post ) {
+		$post_types = Download_Attachments()->options['post_types'];
+
+		if ( ! ( array_key_exists( $post->post_type, $post_types ) && $post_types[$post->post_type] ) || ! current_user_can( 'manage_download_attachments' ) )
+			return;
+
+		if ( array_key_exists( 'da_attachment_data', $_POST ) && is_array( $_POST['da_attachment_data'] ) ) {
+			$attachments = array();
+
+			foreach( $_POST['da_attachment_data'] as $attachment ) {
+				$attachments[] = array( $attachment['id'], (int) array_key_exists( 'exclude', $attachment ) );
+			}
+
+			unset( $_POST['da_attachment_data'] );
+
+			$_POST['attachment_data'] = $attachments;
+		} else 
+			$_POST['attachment_data'] = array( 'empty' );
+
+		$this->save_files( $post_id, $_POST );
+	}
+
+	/**
 	 * Save attachments using AJAX.
+	 *
+	 * @return void
 	 */
 	public function ajax_save_files() {
-		if ( isset( $_POST['danonce'], $_POST['post_id'], $_POST['attachment_data'], $_POST['action'] ) && ($post_id = (int) $_POST['post_id']) > 0 && $_POST['action'] === 'da-save-files' && is_array( $_POST['attachment_data'] ) && current_user_can( 'manage_download_attachments' ) && wp_verify_nonce( $_POST['danonce'], 'da-save-files-nonce-' . $post_id ) !== false ) {
-			$new_files = $deleted_atts = array();
-
-			// get already added attachments
-			$files = get_post_meta( $post_id, '_da_attachments', true );
-
-			if ( isset( $_POST['attachment_data'][0] ) && $_POST['attachment_data'][0] === 'empty' )
-				$_POST['attachment_data'] = array();
-
-			if ( ! empty( $_POST['attachment_data'] ) ) {
-				// get current user id
-				$current_user_id = get_current_user_id();
-
-				// create array of new files
-				foreach ( $_POST['attachment_data'] as $attachment ) {
-					$att_id = (int) $attachment[0];
-
-					// is it atttachment?
-					if ( get_post_type( $att_id ) !== 'attachment' )
-						continue;
-
-					// old file is new file
-					if ( isset( $files[$att_id] ) ) {
-						$new_files[$att_id] = $files[$att_id];
-						$new_files[$att_id]['file_exclude'] = (bool) (int) $attachment[1];
-					}
-					// new file
-					else {
-						$new_files[$att_id] = array(
-							'file_id'		 => $att_id,
-							'file_date'		 => current_time( 'mysql' ),
-							'file_exclude'	 => (bool) (int) $attachment[1],
-							'file_user_id'	 => $current_user_id
-						);
-
-						// check whether any files are already attached to this post
-						if ( ($files_meta = get_post_meta( $att_id, '_da_posts', true )) !== '' && is_array( $files_meta ) && ! empty( $files_meta ) ) {
-							$files_meta[] = $post_id;
-
-							update_post_meta( $att_id, '_da_posts', array_unique( $files_meta ) );
-						} else
-							update_post_meta( $att_id, '_da_posts', array( $post_id ) );
-
-						// first time?
-						if ( get_post_meta( $att_id, '_da_downloads', true ) === '' )
-							update_post_meta( $att_id, '_da_downloads', 0 );
-					}
-				}
-			}
-
-			// check whether old files were removed
-			if ( ! empty( $files ) ) {
-				$keys = array_keys( $new_files );
-
-				foreach ( $files as $att_id => $file ) {
-					// file no longer exists on the list
-					if ( ! in_array( $att_id, $keys, true ) ) {
-						if ( ($files_meta = get_post_meta( $att_id, '_da_posts', true )) !== '' && is_array( $files_meta ) && ! empty( $files_meta ) ) {
-							foreach ( $files_meta as $key => $post_file_id ) {
-								if ( $post_file_id === $post_id ) {
-									unset( $files_meta[$key] );
-									break;
-								}
-							}
-
-							// update post ids of the attached file
-							update_post_meta( $att_id, '_da_posts', $files_meta );
-						}
-					}
-				}
-			}
-
-			update_post_meta( $post_id, '_da_attachments', $new_files );
+		if ( isset( $_POST['danonce'], $_POST['post_id'], $_POST['attachment_data'], $_POST['action'] ) && ( $post_id = (int) $_POST['post_id'] ) > 0 && $_POST['action'] === 'da-save-files' && is_array( $_POST['attachment_data'] ) && current_user_can( 'manage_download_attachments' ) && wp_verify_nonce( $_POST['danonce'], 'da-save-files-nonce-' . $post_id ) !== false ) {
+			$this->save_files( $post_id, $_POST );
 
 			echo json_encode( array( 'status' => 'OK', 'info' => '' ) );
 		} else
 			echo json_encode( array( 'status' => 'ERROR', 'info' => __( 'Unexpected error occured. Please refresh the page and try again.', 'download-attachments' ) ) );
 
 		exit;
+	}
+
+	/**
+	 * Save attachments.
+	 *
+	 * @param integer $post_id Post ID
+	 * @param array $post $_POST data
+	 * @return void
+	 */
+	public function save_files( $post_id, $post ) {
+		$new_files = array();
+
+		// get already added attachments
+		$files = get_post_meta( $post_id, '_da_attachments', true );
+
+		if ( isset( $post['attachment_data'][0] ) && $post['attachment_data'][0] === 'empty' )
+			$post['attachment_data'] = array();
+
+		if ( ! empty( $post['attachment_data'] ) ) {
+			// get current user id
+			$current_user_id = get_current_user_id();
+
+			// create array of new files
+			foreach ( $post['attachment_data'] as $attachment ) {
+				$att_id = (int) $attachment[0];
+
+				// is it atttachment?
+				if ( get_post_type( $att_id ) !== 'attachment' )
+					continue;
+
+				// old file is new file
+				if ( isset( $files[$att_id] ) ) {
+					$new_files[$att_id] = $files[$att_id];
+					$new_files[$att_id]['file_exclude'] = (bool) (int) $attachment[1];
+				}
+				// new file
+				else {
+					$new_files[$att_id] = array(
+						'file_id'		 => $att_id,
+						'file_date'		 => current_time( 'mysql' ),
+						'file_exclude'	 => (bool) (int) $attachment[1],
+						'file_user_id'	 => $current_user_id
+					);
+
+					// check whether any files are already attached to this post
+					if ( ( $files_meta = get_post_meta( $att_id, '_da_posts', true ) ) !== '' && is_array( $files_meta ) && ! empty( $files_meta ) ) {
+						$files_meta[] = $post_id;
+
+						update_post_meta( $att_id, '_da_posts', array_unique( $files_meta ) );
+					} else
+						update_post_meta( $att_id, '_da_posts', array( $post_id ) );
+
+					// first time?
+					if ( get_post_meta( $att_id, '_da_downloads', true ) === '' )
+						update_post_meta( $att_id, '_da_downloads', 0 );
+				}
+			}
+		}
+
+		// check whether old files were removed
+		if ( ! empty( $files ) ) {
+			$keys = array_keys( $new_files );
+
+			foreach ( $files as $att_id => $file ) {
+				// file no longer exists on the list
+				if ( ! in_array( $att_id, $keys, true ) ) {
+					if ( ($files_meta = get_post_meta( $att_id, '_da_posts', true )) !== '' && is_array( $files_meta ) && ! empty( $files_meta ) ) {
+						foreach ( $files_meta as $key => $post_file_id ) {
+							if ( $post_file_id === $post_id ) {
+								unset( $files_meta[$key] );
+								break;
+							}
+						}
+
+						// update post ids of the attached file
+						update_post_meta( $att_id, '_da_posts', $files_meta );
+					}
+				}
+			}
+		}
+
+		update_post_meta( $post_id, '_da_attachments', $new_files );
 	}
 
 	/**
@@ -186,7 +229,7 @@ class Download_Attachments_Metabox {
 
 				if ( apply_filters( 'da_metabox_limit', true, $post_id ) ) {
 					add_meta_box(
-					'download_attachments_metabox', __( 'Attachments', 'download-attachments' ), array( &$this, 'display_metabox' ), $post_type, $context, $priority
+					'download_attachments_metabox', __( 'Attachments', 'download-attachments' ), array( $this, 'display_metabox' ), $post_type, $context, $priority
 					);
 				}
 			}
@@ -296,7 +339,7 @@ class Download_Attachments_Metabox {
 	public function prepare_files_data( $post_id = 0, $file_ids = array() ) {
 		$files = array();
 
-		if ( ($files_meta = get_post_meta( $post_id, '_da_attachments', true )) !== '' && is_array( $files_meta ) && ! empty( $files_meta ) ) {
+		if ( ( $files_meta = get_post_meta( $post_id, '_da_attachments', true ) ) !== '' && is_array( $files_meta ) && ! empty( $files_meta ) ) {
 			$empty_file_ids = empty( $file_ids );
 
 			foreach ( $files_meta as $file ) {
@@ -306,7 +349,7 @@ class Download_Attachments_Metabox {
 				$files[$file['file_id']] = array(
 					'file_id'		 => $file['file_id'],
 					'file_date'		 => $file['file_date'],
-					'file_exclude'	 => '<input class="exclude-attachment" id="att-exclude-' . $file['file_id'] . '" type="checkbox" name="" value="true" ' . checked( (isset( $file['file_exclude'] ) && $file['file_exclude'] === true ? true : false ), true, false ) . '/>',
+					'file_exclude'	 => '<input class="exclude-attachment" id="att-exclude-' . $file['file_id'] . '" type="checkbox" name="da_attachment_data[' . $file['file_id'] . '][exclude]" value="true" ' . checked( (isset( $file['file_exclude'] ) && $file['file_exclude'] === true ? true : false ), true, false ) . '/><input type="hidden" name="da_attachment_data[' . $file['file_id'] . '][id]" value="' . $file['file_id'] . '" />',
 					'file_user_id'	 => $file['file_user_id'],
 					'file_downloads' => (int) get_post_meta( $file['file_id'], '_da_downloads', true )
 				);
@@ -317,15 +360,15 @@ class Download_Attachments_Metabox {
 
 		if ( ! empty( $new_file_ids ) ) {
 			$files_data = get_posts(
-			array(
-				'include'		 => $new_file_ids,
-				'posts_per_page' => -1,
-				'offset'		 => 0,
-				'orderby'		 => 'post_date',
-				'order'			 => 'DESC',
-				'post_type'		 => 'attachment',
-				'post_status'	 => 'any'
-			)
+				array(
+					'include'		 => $new_file_ids,
+					'posts_per_page' => -1,
+					'offset'		 => 0,
+					'orderby'		 => 'post_date',
+					'order'			 => 'DESC',
+					'post_type'		 => 'attachment',
+					'post_status'	 => 'any'
+				)
 			);
 
 			if ( ! empty( $files_data ) ) {
@@ -359,7 +402,7 @@ class Download_Attachments_Metabox {
 						$full_name = get_avatar( $user_id, 16 ) . $display_name;
 
 						$files[$file->ID]['file_id'] = $file->ID;
-						$files[$file->ID]['file_exclude'] = '<input class="exclude-attachment" id="att-exclude-' . $file->ID . '" type="checkbox" name="" value="true"/>';
+						$files[$file->ID]['file_exclude'] = '<input class="exclude-attachment" id="att-exclude-' . $file->ID . '" type="checkbox" name="da_attachment_data[' . $file->ID . '][exclude]" value="true"/><input type="hidden" name="da_attachment_data[' . $file->ID . '][id]" value="' . $file->ID . '" />';
 						$files[$file->ID]['file_user_id'] = $user_id;
 						$files[$file->ID]['file_downloads'] = 0;
 						$files[$file->ID]['file_date'] = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $date, false );

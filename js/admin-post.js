@@ -215,11 +215,11 @@
 	// save the files list
 	$( document ).on( 'click', '.da-save-files', function () {
 	    if ( $( this ).find( 'input' ).is( ':disabled' ) ) {
-		return false;
+			return false;
 	    }
 
 	    var attachments = [ ],
-		postID = parseInt( $( '#da-files' ).attr( 'rel' ) );
+			postID = parseInt( $( '#da-files' ).attr( 'rel' ) );
 
 	    // display spinner
 	    $( 'p.da-save-files input' ).prop( 'disabled', true );
@@ -229,43 +229,43 @@
 
 	    // get attachments data
 	    $.each( $( '#da-files tr[id^="att"]' ), function ( i ) {
-		attachments[i] = [ parseInt( $( this ).attr( 'id' ).split( '-' )[1] ), ( $( this ).find( 'td.file-exclude input.exclude-attachment' ).is( ':checked' ) === true ? 1 : 0 ) ];
+			attachments[i] = [ parseInt( $( this ).attr( 'id' ).split( '-' )[1] ), ( $( this ).find( 'td.file-exclude input.exclude-attachment' ).is( ':checked' ) === true ? 1 : 0 ) ];
 	    } );
 
 	    $.post( ajaxurl, {
-		action: 'da-save-files',
-		attachment_data: ( attachments.length > 0 ? attachments : [ 'empty' ] ),
-		post_id: postID,
-		danonce: daArgs.saveNonce
+			action: 'da-save-files',
+			attachment_data: ( attachments.length > 0 ? attachments : [ 'empty' ] ),
+			post_id: postID,
+			danonce: daArgs.saveNonce
 	    } ).done( function ( data ) {
-		try {
-		    var json = $.parseJSON( data );
+			try {
+				var json = $.parseJSON( data );
 
-		    // everything went fine?
-		    if ( json.status === 'OK' ) {
-			$( '#da-infobox' ).html( '' ).fadeOut( 300 );
-		    } else if ( json.info !== '' ) {
-			$( '#da-infobox' ).html( json.info ).fadeIn( 300 );
-		    }
-		} catch ( e ) {
-		    // display error
-		    $( '#da-infobox' ).html( daArgs.internalUnknownError ).fadeIn( 300 );
-		}
+				// everything went fine?
+				if ( json.status === 'OK' ) {
+					$( '#da-infobox' ).html( '' ).fadeOut( 300 );
+				} else if ( json.info !== '' ) {
+					$( '#da-infobox' ).html( json.info ).fadeIn( 300 );
+				}
+			} catch ( e ) {
+				// display error
+				$( '#da-infobox' ).html( daArgs.internalUnknownError ).fadeIn( 300 );
+			}
 
-		// hide spinner
-		$( '#da-spinner' ).fadeOut( 300 );
+			// hide spinner
+			$( '#da-spinner' ).fadeOut( 300 );
 
-		// activate buttons
-		$( 'p.da-save-files input' ).prop( 'disabled', false );
+			// activate buttons
+			$( 'p.da-save-files input' ).prop( 'disabled', false );
 	    } ).fail( function () {
-		// display error
-		$( '#da-infobox' ).html( daArgs.internalUnknownError ).fadeIn( 300 );
+			// display error
+			$( '#da-infobox' ).html( daArgs.internalUnknownError ).fadeIn( 300 );
 
-		// hide spinner
-		$( '#da-spinner' ).fadeOut( 300 );
+			// hide spinner
+			$( '#da-spinner' ).fadeOut( 300 );
 
-		// activate buttons
-		$( 'p.da-save-files input' ).prop( 'disabled', false );
+			// activate buttons
+			$( 'p.da-save-files input' ).prop( 'disabled', false );
 	    } );
 
 	    return false;

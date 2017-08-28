@@ -15,15 +15,15 @@ class Download_Attachments_Shortcodes {
 	 */
 	public function __construct() {
 		// actions
-		add_action( 'init', array( &$this, 'register_download_shortcodes' ) );
+		add_action( 'init', array( $this, 'register_download_shortcodes' ) );
 	}
 
 	/**
 	 * Register download attachments shortcodes.
 	 */
 	public function register_download_shortcodes() {
-		add_shortcode( 'download-attachments', array( &$this, 'download_attachments_shortcode' ) );
-		add_shortcode( 'download-attachment', array( &$this, 'download_attachment_shortcode' ) );
+		add_shortcode( 'download-attachments', array( $this, 'download_attachments_shortcode' ) );
+		add_shortcode( 'download-attachment', array( $this, 'download_attachment_shortcode' ) );
 	}
 
 	/**
@@ -54,8 +54,8 @@ class Download_Attachments_Shortcodes {
 			'use_desc_for_title'	 => 0,
 			'exclude'				 => '',
 			'include'				 => '',
-			'title'					 => __( 'Download Attachments', 'download-attachments' ),
-			'title_container'		 => 'p',
+			'title'					 => __( 'Attachments', 'download-attachments' ),
+			'title_container'		 => 'h3',
 			'title_class'			 => 'download-title',
 			'orderby'				 => 'menu_order',
 			'order'					 => 'asc',

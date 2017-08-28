@@ -2,7 +2,7 @@
 /*
 Plugin Name: Download Attachments
 Description: Download Attachments is a new approach to managing downloads in WordPress. It allows you to easily add and display download links in any post or page.
-Version: 1.2.17
+Version: 1.2.20
 Author: dFactory
 Author URI: http://www.dfactory.eu/
 Plugin URI: http://www.dfactory.eu/plugins/download-attachments/
@@ -12,7 +12,7 @@ Text Domain: download-attachments
 Domain Path: /languages
 
 Download Attachments
-Copyright (C) 2013-2016, Digital Factory - info@digitalfactory.pl
+Copyright (C) 2013-2017, Digital Factory - info@digitalfactory.pl
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -31,12 +31,14 @@ if ( ! class_exists( 'Download_Attachments' ) ) :
 	 * Download_Attachments final class.
 	 *
 	 * @class Download_Attachments
-	 * @version 1.2.17
+	 * @version 1.2.20
 	 */
 	class Download_Attachments {
 
 		private static $instance;
 		public $capability = 'manage_download_attachments';
+		public $columns = array();
+		public $display_styles = array();
 		public $options = array();
 		public $defaults = array(
 			'general'	 => array(
@@ -82,11 +84,12 @@ if ( ! class_exists( 'Download_Attachments' ) ) :
 					'caption'		 => true,
 					'description'	 => false
 				),
+				'restrict_edit_downloads'	 => false,
 				'attachment_link'			 => 'modal',
 				'library'					 => 'all',
 				'downloads_in_media_library' => true
 			),
-			'version'	 => '1.2.17'
+			'version'	 => '1.2.20'
 		);
 
 		/**
@@ -159,14 +162,14 @@ if ( ! class_exists( 'Download_Attachments' ) ) :
 			register_deactivation_hook( __FILE__, array( $this, 'multisite_deactivation' ) );
 
 			// settings
-			$this->options = get_option( 'download_attachments_general', $this->defaults['general'] );
+			$this->options = array_merge( $this->defaults['general'], get_option( 'download_attachments_general', $this->defaults['general'] ) );
 
 			// actions
 			add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 			add_action( 'after_setup_theme', array( $this, 'load_defaults' ) );
 			add_action( 'admin_head', array( $this, 'button_init' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts_styles' ) );
-			add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts_styles' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
 			add_action( 'send_headers', array( $this, 'download_redirect' ) );
 
 			// filters
@@ -295,6 +298,12 @@ if ( ! class_exists( 'Download_Attachments' ) ) :
 				'date'		 => __( 'Date added', 'download-attachments' ),
 				'downloads'	 => __( 'Downloads', 'download-attachments' )
 			);
+			$this->display_styles = array(
+				'list'		=> __( 'List', 'download-attachments' ),
+				'table'		=> __( 'Table', 'download-attachments' ),
+				'dynatable'	=> __( 'Dynamic Table', 'download-attachments' ),
+				// 'posts'		=> __( 'Posts', 'download-attachments' )
+			);
 		}
 
 		/**
@@ -314,7 +323,7 @@ if ( ! class_exists( 'Download_Attachments' ) ) :
 				global $wp;
 				
 				// encrypt enabled
-				if ( $this->options['encrypt_urls'] ) {
+				if ( isset( $this->options['encrypt_urls'] ) && $this->options['encrypt_urls'] ) {
 					$pattern = '/^' . $this->options['download_link'] . '\/(\X+)$/';
 					
 					if ( preg_match( $pattern, $wp->request, $vars ) === 1 ) {
@@ -416,7 +425,7 @@ if ( ! class_exists( 'Download_Attachments' ) ) :
 		 * @global object $post
 		 * @param string $page
 		 */
-		public function admin_scripts_styles( $page ) {
+		public function admin_enqueue_scripts( $page ) {
 			wp_register_style(
 			'download-attachments-admin', DOWNLOAD_ATTACHMENTS_URL . '/css/admin.css'
 			);
@@ -480,13 +489,16 @@ if ( ! class_exists( 'Download_Attachments' ) ) :
 				wp_enqueue_style( 'download-attachments-admin' );
 				wp_enqueue_script( 'download-attachments-admin-post' );
 				wp_enqueue_script( 'download-attachments-admin-stupid-table-sort' );
+
+				if ( $post->post_type === 'attachment' )
+					wp_enqueue_script( 'download-attachments-admin-attachment', DOWNLOAD_ATTACHMENTS_URL . '/js/admin-attachment.js', array( 'jquery' ), $this->defaults['version'] );
 			}
 		}
 
 		/**
 		 * Add scripts and styles to frontend.
 		 */
-		public function frontend_scripts_styles() {
+		public function wp_enqueue_scripts() {
 			if ( $this->options['use_css_style'] === true ) {
 				wp_register_style(
 				'download-attachments-frontend', DOWNLOAD_ATTACHMENTS_URL . '/css/frontend.css'
