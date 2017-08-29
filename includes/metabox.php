@@ -58,6 +58,9 @@ class Download_Attachments_Metabox {
 
 		if ( ! ( array_key_exists( $post->post_type, $post_types ) && $post_types[$post->post_type] ) || ! current_user_can( 'manage_download_attachments' ) )
 			return;
+		
+		if ( wp_verify_nonce( $_POST['_inline_edit'], 'inlineeditnonce' ) ) 
+			return;
 
 		if ( array_key_exists( 'da_attachment_data', $_POST ) && is_array( $_POST['da_attachment_data'] ) ) {
 			$attachments = array();
