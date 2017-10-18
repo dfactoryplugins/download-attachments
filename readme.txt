@@ -3,8 +3,8 @@ Contributors: dfactory
 Donate link: http://www.dfactory.eu/
 Tags: attachment, attachments, file, files, download, downloads, upload, doc, document, documents, monitor, manager
 Requires at least: 4.0
-Tested up to: 4.7.4
-Stable tag: 1.2.20
+Tested up to: 4.8.2
+Stable tag: 1.2.22
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 
@@ -63,6 +63,14 @@ A. Chances are, someone else has asked it. Check out the support forum at: http:
 3. screenshot-3.png
 
 == Changelog ==
+
+= 1.2.22 =
+* Fix: Attachment disappearing on autosave
+
+= 1.2.21 =
+* Fix: Attachment disappearing form the backend and frontend
+* Fix: Attachment title not visible in admin interface
+* Fix: Exclude / include shortcode paramaters not working
 
 = 1.2.20 =
 * Fix: Fatal error on da_get_download_attachment function call
@@ -192,6 +200,5 @@ Initial release
 
 == Upgrade Notice ==
 
-= 1.2.20 =
-* Fix: Fatal error on da_get_download_attachment function call
-* Tweak: Style none for attachments list display
+= 1.2.22 =
+* Fix: Attachment disappearing on autosave

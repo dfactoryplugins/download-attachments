@@ -41,7 +41,7 @@ class Download_Attachments_Shortcodes {
 			'style'					 => isset( Download_Attachments()->options['display_style'] ) ? esc_attr( Download_Attachments()->options['display_style'] ) : 'list',
 			'link_before'			 => '',
 			'link_after'			 => '',
-			'display_index'			 => isset( $options['frontend_columns']['index'] ) ? (int) $options['frontend_columns']['index'] : 0,
+			'display_index'			 => isset( Download_Attachments()->options['frontend_columns']['index'] ) ? (int) Download_Attachments()->options['frontend_columns']['index'] : 0,
 			'display_user'			 => (int) Download_Attachments()->options['frontend_columns']['author'],
 			'display_icon'			 => (int) Download_Attachments()->options['frontend_columns']['icon'],
 			'display_count'			 => (int) Download_Attachments()->options['frontend_columns']['downloads'],

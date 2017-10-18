@@ -59,7 +59,13 @@ class Download_Attachments_Metabox {
 		if ( ! ( array_key_exists( $post->post_type, $post_types ) && $post_types[$post->post_type] ) || ! current_user_can( 'manage_download_attachments' ) )
 			return;
 		
-		if ( wp_verify_nonce( $_POST['_inline_edit'], 'inlineeditnonce' ) ) 
+		if ( isset( $_POST['_inline_edit'] ) && wp_verify_nonce( $_POST['_inline_edit'], 'inlineeditnonce' ) ) 
+			return;
+		
+		if ( wp_is_post_autosave( $post_id ) )
+			return;
+		
+		if ( wp_is_post_revision( $post_id ) )
 			return;
 
 		if ( array_key_exists( 'da_attachment_data', $_POST ) && is_array( $_POST['da_attachment_data'] ) ) {

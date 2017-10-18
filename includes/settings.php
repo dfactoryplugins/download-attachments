@@ -537,32 +537,30 @@ class Download_Attachments_Settings {
 
 		// save general
 		if ( isset( $_POST['save_da_general'] ) ) {
-			
 			$new_input = $old_input;
-			
+
 			global $wp_roles;
-			
+
 			// label
 			$new_input['label'] = sanitize_text_field( $input['label'] );
-			
+
 			// capabilities
 			$user_roles = array();
-			
+
 			foreach ( $wp_roles->roles as $role_name => $role_text ) {
 				$role = $wp_roles->get_role( $role_name );
 
 				if ( ! $role->has_cap( 'manage_options' ) ) {
-					if ( in_array( $role_name, array_map( 'esc_attr', $input['user_roles'] ) ) ) {
+					if ( ! empty( $input['user_roles'] ) && in_array( $role_name, array_map( 'esc_attr', $input['user_roles'] ) ) ) {
 						$role->add_cap( Download_Attachments()->capability );
 						$user_roles[] = $role_name;
-					} else {
+					} else
 						$role->remove_cap( Download_Attachments()->capability );
-					}
 				}
 			}
 
 			$new_input['user_roles'] = $user_roles;
-			
+
 			// post types
 			$post_types = array();
 			$new_input['post_types'] = (isset( $input['post_types'] ) ? $input['post_types'] : array());
@@ -572,13 +570,13 @@ class Download_Attachments_Settings {
 			}
 
 			$new_input['post_types'] = $post_types;
-			
+
 			// download method
 			$new_input['download_method'] = isset( $input['download_method'], $this->download_methods[$input['download_method']] ) ? $input['download_method'] : Download_Attachments()->defaults['general']['download_method'];
-			
+
 			// pretty urls
 			$new_input['pretty_urls'] = isset( $input['pretty_urls'], $this->choices[$input['pretty_urls']] ) ? ( $input['pretty_urls'] === 'yes' ? true : false ) : Download_Attachments()->defaults['general']['pretty_urls'];
-			
+
 			// download link
 			if ( $input['pretty_urls'] ) {
 				$new_input['download_link'] = sanitize_title( $input['download_link'] );
@@ -587,18 +585,16 @@ class Download_Attachments_Settings {
 					$new_input['download_link'] = Download_Attachments()->defaults['general']['download_link'];
 			} else
 				$new_input['download_link'] = Download_Attachments()->defaults['general']['download_link'];
-			
+
 			// encrypt urls
 			$new_input['encrypt_urls'] = isset( $input['encrypt_urls'], $this->choices[$input['encrypt_urls']] ) ? ( $input['encrypt_urls'] === 'yes' ? true : false ) : Download_Attachments()->defaults['general']['encrypt_urls'];
-			
+
 			// deactivation delete
 			$new_input['deactivation_delete'] = (isset( $input['deactivation_delete'] ) && in_array( $input['deactivation_delete'], array_keys( $this->choices ), true ) ? ($input['deactivation_delete'] === 'yes' ? true : false) : Download_Attachments()->defaults['general']['deactivation_delete']);
 
 			$input = $new_input;
-		
 		// save display
 		} elseif ( isset( $_POST['save_da_display'] ) ) {
-			
 			$new_input = $old_input;
 
 			// frontend columns
@@ -615,7 +611,7 @@ class Download_Attachments_Settings {
 			}
 
 			$new_input['frontend_columns'] = $columns;
-			
+
 			// frontend content
 			$contents = array();
 			$input['frontend_content'] = (isset( $input['frontend_content'] ) ? $input['frontend_content'] : array());
@@ -636,7 +632,6 @@ class Download_Attachments_Settings {
 			$new_input['download_box_display'] = (isset( $input['download_box_display'] ) && in_array( $input['download_box_display'], array_keys( $this->download_box_displays ), true ) ? $input['download_box_display'] : Download_Attachments()->defaults['general']['download_box_display']);
 			
 			$input = $new_input;
-			
 		// save admin
 		} elseif ( isset( $_POST['save_da_admin'] ) ) {
 			$new_input = $old_input;

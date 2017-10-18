@@ -13,8 +13,7 @@ if ( ! defined( 'ABSPATH' ) )
 function da_get_download_attachments( $post_id = 0, $args = array() ) {
 	$post_id = $post_id !== null ? ( (int) ( empty( $post_id ) ? get_the_ID() : $post_id ) ) : $post_id;
 
-	$attachments = array();
-	$attachments_meta = array();
+	$attachments = $attachments_meta = array();
 
 	$defaults = array(
 		'include'		 => array(),
@@ -76,6 +75,8 @@ function da_get_download_attachments( $post_id = 0, $args = array() ) {
 
 	// single post attachments
 	if ( $post_id !== null ) {
+		$include = $exclude = array();
+
 		// force showposts arg
 		$args['showposts'] = $args['posts_per_page'];		
 		
@@ -85,19 +86,49 @@ function da_get_download_attachments( $post_id = 0, $args = array() ) {
 
 		if ( is_array( $attachment_meta ) && ! empty( $attachment_meta ) ) {
 			foreach ( $attachment_meta as $attachment_id => $attachment_data ) {
-				if ( isset( $attachment_data['file_exclude'] ) && $attachment_data['file_exclude'] === true ) {
-					$args['exclude'][] = $attachment_data['file_id'];
+				// any attachments to include?
+				if ( ! empty( $args['include'] ) ) {
+					// included attachment?
+					if ( in_array( $attachment_id, $args['include'], true ) ) {
+						$include[] = $attachment_data['file_id'];
+
+						// assign attachment meta
+						$attachments_meta[$attachment_data['file_id']]['menu_order'] = $menu_order;
+						$attachments_meta[$attachment_data['file_id']]['exclude'] = false;
+
+						$menu_order++;
+					}
+				// any attachments to exclude?
+				} elseif ( ! empty( $args['exclude'] ) ) {
+					// included attachment?
+					if ( ! in_array( $attachment_id, $args['exclude'], true ) ) {
+						$include[] = $attachment_data['file_id'];
+
+						// assign attachment meta
+						$attachments_meta[$attachment_data['file_id']]['menu_order'] = $menu_order;
+						$attachments_meta[$attachment_data['file_id']]['exclude'] = false;
+
+						$menu_order++;
+					}
 				} else {
-					$args['include'][] = $attachment_data['file_id'];
-					
-					// assign attachment meta
-					$attachments_meta[$attachment_data['file_id']]['menu_order'] = $menu_order;
-					$attachments_meta[$attachment_data['file_id']]['exclude'] = ( isset( $attachment_data['file_exclude'] ) && $attachment_data['file_exclude'] === true ? true : false );
-					
-					$menu_order++;
+					if ( isset( $attachment_data['file_exclude'] ) && $attachment_data['file_exclude'] === true )
+						$exclude[] = $attachment_data['file_id'];
+					else {
+						$include[] = $attachment_data['file_id'];
+						
+						// assign attachment meta
+						$attachments_meta[$attachment_data['file_id']]['menu_order'] = $menu_order;
+						$attachments_meta[$attachment_data['file_id']]['exclude'] = false;
+
+						$menu_order++;
+					}
 				}
 			}
 		}
+
+		// assign included and excluded attachments
+		$args['include'] = $include;
+		$args['exclude'] = $exclude;
 	}
 
 	// handle orderby

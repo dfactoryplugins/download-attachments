@@ -143,57 +143,57 @@
 	// edit file
 	$( document ).on( 'click', '.da-edit-file', function () {
 	    if ( daArgs.attachmentLink === 'modal' ) {
-		var fileID = parseInt( $( this ).closest( 'tr[id^="att"]' ).attr( 'id' ).split( '-' )[1] ),
-		    attachmentChanged = false;
+			var fileID = parseInt( $( this ).closest( 'tr[id^="att"]' ).attr( 'id' ).split( '-' )[1] ),
+				attachmentChanged = false;
 
-		if ( daEditFrame !== null ) {
-		    daEditFrame.detach();
-		    daEditFrame.dispose();
-		    daEditFrame = null;
-		}
+			if ( daEditFrame !== null ) {
+				daEditFrame.detach();
+				daEditFrame.dispose();
+				daEditFrame = null;
+			}
 
-		daEditFrame = wp.media( {
-		    frame: 'select',
-		    title: daArgs.editTitle,
-		    multiple: false,
-		    button: {
-			text: daArgs.buttonEditFile
-		    },
-		    library: {
-			post__in: fileID
-		    }
-		} );
-
-		daEditFrame.on( 'open', function () {
-		    var attachment = wp.media.attachment( fileID );
-
-		    daEditFrame.$el.closest( '.media-modal' ).addClass( 'da-edit-modal' );
-		    attachment.fetch();
-		    daEditFrame.state().get( 'selection' ).add( attachment );
-
-		    daEditFrame.$el.on( 'change', '.setting input, .setting textarea', function ( e ) {
-			attachmentChanged = true;
-		    } );
-		} );
-
-		daEditFrame.on( 'close', function () {
-		    daEditFrame.$el.closest( '.media-modal' ).removeClass( 'da-edit-modal' );
-
-		    if ( attachmentChanged === true ) {
-			var title = daEditFrame.$el.find( '.setting[data-setting="title"] input' ).val(),
-			    caption = daEditFrame.$el.find( '.setting[data-setting="caption"] textarea' ).val(),
-			    description = daEditFrame.$el.find( '.setting[data-setting="description"] textarea' ).val();
-
-			$( 'tr#att-' + fileID + ' td.file-title p' ).fadeOut( 100, function () {
-			    $( this ).find( 'a' ).html( title );
-			    $( this ).find( 'span[class="description"]' ).html( description );
-			    $( this ).find( 'span[class="caption"]' ).html( caption );
-			    $( this ).fadeIn( 300 );
+			daEditFrame = wp.media( {
+				frame: 'select',
+				title: daArgs.editTitle,
+				multiple: false,
+				button: {
+					text: daArgs.buttonEditFile
+				},
+				library: {
+					post__in: fileID
+				}
 			} );
-		    }
-		} );
 
-		daEditFrame.open();
+			daEditFrame.on( 'open', function () {
+				var attachment = wp.media.attachment( fileID );
+
+				daEditFrame.$el.closest( '.media-modal' ).addClass( 'da-edit-modal' );
+				attachment.fetch();
+				daEditFrame.state().get( 'selection' ).add( attachment );
+
+				daEditFrame.$el.on( 'change', '.setting input, .setting textarea', function () {
+					attachmentChanged = true;
+				} );
+			} );
+
+			daEditFrame.on( 'close', function () {
+				daEditFrame.$el.closest( '.media-modal' ).removeClass( 'da-edit-modal' );
+
+				if ( attachmentChanged === true ) {
+				var title = daEditFrame.$el.find( '.setting[data-setting="title"] input' ).val(),
+					caption = daEditFrame.$el.find( '.setting[data-setting="caption"] textarea' ).val(),
+					description = daEditFrame.$el.find( '.setting[data-setting="description"] textarea' ).val();
+
+				$( 'tr#att-' + fileID + ' td.file-title p' ).fadeOut( 100, function () {
+					$( this ).find( 'a' ).html( title );
+					$( this ).find( 'span[class="description"]' ).html( description );
+					$( this ).find( 'span[class="caption"]' ).html( caption );
+					$( this ).fadeIn( 300 );
+				} );
+				}
+			} );
+
+			daEditFrame.open();
 	    }
 	} );
 
