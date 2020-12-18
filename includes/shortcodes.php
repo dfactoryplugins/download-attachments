@@ -59,11 +59,8 @@ class Download_Attachments_Shortcodes {
 			'title_class'			 => 'download-title',
 			'orderby'				 => 'menu_order',
 			'order'					 => 'asc',
-			'echo'					 => 1
+			'echo'					 => 0
 		);
-
-		// we have to force return in shortcodes
-		$args['echo'] = 0;
 
 		if ( ! isset( $args['title'] ) ) {
 			$args['title'] = '';
@@ -74,8 +71,11 @@ class Download_Attachments_Shortcodes {
 
 		$args = shortcode_atts( $defaults, $args );
 
+		// we have to force return in shortcodes
+		$args['echo'] = 0;
+
 		// reassign post id
-		$post_id = (int) (empty( $args['post_id'] ) ? get_the_ID() : $args['post_id']);
+		$post_id = (int) ( empty( $args['post_id'] ) ? get_the_ID() : $args['post_id'] );
 
 		// unset from args
 		unset( $args['post_id'] );
@@ -101,17 +101,17 @@ class Download_Attachments_Shortcodes {
 
 		$atts = array();
 
-		if ( ! empty( $args['title'] ) ) {
+		if ( ! empty( $args['title'] ) )
 			$atts['title'] = $args['title'];
-		}
 
-		if ( ! empty( $args['class'] ) ) {
+		if ( ! empty( $args['class'] ) )
 			$atts['class'] = $args['class'];
-		}
+
+		if ( Download_Attachments()->options['download_method'] === 'redirect' )
+			$atts['target'] = Download_Attachments()->options['link_target'];
 
 		return da_download_attachment_link( (int) $args['id'], false, $atts );
 	}
-
 }
 
 new Download_Attachments_Shortcodes();

@@ -1,10 +1,17 @@
-( function ( $ ) {
+( function( $ ) {
 
-    $( document ).ready( function () {
+    // ready event
+	$( function() {
+		var container = $( '#attachment-downloads-input-container' );
+		var counter = $( '#attachment-downloads-display strong' );
+		var editLink = $( '#attachment-downloads .edit-attachment-downloads' );
+		var counterInput = $( '#attachment-downloads-input' );
+
 		// attachment downloads input
-		$( '#attachment-downloads .edit-attachment-downloads' ).click( function () {
-			if ( $( '#attachment-downloads-input-container' ).is( ":hidden" ) ) {
-				$( '#attachment-downloads-input-container' ).slideDown( 'fast' );
+		editLink.on( 'click', function() {
+			if ( container.is( ":hidden" ) ) {
+				container.slideDown( 'fast' );
+
 				$( this ).hide();
 			}
 
@@ -12,31 +19,47 @@
 		} );
 
 		// save attachment downloads
-		$( '#attachment-downloads .save-attachment-downloads' ).click( function () {
-			$( '#attachment-downloads-display strong' ).text();
-			$( '#attachment-downloads-input-container' ).slideUp( 'fast' );
-			$( '#attachment-downloads .edit-attachment-downloads' ).show();
+		$( '#attachment-downloads .save-attachment-downloads' ).on( 'click', function() {
+			// clear downloads
+			counter.text();
 
-			var downloads = parseInt( $( '#attachment-downloads-input' ).val() );
+			// hide container
+			container.slideUp( 'fast' );
+
+			// show edit link
+			editLink.show();
+
+			// get number of downloads
+			var downloads = parseInt( counterInput.val() );
 
 			// reassign value as integer
-			$( '#attachment-downloads-input' ).val( downloads );
-			$( '#attachment-downloads-display strong' ).text( downloads );
+			counterInput.val( downloads );
+
+			// update number of downloads
+			counter.text( downloads );
 
 			return false;
 		} );
 
 		// cancel attachment downloads
-		$( '#attachment-downloads .cancel-attachment-downloads' ).click( function () {
-			$( '#attachment-downloads-display strong' ).text();
-			$( '#attachment-downloads-input-container' ).slideUp( 'fast' );
-			$( '#attachment-downloads .edit-attachment-downloads' ).show();
+		$( '#attachment-downloads .cancel-attachment-downloads' ).on( 'click', function() {
+			// clear downloads
+			counter.text();
 
-			// restore old value
+			// hide container
+			container.slideUp( 'fast' );
+
+			// show edit link
+			editLink.show();
+
+			// get number of downloads
 			var downloads = parseInt( $( '#attachment-downloads-current' ).val() );
 
-			$( '#attachment-downloads-display strong' ).text( downloads );
-			$( '#attachment-downloads-input' ).val( downloads );
+			// update number of downloads
+			counter.text( downloads );
+
+			// restore old value
+			counterInput.val( downloads );
 
 			return false;
 		} );

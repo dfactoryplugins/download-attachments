@@ -64,8 +64,8 @@ extract( $args );
 			<?php if ( $link_before !== '' ) : ?>
 				<span class="attachment-link-before"><?php echo $link_before; ?></span>
 			<?php endif; ?>
-
-			<a href="<?php echo da_get_download_attachment_url( $attachment['ID'] ); ?>" class="attachment-link" title="<?php echo esc_html( $attachment_title ); ?>"><?php echo $attachment_title; ?></a>
+				
+			<?php da_download_attachment_link( $attachment['ID'], true, array( 'title' => $attachment_title, 'class' => 'attachment-link' ) ); ?>
 
 			<?php if ( $link_after !== '' ) : ?>
 				<span class="attachment-link-after"><?php echo $link_after; ?></span>

@@ -3,8 +3,9 @@ Contributors: dfactory
 Donate link: http://www.dfactory.eu/
 Tags: attachment, attachments, file, files, download, downloads, upload, doc, document, documents, monitor, manager
 Requires at least: 4.0
-Tested up to: 4.8.2
-Stable tag: 1.2.22
+Requires PHP: 5.2.4
+Tested up to: 5.4.1
+Stable tag: 1.2.24
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 
@@ -63,6 +64,16 @@ A. Chances are, someone else has asked it. Check out the support forum at: http:
 3. screenshot-3.png
 
 == Changelog ==
+
+= 1.2.24 =
+* New: Link target option for "Redirect to file" method
+* Fix: Invalid attachments link attributes 
+* Fix: Shortcode positioning broken
+* Tweak: Improved protected posts support
+* Tweak: Elementor compatibility improvement
+
+= 1.2.23 =
+* Fix: Hide widget if no attachments found
 
 = 1.2.22 =
 * Fix: Attachment disappearing on autosave
@@ -200,5 +211,9 @@ Initial release
 
 == Upgrade Notice ==
 
-= 1.2.22 =
-* Fix: Attachment disappearing on autosave
+= 1.2.24 =
+* New: Link target option for "Redirect to file" method
+* Fix: Invalid attachments link attributes 
+* Fix: Shortcode positioning broken
+* Tweak: Improved protected posts support
+* Tweak: Elementor compatibility improvement

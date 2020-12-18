@@ -99,10 +99,10 @@ class Download_Attachments_List_Widget extends WP_Widget {
 		// display all posts on 0
 		$instance['number_of_posts'] = $instance['number_of_posts'] == 0 ? -1 : $instance['number_of_posts'];
 
-		$attachments_html = da_display_download_attachments( ( ! empty( $instance['attached_to'] ) ? 0 : null ), $instance );
+		$attachments_html = trim( da_display_download_attachments( ( ! empty( $instance['attached_to'] ) ? 0 : null ), $instance ) );
 
 		// hide widgets if no attachments for the current post
-		if ( $attachments_html ) {
+		if ( ! empty( $attachments_html ) ) {
 			$html = $args['before_widget'] . ( ! empty( $instance['title'] ) ? $args['before_title'] . $instance['title'] . $args['after_title'] : '');
 			$html .= $attachments_html;
 			$html .= $args['after_widget'];

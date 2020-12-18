@@ -8,6 +8,11 @@ impressive. Overall, stupidly simple. Requires jQuery 1.7 or newer.
 
 See the examples directory.
 
+Installation via [npm][2]
+-------------------------
+
+    $ npm i stupid-table-plugin
+
 Installation via Bower
 ----------------------
 
@@ -112,6 +117,52 @@ or "desc" first.
       </thead>
     </table>
 
+Sorting a column on load
+------------------------
+
+If you want a specific column to be sorted immediately after
+`$table.stupidtable()` is called, you can provide a `data-sort-onload=yes`
+attribute.
+
+    <table>
+      <thead>
+        <tr>
+            <th data-sort="float" data-sort-onload=yes>float</th>
+            ...
+        </tr>
+      </thead>
+    </table>
+
+Multicolumn sorting
+-------------------
+
+A multicolumn sort allows you to define secondary columns to sort by in the
+event of a tie with two elements in the sorted column. See [examples/multicolumn-sort.html](https://rawgit.com/joequery/Stupid-Table-Plugin/master/examples/multicolumn-sort.html).
+Specify a comma-separated list of th identifiers in a `data-sort-multicolumn`
+attribute on a `<th>` element. An identifier can be an integer (which represents
+the index of the th element of the multicolumn target) or a string (which
+represents the id of the th element of the multicolumn target).
+
+  <table>
+    <thead>
+      <tr>
+        <th id="int-column" data-sort="int" data-sort-multicolumn="1,string-column">int</th>
+        <th id="float-column" data-sort="float" data-sort-multicolumn="string-column,int-column">float</th>
+        <th id="string-column" data-sort="string" data-sort-multicolumn="1,0">string</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>10.0</td>
+        <td>a</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>10.0</td>
+        <td>a</td>
+      </tr>
+
 Sorting a column programatically
 --------------------------------
 
@@ -156,6 +207,7 @@ bind on `aftertablesort`.
     table.bind('aftertablesort', function (event, data) {
         // data.column - the index of the column sorted after a click
         // data.direction - the sorting direction (either asc or desc)
+        // data.$th - the th element (in jQuery wrapper)
         // $(this) - this table object
 
         console.log("The sorting direction: " + data.direction);
@@ -220,6 +272,84 @@ we do the following:
 This extracts the integers from the cell and compares them in the style
 that sort functions use.
 
+StupidTable Settings
+--------------------
+
+As of 1.1.0 settings have been introduced. Settings are defined like so:
+
+    var $table = $("#mytable");
+    $table.stupidtable_settings({
+        // Settings for this table specified here
+    });
+    $table.stupidtable();
+
+Listed below are the available settings.
+
+### will_manually_build_table
+
+(Introduced in verison 1.1.1)
+
+Options:
+
+* `true`
+* `false` (default)
+
+By default, every time a column is sorted, stupidtable reads the DOM to extract
+all the values from the table. For tables that will not change or for very large
+tables, this behavior may be suboptimal.  To modify this behavior, set the
+`will_manually_build_table` setting to `true`. However, you will be responsible
+for informing stupidtable that the table has been modified by calling
+`$table.stupidtable_build()`.
+
+    var $table = $("#mytable");
+    $table.stupidtable_settings({
+        will_manually_build_table: true
+    });
+    $table.stupidtable();
+
+    // Make some modification to the table, such as deleting a row
+    ...
+    ...
+
+    // Since will_manually_build_table is true, we must build the table in order
+    // for future sorts to properly handle our modifications.
+    $table.stupidtable_build();
+
+### should_redraw
+
+(Introduced in verison 1.1.0)
+
+The `should_redraw` setting allows you to specify a function that determines
+whether or not the table should be redrawn after it has been internally sorted.
+
+The `should_redraw` function takes a `sort_info` object as an argument. The
+object keys available are:
+
+*  `column` - An array representing the sorted column. Each element of the array is of the form `[sort_val, $tr, index]`
+*  `sort_dir` - `"asc"` or `"desc"`
+*  `$th` - The jquery object of the `<th>` element that was clicked
+*  `th_index` - The index of the `<th>` element that was cliked
+*  `$table` - The jquery object of the `<table>` that contains the `<th>` that was clicked
+*  `datatype` - The datatype of the column
+*  `compare_fn` - The sort/compare function associated with the `<th>` clicked.
+
+**Example**: If you want to prevent stupidtable from redrawing the table if the
+column sorted has all identical values, you would do the following:
+
+    var $table = $("#mytable");
+    $table.stupidtable_settings({
+        should_redraw: function(sort_info){
+          var sorted_column = sort_info.column;
+          var first_val = sorted_column[0];
+          var last_val = sorted_column[sorted_column.length - 1][0];
+
+          // If first and last element of the sorted column are the same, we
+          // can assume all elements are the same.
+          return sort_info.compare_fn(first_val, last_val) !== 0;
+        }
+    });
+    $table.stupidtable();
+
 License
 -------
 
@@ -234,3 +364,5 @@ Visit `tests/test.html` in your browser to run the QUnit tests.
 
 [0]: http://joequery.github.io/Stupid-Table-Plugin/
 [1]: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/sort
+[2]: https://www.npmjs.com/package/stupid-table-plugin
+

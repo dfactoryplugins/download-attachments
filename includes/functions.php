@@ -47,12 +47,12 @@ function da_get_download_attachments( $post_id = 0, $args = array() ) {
 		}
 
 		$args['include'] = $ids;
-	} elseif ( is_numeric( $args['include'] ) ) {
+	} elseif ( is_numeric( $args['include'] ) )
 		$args['include'] = array( (int) $args['include'] );
 	// shortcode
-	} elseif ( is_string( $args['include'] ) && ! empty( $args['include'] ) ) {
+	elseif ( is_string( $args['include'] ) && ! empty( $args['include'] ) )
 		$args['include'] = json_decode( '[' . $args['include'] . ']', true );
-	} else {
+	else {
 		$args['include'] = $defaults['include'];
 
 		// exclude
@@ -64,13 +64,12 @@ function da_get_download_attachments( $post_id = 0, $args = array() ) {
 			}
 
 			$args['exclude'] = $ids;
-		} elseif ( is_numeric( $args['exclude'] ) ) {
+		} elseif ( is_numeric( $args['exclude'] ) )
 			$args['exclude'] = array( (int) $args['exclude'] );
-		} elseif ( is_string( $args['exclude'] ) && ! empty( $args['exclude'] ) ) {
+		elseif ( is_string( $args['exclude'] ) && ! empty( $args['exclude'] ) )
 			$args['exclude'] = json_decode( '[' . $args['exclude'] . ']', true );
-		} else {
+		else
 			$args['exclude'] = $defaults['exclude'];
-		}
 	}
 
 	// single post attachments
@@ -219,124 +218,134 @@ function da_get_download_attachments( $post_id = 0, $args = array() ) {
  * @return mixed
  */
 function da_display_download_attachments( $post_id = 0, $args = array() ) {
+	// get post ID
 	$post_id = $post_id !== null ? ( (int) ( empty( $post_id ) ? get_the_ID() : $post_id ) ) : $post_id;
 
-	$options = Download_Attachments()->options;
+	// password protected post?
+	if ( ! post_password_required( $post_id ) ) {
+		// get options and defaults
+		$options = Download_Attachments()->options;
+		$_defaults = Download_Attachments()->defaults;
 
-	$defaults = array(
-		'container'				 => 'div',
-		'container_class'		 => 'download-attachments',
-		'container_id'			 => '',
-		'style'					 => isset( $options['display_style'] ) ? esc_attr( $options['display_style'] ) : 'list',
-		'link_before'			 => '',
-		'link_after'			 => '',
-		'content_before'		 => '',
-		'content_after'			 => '',
-		'display_index'			 => isset( $options['frontend_columns']['index'] ) ? (int) $options['frontend_columns']['index'] : Download_Attachments()->defaults['general']['frontend_columns']['index'],
-		'display_user'			 => isset( $options['frontend_columns']['author'] ) ? (int) $options['frontend_columns']['author'] : Download_Attachments()->defaults['general']['frontend_columns']['author'],
-		'display_icon'			 => isset( $options['frontend_columns']['icon'] ) ? (int) $options['frontend_columns']['icon'] : Download_Attachments()->defaults['general']['frontend_columns']['icon'],
-		'display_count'			 => isset( $options['frontend_columns']['downloads'] ) ? (int) $options['frontend_columns']['downloads'] : Download_Attachments()->defaults['general']['frontend_columns']['downloads'],
-		'display_size'			 => isset( $options['frontend_columns']['size'] ) ? (int) $options['frontend_columns']['size'] : Download_Attachments()->defaults['general']['frontend_columns']['size'],
-		'display_date'			 => isset( $options['frontend_columns']['date'] ) ? (int) $options['frontend_columns']['date'] : Download_Attachments()->defaults['general']['frontend_columns']['date'],
-		'display_caption'		 => isset( $options['frontend_content']['caption'] ) ? (int) $options['frontend_content']['caption'] : Download_Attachments()->defaults['general']['frontend_content']['caption'],
-		'display_description'	 => isset( $options['frontend_content']['description'] ) ? (int) $options['frontend_content']['description'] : Download_Attachments()->defaults['general']['frontend_content']['description'],
-		'display_empty'			 => 0,
-		'display_option_none'	 => __( 'No attachments to download', 'download-attachments' ),
-		'use_desc_for_title'	 => 0,
-		'exclude'				 => '',
-		'include'				 => '',
-		'title'					 => __( 'Attachments', 'download-attachments' ),
-		'title_container'		 => 'h3',
-		'title_class'			 => 'attachments-title',
-		'posts_per_page'		 => ( isset( $args['number_of_posts'] ) ? (int) $args['number_of_posts'] : -1 ),
-		'offset'				 => 0,
-		'orderby'				 => 'menu_order',
-		'order'					 => 'asc',
-		'echo'					 => 1
-	);
+		$defaults = array(
+			'container'				=> 'div',
+			'container_class'		=> 'download-attachments',
+			'container_id'			=> '',
+			'style'					=> isset( $options['display_style'] ) ? esc_attr( $options['display_style'] ) : 'list',
+			'link_before'			=> '',
+			'link_after'			=> '',
+			'content_before'		=> '',
+			'content_after'			=> '',
+			'display_index'			=> isset( $options['frontend_columns']['index'] ) ? (int) $options['frontend_columns']['index'] : $_defaults['general']['frontend_columns']['index'],
+			'display_user'			=> isset( $options['frontend_columns']['author'] ) ? (int) $options['frontend_columns']['author'] : $_defaults['general']['frontend_columns']['author'],
+			'display_icon'			=> isset( $options['frontend_columns']['icon'] ) ? (int) $options['frontend_columns']['icon'] : $_defaults['general']['frontend_columns']['icon'],
+			'display_count'			=> isset( $options['frontend_columns']['downloads'] ) ? (int) $options['frontend_columns']['downloads'] : $_defaults['general']['frontend_columns']['downloads'],
+			'display_size'			=> isset( $options['frontend_columns']['size'] ) ? (int) $options['frontend_columns']['size'] : $_defaults['general']['frontend_columns']['size'],
+			'display_date'			=> isset( $options['frontend_columns']['date'] ) ? (int) $options['frontend_columns']['date'] : $_defaults['general']['frontend_columns']['date'],
+			'display_caption'		=> isset( $options['frontend_content']['caption'] ) ? (int) $options['frontend_content']['caption'] : $_defaults['general']['frontend_content']['caption'],
+			'display_description'	=> isset( $options['frontend_content']['description'] ) ? (int) $options['frontend_content']['description'] : $_defaults['general']['frontend_content']['description'],
+			'display_empty'			=> 0,
+			'display_option_none'	=> __( 'No attachments to download', 'download-attachments' ),
+			'use_desc_for_title'	=> 0,
+			'exclude'				=> '',
+			'include'				=> '',
+			'title'					=> __( 'Attachments', 'download-attachments' ),
+			'title_container'		=> 'h3',
+			'title_class'			=> 'attachments-title',
+			'posts_per_page'		=> ( isset( $args['number_of_posts'] ) ? (int) $args['number_of_posts'] : -1 ),
+			'offset'				=> 0,
+			'orderby'				=> 'menu_order',
+			'order'					=> 'asc',
+			'echo'					=> 1
+		);
 
-	$args = apply_filters( 'da_display_attachments_defaults', wp_parse_args( $args, $defaults ), $post_id );
+		$args = apply_filters( 'da_display_attachments_defaults', wp_parse_args( $args, $defaults ), $post_id );
 
-	$args['display_index'] = apply_filters( 'da_display_attachments_index', (int) $args['display_index'] );
-	$args['display_user'] = apply_filters( 'da_display_attachments_user', (int) $args['display_user'] );
-	$args['display_icon'] = apply_filters( 'da_display_attachments_icon', (int) $args['display_icon'] );
-	$args['display_count'] = apply_filters( 'da_display_attachments_count', (int) $args['display_count'] );
-	$args['display_size'] = apply_filters( 'da_display_attachments_size', (int) $args['display_size'] );
-	$args['display_date'] = apply_filters( 'da_display_attachments_date', (int) $args['display_date'] );
-	$args['display_caption'] = apply_filters( 'da_display_attachments_caption', (int) $args['display_caption'] );
-	$args['display_description'] = apply_filters( 'da_display_attachments_description', (int) $args['display_description'] );
-	$args['display_empty'] = (int) apply_filters( 'da_display_attachments_empty', (int) $args['display_empty'] );
-	$args['use_desc_for_title'] = (int) $args['use_desc_for_title'];
-	$args['echo'] = (int) $args['echo'];
-	$args['style'] = in_array( $args['style'], array_keys( Download_Attachments()->display_styles ), true ) ? $args['style'] : $defaults['style'];
-	$args['orderby'] = in_array( $args['orderby'], array( 'menu_order', 'ID', 'date', 'title', 'size', 'downloads' ), true ) ? $args['orderby'] : $defaults['orderby'];
-	$args['posts_per_page'] = (int) $args['posts_per_page'];
-	$args['offset'] = (int) $args['offset'];
-	$args['order'] = in_array( strtolower( $args['order'] ), array( 'asc', 'desc' ), true ) ? $args['order'] : $defaults['order'];
-	$args['link_before'] = trim( $args['link_before'] );
-	$args['link_after'] = trim( $args['link_after'] );
-	$args['display_option_none'] = ( $info = trim( $args['display_option_none'] ) ) !== '' ? $info : $defaults['display_option_none'];
+		$args['display_index'] = apply_filters( 'da_display_attachments_index', (int) $args['display_index'] );
+		$args['display_user'] = apply_filters( 'da_display_attachments_user', (int) $args['display_user'] );
+		$args['display_icon'] = apply_filters( 'da_display_attachments_icon', (int) $args['display_icon'] );
+		$args['display_count'] = apply_filters( 'da_display_attachments_count', (int) $args['display_count'] );
+		$args['display_size'] = apply_filters( 'da_display_attachments_size', (int) $args['display_size'] );
+		$args['display_date'] = apply_filters( 'da_display_attachments_date', (int) $args['display_date'] );
+		$args['display_caption'] = apply_filters( 'da_display_attachments_caption', (int) $args['display_caption'] );
+		$args['display_description'] = apply_filters( 'da_display_attachments_description', (int) $args['display_description'] );
+		$args['display_empty'] = (int) apply_filters( 'da_display_attachments_empty', (int) $args['display_empty'] );
+		$args['use_desc_for_title'] = (int) $args['use_desc_for_title'];
+		$args['echo'] = (int) $args['echo'];
+		$args['style'] = in_array( $args['style'], array_keys( Download_Attachments()->display_styles ), true ) ? $args['style'] : $defaults['style'];
+		$args['orderby'] = in_array( $args['orderby'], array( 'menu_order', 'ID', 'date', 'title', 'size', 'downloads' ), true ) ? $args['orderby'] : $defaults['orderby'];
+		$args['posts_per_page'] = (int) $args['posts_per_page'];
+		$args['offset'] = (int) $args['offset'];
+		$args['order'] = in_array( strtolower( $args['order'] ), array( 'asc', 'desc' ), true ) ? $args['order'] : $defaults['order'];
+		$args['link_before'] = trim( $args['link_before'] );
+		$args['link_after'] = trim( $args['link_after'] );
+		$args['display_option_none'] = ( $info = trim( $args['display_option_none'] ) ) !== '' ? $info : $defaults['display_option_none'];
+		$args['title'] = apply_filters( 'da_display_attachments_title', trim( $args['title'] ) );
 
-	$args['title'] = apply_filters( 'da_display_attachments_title', trim( $args['title'] ) );
-
-	$args['attachments'] = da_get_download_attachments( $post_id, apply_filters(
-		'da_display_attachments_args', array(
-			'include'		 => $args['include'],
-			'exclude'		 => $args['exclude'],
-			'orderby'		 => $args['orderby'],
-			'order'			 => $args['order'],
-			'posts_per_page' => $args['posts_per_page'],
-			'offset'		 => $args['offset']
-		)
-	) );
-
-	$args['count'] = count( $args['attachments'] );
-
-	if ( $args['style'] === 'dynatable' ) {
-		wp_register_script( 'download-attachments-dynatable-js', DOWNLOAD_ATTACHMENTS_URL . '/assets/jquery-dynatable/jquery.dynatable.js', array( 'jquery' ) );
-		wp_enqueue_script( 'download-attachments-frontend-dynatable', DOWNLOAD_ATTACHMENTS_URL . '/js/frontend.js', array( 'jquery', 'download-attachments-dynatable-js' ) );
-		wp_localize_script(
-			'download-attachments-frontend-dynatable',
-			'daDynatableArgs',
+		$args['attachments'] = da_get_download_attachments(
+			$post_id,
 			apply_filters(
-				'da_display_attachments_dynatable_args',
+				'da_display_attachments_args',
 				array(
-					'features'	=> array(
-						'paginate'		=> true,
-						'sort'			=> true,
-						'pushState'		=> true,
-						'search'		=> true,
-						'recordCount'	=> true,
-						'perPageSelect'	=> true
-					),
-					'inputs'	=> array(
-						'recordCountPlacement'		=> 'after',
-						'paginationLinkPlacement'	=> 'after',
-						'paginationPrev'			=> __( 'Previous', 'download-attachments' ),
-						'paginationNext'			=> __( 'Next', 'download-attachments' ),
-						'paginationGap'				=> array( 1, 2, 2, 1 ),
-						'searchPlacement'			=> 'before',
-						'perPagePlacement'			=> 'before',
-						'perPageText'				=> __( 'Show', 'download-attachments' ) . ': ',
-						'recordCountText'			=> __( 'Showing', 'download-attachments' ) . ' ',
-						'processingText'			=> __( 'Processing', 'download-attachments' ). '...'
-					),
-					'dataset'	=> array(
-						'perPageDefault'	=> 5,
-						'perPageOptions'	=> array( 5, 10, 25, 50 ),
-					)
+					'include'			=> $args['include'],
+					'exclude'			=> $args['exclude'],
+					'orderby'			=> $args['orderby'],
+					'order'				=> $args['order'],
+					'posts_per_page'	=> $args['posts_per_page'],
+					'offset'			=> $args['offset']
 				)
 			)
 		);
-	}
 
-	ob_start();
+		$args['count'] = count( $args['attachments'] );
 
-	da_get_template( 'attachments-' . $args['style'] . '.php', $args );
+		if ( $args['style'] === 'dynatable' ) {
+			wp_register_script( 'download-attachments-dynatable-js', DOWNLOAD_ATTACHMENTS_URL . '/assets/jquery-dynatable/jquery.dynatable' . ( ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', array( 'jquery' ) );
+			wp_enqueue_script( 'download-attachments-frontend-dynatable', DOWNLOAD_ATTACHMENTS_URL . '/js/frontend.js', array( 'jquery', 'download-attachments-dynatable-js' ) );
+			wp_localize_script(
+				'download-attachments-frontend-dynatable',
+				'daDynatableArgs',
+				apply_filters(
+					'da_display_attachments_dynatable_args',
+					array(
+						'features'	=> array(
+							'paginate'		=> true,
+							'sort'			=> true,
+							'pushState'		=> true,
+							'search'		=> true,
+							'recordCount'	=> true,
+							'perPageSelect'	=> true
+						),
+						'inputs'	=> array(
+							'recordCountPlacement'		=> 'after',
+							'paginationLinkPlacement'	=> 'after',
+							'paginationPrev'			=> __( 'Previous', 'download-attachments' ),
+							'paginationNext'			=> __( 'Next', 'download-attachments' ),
+							'paginationGap'				=> array( 1, 2, 2, 1 ),
+							'searchPlacement'			=> 'before',
+							'perPagePlacement'			=> 'before',
+							'perPageText'				=> __( 'Show', 'download-attachments' ) . ': ',
+							'recordCountText'			=> __( 'Showing', 'download-attachments' ) . ' ',
+							'processingText'			=> __( 'Processing', 'download-attachments' ). '...'
+						),
+						'dataset'	=> array(
+							'perPageDefault'	=> 5,
+							'perPageOptions'	=> array( 5, 10, 25, 50 )
+						)
+					)
+				)
+			);
+		}
 
-	$html = ob_get_contents();
+		ob_start();
 
-	ob_end_clean();
+		da_get_template( 'attachments-' . $args['style'] . '.php', $args );
+
+		$html = ob_get_contents();
+
+		ob_end_clean();
+	} else
+		$html = '';
 
 	if ( $args['echo'] === 1 )
 		echo apply_filters( 'da_display_attachments', $html );
@@ -501,28 +510,34 @@ function da_locate_template( $template_name, $template_path = '', $default_path 
  */
 function da_download_attachment_link( $attachment_id = 0, $echo = false, $attr = array() ) {
 	if ( get_post_type( $attachment_id ) === 'attachment' ) {
+		$options = Download_Attachments()->options;
 
 		$attr['title'] = ! empty( $attr['title'] ) ? $attr['title'] : get_the_title( $attachment_id );
 		$attr['class'] = ! empty( $attr['class'] ) ? $attr['class'] : "da-download-link da-download-attachment-$attachment_id";
+
+		// redirect to file?
+		if ( $options['download_method'] === 'redirect' )
+			$attr['target'] = $options['link_target'];
 
 		$attr = apply_filters( 'da_download_attachment_link_attributes', $attr, $attachment_id );
 		$attr = array_map( 'esc_attr', $attr );
 		$attr_html = '';
 
 		foreach ( $attr as $name => $value ) {
-			$attr_html .= " $name=" . '"' . $value . '"';
+			$attr_html .= ' ' . $name;
+
+			if ( ! empty( $value ) )
+				$attr_html .= '="' . $value . '"';
 		}
 
-		$link = '<a href="' . da_get_download_attachment_url( $attachment_id ) . '"' . $attr_html . '">' . $attr['title'] . '</a>';
-	} else {
+		$link = '<a href="' . da_get_download_attachment_url( $attachment_id ) . '"' . $attr_html . '>' . $attr['title'] . '</a>';
+	} else
 		$link = '';
-	}
 
-	if ( $echo === true ) {
+	if ( $echo === true )
 		echo apply_filters( 'da_download_attachment_link', $link );
-	} else {
+	else
 		return apply_filters( 'da_download_attachment_link', $link );
-	}
 }
 
 /**
@@ -534,9 +549,8 @@ function da_download_attachment_link( $attachment_id = 0, $echo = false, $attr =
 function da_get_download_attachment_url( $attachment_id = 0 ) {
 	if ( get_post_type( $attachment_id ) != 'attachment' )
 		return '';
-	
+
 	$options = Download_Attachments()->options;
-	
 	$encrypted_id = isset( $options['encrypt_urls'] ) && $options['encrypt_urls'] ? da_encrypt_attachment_id( $attachment_id ) : $attachment_id;
 
 	$url = untrailingslashit( esc_url( isset( $options['pretty_urls'] ) && $options['pretty_urls'] === true ? home_url( '/' . $options['download_link'] . '/' . $encrypted_id . '/' ) : DOWNLOAD_ATTACHMENTS_URL . '/includes/download.php?id=' . $encrypted_id ) );
@@ -572,12 +586,11 @@ function da_encrypt_attachment_id( $id ) {
 		
 		$encrypted_id = strtr( base64_encode( mcrypt_encrypt( MCRYPT_BLOWFISH, $encrypt_key, $id, MCRYPT_MODE_CBC, $encrypt_iv ) ), '+/=', '-_,' );
 	// simple encryption
-	} elseif ( function_exists( 'gzdeflate' ) ) {
+	} elseif ( function_exists( 'gzdeflate' ) )
 		$encrypted_id = base64_encode( convert_uuencode( gzdeflate( $id ) ) );
 	// no encryption
-	} else {
+	else
 		$encrypted_id = strtr( base64_encode( convert_uuencode( $id ) ), '+/=', '-_,' );
-	}
 
 	return apply_filters( 'da_encrypt_attachment_id', $encrypted_id, $id );
 }
@@ -756,10 +769,8 @@ function da_download_attachment( $attachment_id = 0 ) {
 				return false;
 
 			exit;
-		
 		// redirect to file
 		} else {
-
 			// increase downloads count
 			update_post_meta( $attachment_id, '_da_downloads', $downloads_count + 1, $downloads_count );
 

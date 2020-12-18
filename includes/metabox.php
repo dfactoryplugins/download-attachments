@@ -54,20 +54,30 @@ class Download_Attachments_Metabox {
 	 * @return void
 	 */
 	public function save_attachments_data( $post_id, $post ) {
+		// get post types
 		$post_types = Download_Attachments()->options['post_types'];
 
+		// valid post type?
 		if ( ! ( array_key_exists( $post->post_type, $post_types ) && $post_types[$post->post_type] ) || ! current_user_can( 'manage_download_attachments' ) )
 			return;
-		
+
+		// inline edit?
 		if ( isset( $_POST['_inline_edit'] ) && wp_verify_nonce( $_POST['_inline_edit'], 'inlineeditnonce' ) ) 
 			return;
-		
+
+		// autosave?
 		if ( wp_is_post_autosave( $post_id ) )
 			return;
-		
+
+		// revision?
 		if ( wp_is_post_revision( $post_id ) )
 			return;
 
+		// no data at all?
+		if ( ! array_key_exists( 'da_attachment_data_exists', $_POST ) )
+			return;
+
+		// valid data?
 		if ( array_key_exists( 'da_attachment_data', $_POST ) && is_array( $_POST['da_attachment_data'] ) ) {
 			$attachments = array();
 
@@ -252,21 +262,20 @@ class Download_Attachments_Metabox {
 	 * @return mixed
 	 */
 	public function display_metabox( $post ) {
-		$hide = '';
-
 		echo '
 		<div id="download-attachments">
+			<input type="hidden" name="da_attachment_data_exists" value="true">
 			<p class="da-save-files">
-			<input type="button" class="button button-primary" value="' . esc_attr__( 'Save', 'download-attachments' ) . '"/>
+				<input type="button" class="button button-primary" value="' . esc_attr__( 'Save', 'download-attachments' ) . '"/>
 			</p>
 			<p id="da-add-new-file">
-			<input type="button" class="button button-secondary" value="' . esc_attr__( 'Add new attachment', 'download-attachments' ) . '"/>
+				<input type="button" class="button button-secondary" value="' . esc_attr__( 'Add new attachment', 'download-attachments' ) . '"/>
 			</p>
 			<p id="da-spinner"></p>
 			<table id="da-files" class="widefat" rel="' . $post->ID . '">
-			<thead>
-				<tr>
-				<th class="file-drag"></th>';
+				<thead>
+					<tr>
+						<th class="file-drag"></th>';
 
 			foreach ( Download_Attachments()->columns as $column => $name ) {
 				if (  $column === 'exclude' || ( ! in_array( $column, array( 'index', 'icon' ) ) && isset( Download_Attachments()->options['backend_columns'][$column] ) && Download_Attachments()->options['backend_columns'][$column] === true ) ) {
@@ -291,27 +300,27 @@ class Download_Attachments_Metabox {
 					}
 
 					echo '
-				<th' . $sort . ' class="file-' . $column . '">' . ( ! empty( $sort ) ? '<a href="javascript:void(0)">' . $name . '</a>' : $name ) . '</th>';
+						<th' . $sort . ' class="file-' . $column . '">' . ( ! empty( $sort ) ? '<a href="javascript:void(0)">' . $name . '</a>' : $name ) . '</th>';
 				}
 			}
 
 			echo '
-				<th class="file-actions">' . __( 'Actions', 'download-attachments' ) . '</th>
-				</tr>
-			</thead>';
+						<th class="file-actions">' . __( 'Actions', 'download-attachments' ) . '</th>
+					</tr>
+				</thead>';
 
 			$files = $this->prepare_files_data( $post->ID );
 
 			if ( ! empty( $files ) ) {
 				echo '
-			<tbody>';
+				<tbody>';
 
 				foreach ( $files as $file ) {
 					echo $this->get_table_row( $post->ID, false, $file );
 				}
 
 				echo '
-			</tbody>';
+				</tbody>';
 			} else {
 				$columns = 0;
 
@@ -321,17 +330,17 @@ class Download_Attachments_Metabox {
 				}
 
 				echo '
-			<tbody>
-				<tr id="da-info">
-				<td colspan="' . ($columns + 3) . '">' . __( 'No attachments added yet.', 'download-attachments' ) . '</td>
-				</tr>
-			</tbody>';
+				<tbody>
+					<tr id="da-info">
+					<td colspan="' . ($columns + 3) . '">' . __( 'No attachments added yet.', 'download-attachments' ) . '</td>
+					</tr>
+				</tbody>';
 			}
 
 			echo '
 			</table>
 			<p class="da-save-files">
-			<input type="button" class="button button-primary" value="' . esc_attr__( 'Save', 'download-attachments' ) . '"/>
+				<input type="button" class="button button-primary" value="' . esc_attr__( 'Save', 'download-attachments' ) . '"/>
 			</p>
 			<br class="clear"/>
 			<p id="da-infobox" style="display: none;"></p>

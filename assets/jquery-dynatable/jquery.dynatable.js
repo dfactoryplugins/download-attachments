@@ -441,7 +441,7 @@
           label = $column.text(),
           id = $column.data('dynatable-column') || utility.normalizeText(label, settings.table.defaultColumnIdStyle),
           dataSorts = $column.data('dynatable-sorts'),
-          sorts = dataSorts ? $.map(dataSorts.split(','), function(text) { return $.trim(text); }) : [id];
+          sorts = dataSorts ? $.map(dataSorts.split(','), function(text) { return text.trim(); }) : [id];
 
       // If the column id is blank, generate an id for it
       if ( !id ) {
@@ -674,7 +674,7 @@
             if (! record['dynatable-sortable-text']) {
               record['dynatable-sortable-text'] = {};
             }
-            record['dynatable-sortable-text'][attr] = $.trim($('<div></div>').html(value).text());
+            record['dynatable-sortable-text'][attr] = ($('<div></div>').html(value).text()).trim();
           }
 
           record[attr] = value;
@@ -954,7 +954,7 @@
           id = $cell.data('dynatable-column'),
           column = utility.findObjectInArray(settings.table.columns, {id: id});
 
-      $link.bind('click', function(e) {
+      $link.on('click', function(e) {
         _this.toggleSort(e, $link, column);
         obj.process();
 
@@ -1153,8 +1153,8 @@
 
         $this
           .attr('data-dynatable-query', query)
-          .bind(event, queryFunction)
-          .bind('keypress', function(e) {
+          .on(event, queryFunction)
+          .on('keypress', function(e) {
             if (e.which == 13) {
               queryFunction.call(this, e);
             }
@@ -1213,10 +1213,10 @@
           }).append($search);
 
       $search
-        .bind(settings.inputs.queryEvent, function() {
+        .on(settings.inputs.queryEvent, function() {
           obj.queries.runSearch($(this).val());
         })
-        .bind('keypress', function(e) {
+        .on('keypress', function(e) {
           if (e.which == 13) {
             obj.queries.runSearch($(this).val());
             e.preventDefault();
@@ -1292,7 +1292,7 @@
         $select.append('<option value="' + number + '" ' + selected + '>' + number + '</option>');
       }
 
-      $select.bind('change', function(e) {
+      $select.on('change', function(e) {
         _this.set($(this).val());
         obj.process();
       });
@@ -1593,7 +1593,7 @@
     allMatch: function(item, arrayOrObject, test) {
       // start off with true result by default
       var match = true,
-          isArray = $.isArray(arrayOrObject);
+          isArray = Array.isArray(arrayOrObject);
       // Loop through all items in array
       $.each(arrayOrObject, function(key, value) {
         var result = isArray ? test(item, value) : test(item, key, value);
@@ -1609,7 +1609,7 @@
     // Return true if supplied test function passes for ANY items in an array
     anyMatch: function(item, arrayOrObject, test) {
       var match = false,
-          isArray = $.isArray(arrayOrObject);
+          isArray = Array.isArray(arrayOrObject);
 
       $.each(arrayOrObject, function(key, value) {
         var result = isArray ? test(item, value) : test(item, key, value);
@@ -1650,7 +1650,7 @@
 
   // Object.create support test, and fallback for browsers without it
   if ( typeof Object.create !== "function" ) {
-    Object.create = function (o) {
+    Object.create = function(o) {
       function F() {}
       F.prototype = o;
       return new F();
