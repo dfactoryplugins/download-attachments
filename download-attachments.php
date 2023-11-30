@@ -35,7 +35,7 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 	class Download_Attachments {
 
 		private static $instance;
-		public $capability = 'manage_download_attachments';
+		private $capability = 'manage_download_attachments';
 		public $columns = [];
 		public $display_styles = [];
 		public $options = [];
@@ -379,6 +379,16 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 
 			if ( ! empty( $filter ) && is_string( $filter ) )
 				add_filter( $filter, [ $this, 'add_content' ] );
+		}
+
+		/**
+		 * Get administrator capability to manage downloads.
+		 *
+		 * @param mixed $content
+		 * @return mixed
+		 */
+		public function get_capability() {
+			return $this->capability;
 		}
 
 		/**

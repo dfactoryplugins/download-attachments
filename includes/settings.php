@@ -665,10 +665,10 @@ class Download_Attachments_Settings {
 
 				if ( ! $role->has_cap( 'manage_options' ) ) {
 					if ( ! empty( $input['user_roles'] ) && in_array( $role_name, array_map( 'esc_attr', $input['user_roles'] ) ) ) {
-						$role->add_cap( $capability );
+						$role->add_cap( Download_Attachments()->get_capability() );
 						$user_roles[] = $role_name;
 					} else
-						$role->remove_cap( $capability );
+						$role->remove_cap( Download_Attachments()->get_capability() );
 				}
 			}
 
@@ -800,11 +800,11 @@ class Download_Attachments_Settings {
 				$role = $wp_roles->get_role( $role_name );
 
 					if ( $role->has_cap( 'upload_files' ) ) {
-						$role->add_cap( $capability );
+						$role->add_cap( Download_Attachments()->get_capability() );
 
 						$new_input['user_roles'][] = $role_name;
 					} else {
-						$role->remove_cap( $capability );
+						$role->remove_cap( Download_Attachments()->get_capability() );
 					}
 			}
 
