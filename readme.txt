@@ -2,9 +2,9 @@
 Contributors: dfactory
 Donate link: http://www.dfactory.eu/
 Tags: attachment, attachments, file, files, download, downloads, upload, doc, document, documents, monitor, manager
-Requires at least: 4.0
-Requires PHP: 5.2.4
-Tested up to: 5.4.1
+Requires at least: 4.7
+Requires PHP: 7.0.0
+Tested up to: 6.4.1
 Stable tag: 1.2.24
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
