@@ -131,23 +131,8 @@
     margin-bottom: 6px;
 }
 
-#da-files th[data-sort] {
-    cursor: pointer;
-}
-
-#da-files th[data-sort]:hover {
-}
-
-#da-files th.sorting-asc:after {
-    content: "\f142";
-    padding-left: 10px;
-    font-family: 'Dashicons';
-}
-
-#da-files th.sorting-desc:after {
-    content: "\f140";
-    padding-left: 10px;
-    font-family: 'Dashicons';
+#da-files thead th {
+    font-weight: inherit;
 }
 
 #da-files td.file-drag {
