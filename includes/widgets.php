@@ -4,19 +4,26 @@ if ( ! defined( 'ABSPATH' ) )
 	exit;
 
 /**
- * Download_Attachments_Metabox class.
+ * Download_Attachments_Widgets class.
  * 
- * @class Download_Attachments_Metabox
+ * @class Download_Attachments_Widgets
  */
 class Download_Attachments_Widgets {
 
+	/**
+	 * Class constructor.
+	 *
+	 * @return void
+	 */
 	public function __construct() {
 		// actions
-		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
+		add_action( 'widgets_init', [ $this, 'register_widgets' ] );
 	}
 
 	/**
 	 * Register widgets.
+	 *
+	 * @return void
 	 */
 	public function register_widgets() {
 		register_widget( 'Download_Attachments_List_Widget' );
@@ -26,6 +33,8 @@ class Download_Attachments_Widgets {
 
 /**
  * Download_Attachments_List_Widget class.
+ * 
+ * @class Download_Attachments_List_Widget
  */
 class Download_Attachments_List_Widget extends WP_Widget {
 
@@ -36,61 +45,72 @@ class Download_Attachments_List_Widget extends WP_Widget {
 	private $da_link_types;
 	private $da_style_types;
 
+	/**
+	 * Class constructor.
+	 *
+	 * @return void
+	 */
 	public function __construct() {
 		parent::__construct(
-		'Download_Attachments_List_Widget', __( 'Attachments', 'download-attachments' ), array(
-			'description'	 => __( 'Displays a list of attachments.', 'download-attachments' ),
-			'classname'		 => 'widget_download_attachments_list'
-		) );
-
-		$this->da_defaults = array(
-			'title'					 => __( 'Attachments', 'download-attachments' ),
-			'attached_to'			 => '',
-			'style'					 => 'posts',
-			'link_type'				 => 'url',
-			'orderby'				 => 'downloads',
-			'order'					 => 'desc',
-			'number_of_posts'		 => 5,
-			'no_attachments_message' => __( 'No attachments found', 'download-attachments' ), // no_attachments_message
-			'display_index'			 => false,
-			'display_user'			 => false,
-			'display_icon'			 => true, // show_attachment_icon
-			'display_count'			 => true, // show_attachment_downloads
-			'display_size'			 => false,
-			'display_date'			 => false,
-			'display_caption'		 => false, // show_attachment_excerpt
-			'display_description'	 => false
+			'Download_Attachments_List_Widget', __( 'Attachments', 'download-attachments' ),
+			[
+				'description'	=> __( 'Displays a list of attachments.', 'download-attachments' ),
+				'classname'		=> 'widget_download_attachments_list'
+			]
 		);
+
+		$this->da_defaults = [
+			'title'						=> __( 'Attachments', 'download-attachments' ),
+			'attached_to'				=> '',
+			'style'						=> 'posts',
+			'link_type'					=> 'url',
+			'orderby'					=> 'downloads',
+			'order'						=> 'desc',
+			'number_of_posts'			=> 5,
+			'no_attachments_message'	=> __( 'No attachments found', 'download-attachments' ), // no_attachments_message
+			'display_index'				=> false,
+			'display_user'				=> false,
+			'display_icon'				=> true, // show_attachment_icon
+			'display_count'				=> true, // show_attachment_downloads
+			'display_size'				=> false,
+			'display_date'				=> false,
+			'display_caption'			=> false, // show_attachment_excerpt
+			'display_description'		=> false
+		];
 		
-		$this->da_attached_to_types = array(
+		$this->da_attached_to_types = [
 			''			=> __( 'All posts', 'download-attachments' ),
 			'current'	=> __( 'Current post', 'download-attachments' )
-		);
+		];
 
-		$this->da_orderby_types = array(
-			'downloads'	 => __( 'Downloads count', 'download-attachments' ),
-			'menu_order' => __( 'Menu order', 'download-attachments' ),
-			'date'		 => __( 'Date', 'download-attachments' ),
-			'title'		 => __( 'Title', 'download-attachments' ),
-			'size'		 => __( 'File size', 'download-attachments' ),
-			'ID'		 => __( 'ID', 'download-attachments' )
-		);
+		$this->da_orderby_types = [
+			'downloads'		=> __( 'Downloads count', 'download-attachments' ),
+			'menu_order'	=> __( 'Menu order', 'download-attachments' ),
+			'date'			=> __( 'Date', 'download-attachments' ),
+			'title'			=> __( 'Title', 'download-attachments' ),
+			'size'			=> __( 'File size', 'download-attachments' ),
+			'ID'			=> __( 'ID', 'download-attachments' )
+		];
 
-		$this->da_order_types = array(
-			'asc'	 => __( 'Ascending', 'download-attachments' ),
-			'desc'	 => __( 'Descending', 'download-attachments' )
-		);
+		$this->da_order_types = [
+			'asc'	=> __( 'Ascending', 'download-attachments' ),
+			'desc'	=> __( 'Descending', 'download-attachments' )
+		];
 
-		$this->da_link_types = array(
-			'page'	 => __( 'Attachment page', 'download-attachments' ),
-			'url'	 => __( 'Download URL', 'download-attachments' )
-		);
+		$this->da_link_types = [
+			'page'	=> __( 'Attachment page', 'download-attachments' ),
+			'url'	=> __( 'Download URL', 'download-attachments' )
+		];
 
 		$this->da_style_types = Download_Attachments()->display_styles;
 	}
 
 	/**
 	 * Display widget function.
+	 *
+	 * @param array $args
+	 * @param array $instance
+	 * @return void
 	 */
 	public function widget( $args, $instance ) {
 		$html = '';
@@ -112,7 +132,10 @@ class Download_Attachments_List_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Admin widget function.
+	 * Admin widget.
+	 *
+	 * @param array $instance
+	 * @return void
 	 */
 	public function form( $instance ) {
 		$html = '
@@ -204,7 +227,7 @@ class Download_Attachments_List_Widget extends WP_Widget {
 
 	/**
 	 * Save widget function.
-	 * 
+	 *
 	 * @param array $new_instance
 	 * @param array $old_instance
 	 * @return array
@@ -244,7 +267,6 @@ class Download_Attachments_List_Widget extends WP_Widget {
 
 		return $old_instance;
 	}
-
 }
 
 new Download_Attachments_Widgets();

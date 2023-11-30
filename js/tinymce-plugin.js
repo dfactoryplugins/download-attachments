@@ -4,11 +4,11 @@
 		// window params
 		var window = wp.media( {
 			frame: 'select',
-			title: daArgs.selectTitle,
+			title: daArgsPost.selectTitle,
 			multiple: false,
 			filterable: true,
 			button: {
-				text: daArgs.buttonInsertLink
+				text: daArgsPost.buttonInsertLink
 			}
 		} );
 
@@ -31,7 +31,7 @@
 		init: function( ed, url ) {
 			// register buttons
 			ed.addButton( 'download_attachments', {
-				title: daArgs.selectTitle,
+				title: daArgsPost.selectTitle,
 				icon: 'icon dashicons-arrow-down-alt',
 				onclick: function() {
 					// opens window
@@ -46,8 +46,8 @@
 			return {
 				longname: 'Download Attachments',
 				author: 'Digital Factory',
-				authorurl: 'https://dfactory.eu/',
-				infourl: 'https://dfactory.eu/',
+				authorurl: 'http://www.dfactory.co/',
+				infourl: 'http://www.dfactory.co/',
 				version: tinymce.majorVersion + '.' + tinymce.minorVersion
 			};
 		}

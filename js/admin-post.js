@@ -11,13 +11,13 @@
 		// modal window settings
 		daAddFrame = wp.media( {
 			frame: 'select',
-			title: daArgs.addTitle,
+			title: daArgsPost.addTitle,
 			multiple: 'add',
 			button: {
-				text: daArgs.buttonAddNewFile
+				text: daArgsPost.buttonAddNewFile
 			},
 			states: [
-				new wp.media.controller.Library( daArgs.library == 0 ? {
+				new wp.media.controller.Library( daArgsPost.library == 0 ? {
 					multiple: 'add',
 					priority: 20,
 					filterable: false,
@@ -80,7 +80,7 @@
 
 				$.post( ajaxurl, {
 					action: 'da-new-file',
-					danonce: daArgs.addNonce,
+					danonce: daArgsPost.addNonce,
 					html: daAddFrame.link,
 					post_id: wp.media.view.settings.post.id,
 					attachments_ids: ( attachments_add.length > 0 ? attachments_add : [ 'empty' ] )
@@ -113,12 +113,12 @@
 								$( '#da-infobox' ).html( '' ).fadeOut( 300 );
 						}
 					} catch ( e ) {
-						$( '#da-infobox' ).html( daArgs.internalUnknownError ).fadeIn( 300 );
+						$( '#da-infobox' ).html( daArgsPost.internalUnknownError ).fadeIn( 300 );
 					}
 
 					$( '#da-spinner' ).fadeOut( 300 );
 				} ).fail( function() {
-					$( '#da-infobox' ).html( daArgs.internalUnknownError ).fadeIn( 300 );
+					$( '#da-infobox' ).html( daArgsPost.internalUnknownError ).fadeIn( 300 );
 					$( '#da-spinner' ).fadeOut( 300 );
 				} );
 			}
@@ -145,7 +145,7 @@
 
 		// edit file
 		$( document ).on( 'click', '.da-edit-file', function() {
-			if ( daArgs.attachmentLink === 'modal' ) {
+			if ( daArgsPost.attachmentLink === 'modal' ) {
 				var fileID = parseInt( $( this ).closest( 'tr[id^="att"]' ).attr( 'id' ).split( '-' )[1] );
 				var attachmentChanged = false;
 
@@ -157,10 +157,10 @@
 
 				daEditFrame = wp.media( {
 					frame: 'select',
-					title: daArgs.editTitle,
+					title: daArgsPost.editTitle,
 					multiple: false,
 					button: {
-						text: daArgs.buttonEditFile
+						text: daArgsPost.buttonEditFile
 					},
 					library: {
 						post__in: fileID
@@ -202,12 +202,12 @@
 
 		// remove file
 		$( document ).on( 'click', '.da-remove-file', function() {
-			if ( confirm( daArgs.deleteFile ) ) {
+			if ( confirm( daArgsPost.deleteFile ) ) {
 				$( 'tr#att-' + parseInt( $( this ).closest( 'tr[id^="att"]' ).attr( 'id' ).split( '-' )[1] ) ).fadeOut( 300, function() {
 					$( this ).remove();
 
 					if ( $( '#da-files tbody tr' ).length === 0 )
-						$( '#da-files tbody' ).hide().append( '<tr id="da-info"><td colspan="' + daArgs.activeColumns + '">' + daArgs.noFiles + '</td></tr>' ).fadeIn( 300 );
+						$( '#da-files tbody' ).hide().append( '<tr id="da-info"><td colspan="' + daArgsPost.activeColumns + '">' + daArgsPost.noFiles + '</td></tr>' ).fadeIn( 300 );
 				} );
 			}
 
@@ -237,7 +237,7 @@
 				action: 'da-save-files',
 				attachment_data: ( attachments.length > 0 ? attachments : [ 'empty' ] ),
 				post_id: postID,
-				danonce: daArgs.saveNonce
+				danonce: daArgsPost.saveNonce
 			} ).done( function( data ) {
 				try {
 					var json = JSON.parse( data );
@@ -249,7 +249,7 @@
 						$( '#da-infobox' ).html( json.info ).fadeIn( 300 );
 				} catch ( e ) {
 					// display error
-					$( '#da-infobox' ).html( daArgs.internalUnknownError ).fadeIn( 300 );
+					$( '#da-infobox' ).html( daArgsPost.internalUnknownError ).fadeIn( 300 );
 				}
 
 				// hide spinner
@@ -259,7 +259,7 @@
 				$( 'p.da-save-files input' ).prop( 'disabled', false );
 			} ).fail( function() {
 				// display error
-				$( '#da-infobox' ).html( daArgs.internalUnknownError ).fadeIn( 300 );
+				$( '#da-infobox' ).html( daArgsPost.internalUnknownError ).fadeIn( 300 );
 
 				// hide spinner
 				$( '#da-spinner' ).fadeOut( 300 );
@@ -327,7 +327,7 @@
 			searching: false,
 			ordering: true,
 			order: [],
-			columns: daArgs.columnTypes
+			columns: daArgsPost.columnTypes
 		} );
 
 		tableInitialized = true;

@@ -88,7 +88,7 @@ extract( $args );
 			<tr class="<?php echo $attachment['type']; ?>">
 
 				<?php if ( $display_index === 1 ) : ?>
-					<td class="attachment-index"><?php echo $i ++; ?></td> 
+					<td class="attachment-index"><?php echo $i++; ?></td> 
 				<?php endif; ?>
 
 				<td class="attachment-title" data-order="<?php echo esc_attr( $attachment_title ); ?>">

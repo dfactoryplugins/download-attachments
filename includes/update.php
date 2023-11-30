@@ -4,17 +4,27 @@ if ( ! defined( 'ABSPATH' ) )
 	exit;
 
 /**
- * Download_Attachments_Metabox class.
- * 
- * @class Download_Attachments_Metabox
+ * Download_Attachments_Update class.
+ *
+ * @class Download_Attachments_Update
  */
 class Download_Attachments_Update {
 
+	/**
+	 * Class constructor.
+	 *
+	 * @return void
+	 */
 	public function __construct() {
 		// actions
-		add_action( 'init', array( $this, 'check_update' ) );
+		add_action( 'init', [ $this, 'check_update' ] );
 	}
 
+	/**
+	 * Update plugin version.
+	 *
+	 * @return void
+	 */
 	public function check_update() {
 		if ( ! current_user_can( 'manage_options' ) )
 			return;
@@ -28,7 +38,6 @@ class Download_Attachments_Update {
 			update_option( 'download_attachments_version', Download_Attachments()->defaults['version'], false );
 		}
 	}
-
 }
 
 new Download_Attachments_Update();

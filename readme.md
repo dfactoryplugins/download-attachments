@@ -4,9 +4,9 @@ Download Attachments is a new approach to managing downloads in WordPress. It al
 
 ## Description ##
 
-[Download Attachments](http://www.dfactory.eu/plugins/download-attachments/) is a new approach to managing downloads in WordPress. Instead of bloated interface it enables simple, drag & drop and AJAX driven metabox where you can insert and manage your Media Library files and automatically or manually display them after, before or inside posts content.
+[Download Attachments](http://www.dfactory.co/products/download-attachments/) is a new approach to managing downloads in WordPress. Instead of bloated interface it enables simple, drag & drop and AJAX driven metabox where you can insert and manage your Media Library files and automatically or manually display them after, before or inside posts content.
 
-For more information, check out plugin page at [dFactory](http://www.dfactory.eu/) site.
+For more information, check out plugin page at [dFactory](http://www.dfactory.co/) site.
 
 ### Features include: ###
 

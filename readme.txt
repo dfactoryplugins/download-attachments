@@ -1,6 +1,6 @@
 === Download Attachments ===
 Contributors: dfactory
-Donate link: http://www.dfactory.eu/
+Donate link: http://www.dfactory.co/
 Tags: attachment, attachments, file, files, download, downloads, upload, doc, document, documents, monitor, manager
 Requires at least: 4.7
 Requires PHP: 7.0.0
@@ -13,9 +13,9 @@ Download Attachments is a new approach to managing downloads in WordPress. It al
 
 == Description ==
 
-[Download Attachments](http://www.dfactory.eu/plugins/download-attachments/) is a new approach to managing downloads in WordPress. Instead of bloated interface it enables simple, drag & drop and AJAX driven metabox where you can insert and manage your Media Library files and automatically or manually display them after, before or inside posts content.
+[Download Attachments](http://www.dfactory.co/products/download-attachments/) is a new approach to managing downloads in WordPress. Instead of bloated interface it enables simple, drag & drop and AJAX driven metabox where you can insert and manage your Media Library files and automatically or manually display them after, before or inside posts content.
 
-For more information, check out plugin page at [dFactory](http://www.dfactory.eu/) site.
+For more information, check out plugin page at [dFactory](http://www.dfactory.co/) site.
 
 = Features include: =
 
@@ -55,7 +55,7 @@ Feel free to contribute to the source code on the [dFactory GitHub Repository](h
 
 = Q. I have a question =
 
-A. Chances are, someone else has asked it. Check out the support forum at: http://www.dfactory.eu/support/
+A. Chances are, someone else has asked it. Check out the support forum at: http://www.dfactory.co/support/
 
 == Screenshots ==
 

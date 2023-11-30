@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) )
 
 /**
  * Download_Attachments_Media class.
- * 
+ *
  * @class Download_Attachments_Media
  */
 class Download_Attachments_Media {
@@ -15,51 +15,51 @@ class Download_Attachments_Media {
 	 */
 	public function __construct() {
 		// actions
-		add_action( 'manage_media_custom_column', array( $this, 'custom_media_column_content' ), 10, 2 );
-		add_action( 'attachment_submitbox_misc_actions', array( $this, 'submitbox_views' ), 1000 );
-		add_action( 'edit_attachment', array( $this, 'save_post' ) );
-		add_action( 'edit_attachment', array( $this, 'save_attachment_downloads' ) );
+		add_action( 'manage_media_custom_column', [ $this, 'custom_media_column_content' ], 10, 2 );
+		add_action( 'attachment_submitbox_misc_actions', [ $this, 'submitbox_views' ], 1000 );
+		add_action( 'edit_attachment', [ $this, 'save_post' ] );
+		add_action( 'edit_attachment', [ $this, 'save_attachment_downloads' ] );
 
 		// filters
-		add_filter( 'manage_media_columns', array( $this, 'downloads_media_column_title' ) );
-		add_filter( 'manage_upload_sortable_columns', array( $this, 'register_sortable_custom_column' ) );
-		add_filter( 'attachment_fields_to_edit', array( $this, 'attachment_fields_to_edit' ), 10, 2 );
-		add_filter( 'request', array( $this, 'sort_custom_columns' ) );
+		add_filter( 'manage_media_columns', [ $this, 'downloads_media_column_title' ] );
+		add_filter( 'manage_upload_sortable_columns', [ $this, 'register_sortable_custom_column' ] );
+		add_filter( 'attachment_fields_to_edit', [ $this, 'attachment_fields_to_edit' ], 10, 2 );
+		add_filter( 'request', [ $this, 'sort_custom_columns' ] );
 	}
 
 	/**
-     * Filter the array of attachment fields that are displayed when editing an attachment.
-     *
-     * @param array $fields Attachment fields
-     * @param object $post Post object
-     * @return array Modified attachment fields
-     */
-    function attachment_fields_to_edit( $fields, $post ) {
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+	 * Filter the array of attachment fields that are displayed when editing an attachment.
+	 *
+	 * @param array $fields Attachment fields
+	 * @param object $post Post object
+	 * @return array Modified attachment fields
+	 */
+	function attachment_fields_to_edit( $fields, $post ) {
+		if ( wp_doing_ajax() ) {
 			$restrict = Download_Attachments()->options['restrict_edit_downloads'];
 
 			if ( $restrict === false || ( $restrict === true && current_user_can( apply_filters( 'da_restrict_edit_capability', 'manage_options' ) ) ) ) {
 				$value = (int) get_post_meta( $post->ID, '_da_downloads', true );
 
-				$fields['attachment_downloads'] = array(
+				$fields['attachment_downloads'] = [
 					'value'	=> $value,
 					'label'	=> __( 'Downloads', 'download-attachments' ),
 					'input'	=> 'html',
 					'html'	=> '<input type="text" style="width: 30%;" class="text" id="attachments-' . $post->ID . '-attachment_downloads" name="attachments[' . $post->ID . '][attachment_downloads]" value="' . $value . '" />'
-				);
+				];
 			}
 		}
 
 		return $fields;
-    }
+	}
 
 	/**
-     * Save attachment downloads in modal.
-     *
-     * @param integer $attachment_id Attachment ID
-     * @return void
-     */
-    function save_attachment_downloads( $attachment_id ) {
+	 * Save attachment downloads in modal.
+	 *
+	 * @param int $attachment_id
+	 * @return void
+	 */
+	function save_attachment_downloads( $attachment_id ) {
 		$restrict = Download_Attachments()->options['restrict_edit_downloads'];
 
 		if ( $restrict === true && ! current_user_can( apply_filters( 'da_restrict_edit_capability', 'manage_options' ) ) )
@@ -70,11 +70,11 @@ class Download_Attachments_Media {
 
 			do_action( 'da_after_update_attachment_downloads_count', $attachment_id );
 		}
-    }
+	}
 
 	/**
 	 * Display attachments download count.
-	 * 
+	 *
 	 * @param string $column
 	 * @param id $id
 	 */
@@ -85,7 +85,7 @@ class Download_Attachments_Media {
 
 	/**
 	 * Add new custom column to Media Library.
-	 * 
+	 *
 	 * @param array $columns
 	 * @return array
 	 */
@@ -109,7 +109,7 @@ class Download_Attachments_Media {
 
 	/**
 	 * Sort new custom column in Media Library.
-	 * 
+	 *
 	 * @param array $vars
 	 * @return array
 	 */
@@ -117,10 +117,10 @@ class Download_Attachments_Media {
 		if ( Download_Attachments()->options['downloads_in_media_library'] === true && isset( $vars['orderby'] ) && $vars['orderby'] === 'downloads' )
 			$vars = array_merge(
 				$vars,
-				array(
+				[
 					'meta_key'	=> '_da_downloads',
 					'orderby'	=> 'meta_value_num'
-				)
+				]
 			);
 
 		return $vars;
@@ -128,7 +128,7 @@ class Download_Attachments_Media {
 
 	/**
 	 * Register sortable custom column in Media Library.
-	 * 
+	 *
 	 * @param array $columns
 	 * @return array
 	 */
@@ -141,9 +141,9 @@ class Download_Attachments_Media {
 
 	/**
 	 * Output attachment downloads for single attachment.
-	 * 
+	 *
 	 * @global object $post
-	 * @return void 
+	 * @return void
 	 */
 	public function submitbox_views( $post ) {
 		if ( empty( $post ) ) {
@@ -196,7 +196,7 @@ class Download_Attachments_Media {
 	/**
 	 * Save attachment downloads data.
 	 *
-	 * @param integer $post_id
+	 * @param int $post_id
 	 * @return void
 	 */
 	public function save_post( $post_id ) {
@@ -208,7 +208,7 @@ class Download_Attachments_Media {
 		if ( ! current_user_can( 'edit_post', $post_id ) )
 			return;
 
-		// is post views set			
+		// is post views set
 		if ( ! isset( $_POST['attachment_downloads'] ) )
 			return;
 
@@ -218,7 +218,7 @@ class Download_Attachments_Media {
 		if ( $restrict === true && ! current_user_can( apply_filters( 'da_restrict_edit_capability', 'manage_options' ) ) )
 			return;
 
-		// validate data		
+		// validate data
 		if ( ! isset( $_POST['da_nonce'] ) || ! wp_verify_nonce( $_POST['da_nonce'], 'download_attachments_downloads' ) )
 			return;
 

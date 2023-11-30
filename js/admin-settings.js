@@ -4,12 +4,12 @@
 	$( function() {
 		// handle reset settings
 		$( document ).on( 'click', 'input#reset_da_general, input#reset_da_display, input#reset_da_admin', function() {
-			return confirm( daArgs.resetToDefaults );
+			return confirm( daArgsSettings.resetToDefaults );
 		} );
 
 		// handle reset download counts
 		$( document ).on( 'click', 'input#reset_da_downloads', function() {
-			return confirm( daArgs.resetDownloadsToDefaults );
+			return confirm( daArgsSettings.resetDownloadsToDefaults );
 		} );
 
 		// handle pretty URL change
@@ -21,7 +21,7 @@
 			value = value.replace( /[\s]/gi, '-' );
 
 			if ( value === '' )
-				$( '#da_general_download_link code strong' ).html( 'download' );
+				$( '#da_general_download_link code strong' ).html( 'download-attachment' );
 			else
 				$( '#da_general_download_link code strong' ).html( value );
 		} );

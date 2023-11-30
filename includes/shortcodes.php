@@ -4,63 +4,67 @@ if ( ! defined( 'ABSPATH' ) )
 	exit;
 
 /**
- * Download_Attachments_Metabox class.
- * 
- * @class Download_Attachments_Metabox
+ * Download_Attachments_Shortcodes class.
+ *
+ * @class Download_Attachments_Shortcodes
  */
 class Download_Attachments_Shortcodes {
 
 	/**
 	 * Constructor class.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 		// actions
-		add_action( 'init', array( $this, 'register_download_shortcodes' ) );
+		add_action( 'init', [ $this, 'register_download_shortcodes' ] );
 	}
 
 	/**
 	 * Register download attachments shortcodes.
+	 *
+	 * @return void
 	 */
 	public function register_download_shortcodes() {
-		add_shortcode( 'download-attachments', array( $this, 'download_attachments_shortcode' ) );
-		add_shortcode( 'download-attachment', array( $this, 'download_attachment_shortcode' ) );
+		add_shortcode( 'download-attachments', [ $this, 'download_attachments_shortcode' ] );
+		add_shortcode( 'download-attachment', [ $this, 'download_attachment_shortcode' ] );
 	}
 
 	/**
 	 * Handle download-attachments shortcode.
-	 * 
+	 *
 	 * @param array $args
-	 * @return mixed
+	 * @return string
 	 */
 	public function download_attachments_shortcode( $args ) {
-		$defaults = array(
-			'post_id'				 => 0,
-			'container'				 => 'div',
-			'container_class'		 => 'download-attachments',
-			'container_id'			 => '',
-			'style'					 => isset( Download_Attachments()->options['display_style'] ) ? esc_attr( Download_Attachments()->options['display_style'] ) : 'list',
-			'link_before'			 => '',
-			'link_after'			 => '',
-			'display_index'			 => isset( Download_Attachments()->options['frontend_columns']['index'] ) ? (int) Download_Attachments()->options['frontend_columns']['index'] : 0,
-			'display_user'			 => (int) Download_Attachments()->options['frontend_columns']['author'],
-			'display_icon'			 => (int) Download_Attachments()->options['frontend_columns']['icon'],
-			'display_count'			 => (int) Download_Attachments()->options['frontend_columns']['downloads'],
-			'display_size'			 => (int) Download_Attachments()->options['frontend_columns']['size'],
-			'display_date'			 => (int) Download_Attachments()->options['frontend_columns']['date'],
-			'display_caption'		 => (int) Download_Attachments()->options['frontend_content']['caption'],
-			'display_description'	 => (int) Download_Attachments()->options['frontend_content']['description'],
-			'display_empty'			 => 0,
-			'display_option_none'	 => __( 'No attachments to download', 'download-attachments' ),
-			'use_desc_for_title'	 => 0,
-			'exclude'				 => '',
-			'include'				 => '',
-			'title'					 => __( 'Attachments', 'download-attachments' ),
-			'title_container'		 => 'h3',
-			'title_class'			 => 'download-title',
-			'orderby'				 => 'menu_order',
-			'order'					 => 'asc',
-			'echo'					 => 0
-		);
+		$defaults = [
+			'post_id'				=> 0,
+			'container'				=> 'div',
+			'container_class'		=> 'download-attachments',
+			'container_id'			=> '',
+			'style'					=> isset( Download_Attachments()->options['display_style'] ) ? esc_attr( Download_Attachments()->options['display_style'] ) : 'list',
+			'link_before'			=> '',
+			'link_after'			=> '',
+			'display_index'			=> isset( Download_Attachments()->options['frontend_columns']['index'] ) ? (int) Download_Attachments()->options['frontend_columns']['index'] : 0,
+			'display_user'			=> (int) Download_Attachments()->options['frontend_columns']['author'],
+			'display_icon'			=> (int) Download_Attachments()->options['frontend_columns']['icon'],
+			'display_count'			=> (int) Download_Attachments()->options['frontend_columns']['downloads'],
+			'display_size'			=> (int) Download_Attachments()->options['frontend_columns']['size'],
+			'display_date'			=> (int) Download_Attachments()->options['frontend_columns']['date'],
+			'display_caption'		=> (int) Download_Attachments()->options['frontend_content']['caption'],
+			'display_description'	=> (int) Download_Attachments()->options['frontend_content']['description'],
+			'display_empty'			=> 0,
+			'display_option_none'	=> __( 'No attachments to download', 'download-attachments' ),
+			'use_desc_for_title'	=> 0,
+			'exclude'				=> '',
+			'include'				=> '',
+			'title'					=> __( 'Attachments', 'download-attachments' ),
+			'title_container'		=> 'h3',
+			'title_class'			=> 'download-title',
+			'orderby'				=> 'menu_order',
+			'order'					=> 'asc',
+			'echo'					=> 0
+		];
 
 		if ( ! isset( $args['title'] ) ) {
 			$args['title'] = '';
@@ -85,21 +89,24 @@ class Download_Attachments_Shortcodes {
 
 	/**
 	 * Handle download-attachment shortcode.
+	 *
+	 * @param array $args
+	 * @return string
 	 */
 	public function download_attachment_shortcode( $args ) {
-		$defaults = array(
-			'attachment_id'	 => 0, // deprecated
-			'id'			 => 0,
-			'title'			 => '',
-			'class'			 => ''
-		);
+		$defaults = [
+			'attachment_id'	=> 0, // deprecated
+			'id'			=> 0,
+			'title'			=> '',
+			'class'			=> ''
+		];
 
 		$args = shortcode_atts( $defaults, $args );
 
 		// deprecated attachment_id parameter support
 		$args['id'] = ! empty( $args['attachment_id'] ) ? (int) $args['attachment_id'] : (int) $args['id'];
 
-		$atts = array();
+		$atts = [];
 
 		if ( ! empty( $args['title'] ) )
 			$atts['title'] = $args['title'];

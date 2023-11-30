@@ -2,11 +2,10 @@
 // load wp core
 $path = explode( 'wp-content', __FILE__ );
 
-if ( is_file( reset( $path ) . 'wp-load.php' ) ) {
+if ( is_file( reset( $path ) . 'wp-load.php' ) )
 	include_once( reset( $path ) . 'wp-load.php' );
-} else {
+else
 	return;
-}
 
 if ( ! function_exists( 'Download_Attachments' ) )
 	return;
@@ -18,11 +17,10 @@ $options = Download_Attachments()->options;
 $encryption_enabled = isset( $options['encrypt_urls'] ) && $options['encrypt_urls'] ? true : false;
 
 // decrypt id if needed
-if ( $encryption_enabled ) {
+if ( $encryption_enabled )
 	$id = isset( $_GET['id'] ) ? da_decrypt_attachment_id( urldecode( esc_attr( $_GET['id'] ) ) ) : 0;
-} else {
+else
 	$id = isset( $_GET['id'] ) ? esc_attr( $_GET['id'] ) : 0;
-}
 
 if ( ! $id )
 	return;

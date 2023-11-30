@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) )
 
 /**
  * Download_Attachments_Metabox class.
- * 
+ *
  * @class Download_Attachments_Metabox
  */
 class Download_Attachments_Metabox {
@@ -15,16 +15,16 @@ class Download_Attachments_Metabox {
 	 */
 	public function __construct() {
 		// actions
-		add_action( 'add_meta_boxes', array( $this, 'add_download_meta_box' ) );
-		add_action( 'delete_attachment', array( $this, 'remove_attachment' ) );
-		add_action( 'wp_ajax_da-save-files', array( $this, 'ajax_save_files' ) );
-		add_action( 'wp_ajax_da-new-file', array( $this, 'ajax_update_attachments' ) );
-		add_action( 'save_post', array( $this, 'save_attachments_data' ), 10, 2 );
+		add_action( 'add_meta_boxes', [ $this, 'add_download_meta_box' ] );
+		add_action( 'delete_attachment', [ $this, 'remove_attachment' ] );
+		add_action( 'wp_ajax_da-save-files', [ $this, 'ajax_save_files' ] );
+		add_action( 'wp_ajax_da-new-file', [ $this, 'ajax_update_attachments' ] );
+		add_action( 'save_post', [ $this, 'save_attachments_data' ], 10, 2 );
 	}
 
 	/**
 	 * Update files and posts ids when removing.
-	 * 
+	 *
 	 * @param int $attachment_id
 	 */
 	public function remove_attachment( $attachment_id ) {
@@ -48,8 +48,8 @@ class Download_Attachments_Metabox {
 
 	/**
 	 * Save attachments attached to a post.
-	 * 
-	 * @param integer $post_id
+	 *
+	 * @param int $post_id
 	 * @param object $post
 	 * @return void
 	 */
@@ -62,7 +62,7 @@ class Download_Attachments_Metabox {
 			return;
 
 		// inline edit?
-		if ( isset( $_POST['_inline_edit'] ) && wp_verify_nonce( $_POST['_inline_edit'], 'inlineeditnonce' ) ) 
+		if ( isset( $_POST['_inline_edit'] ) && wp_verify_nonce( $_POST['_inline_edit'], 'inlineeditnonce' ) )
 			return;
 
 		// autosave?
@@ -79,17 +79,17 @@ class Download_Attachments_Metabox {
 
 		// valid data?
 		if ( array_key_exists( 'da_attachment_data', $_POST ) && is_array( $_POST['da_attachment_data'] ) ) {
-			$attachments = array();
+			$attachments = [];
 
-			foreach( $_POST['da_attachment_data'] as $attachment ) {
-				$attachments[] = array( $attachment['id'], (int) array_key_exists( 'exclude', $attachment ) );
+			foreach ( $_POST['da_attachment_data'] as $attachment ) {
+				$attachments[] = [ $attachment['id'], (int) array_key_exists( 'exclude', $attachment ) ];
 			}
 
 			unset( $_POST['da_attachment_data'] );
 
 			$_POST['attachment_data'] = $attachments;
-		} else 
-			$_POST['attachment_data'] = array( 'empty' );
+		} else
+			$_POST['attachment_data'] = [ 'empty' ];
 
 		$this->save_files( $post_id, $_POST );
 	}
@@ -103,9 +103,9 @@ class Download_Attachments_Metabox {
 		if ( isset( $_POST['danonce'], $_POST['post_id'], $_POST['attachment_data'], $_POST['action'] ) && ( $post_id = (int) $_POST['post_id'] ) > 0 && $_POST['action'] === 'da-save-files' && is_array( $_POST['attachment_data'] ) && current_user_can( 'manage_download_attachments' ) && wp_verify_nonce( $_POST['danonce'], 'da-save-files-nonce-' . $post_id ) !== false ) {
 			$this->save_files( $post_id, $_POST );
 
-			echo json_encode( array( 'status' => 'OK', 'info' => '' ) );
+			echo json_encode( [ 'status' => 'OK', 'info' => '' ] );
 		} else
-			echo json_encode( array( 'status' => 'ERROR', 'info' => __( 'Unexpected error occured. Please refresh the page and try again.', 'download-attachments' ) ) );
+			echo json_encode( [ 'status' => 'ERROR', 'info' => __( 'Unexpected error occured. Please refresh the page and try again.', 'download-attachments' ) ] );
 
 		exit;
 	}
@@ -113,18 +113,18 @@ class Download_Attachments_Metabox {
 	/**
 	 * Save attachments.
 	 *
-	 * @param integer $post_id Post ID
-	 * @param array $post $_POST data
+	 * @param int $post_id
+	 * @param array $post
 	 * @return void
 	 */
 	public function save_files( $post_id, $post ) {
-		$new_files = array();
+		$new_files = [];
 
 		// get already added attachments
 		$files = get_post_meta( $post_id, '_da_attachments', true );
 
 		if ( isset( $post['attachment_data'][0] ) && $post['attachment_data'][0] === 'empty' )
-			$post['attachment_data'] = array();
+			$post['attachment_data'] = [];
 
 		if ( ! empty( $post['attachment_data'] ) ) {
 			// get current user id
@@ -145,12 +145,12 @@ class Download_Attachments_Metabox {
 				}
 				// new file
 				else {
-					$new_files[$att_id] = array(
-						'file_id'		 => $att_id,
-						'file_date'		 => current_time( 'mysql' ),
-						'file_exclude'	 => (bool) (int) $attachment[1],
-						'file_user_id'	 => $current_user_id
-					);
+					$new_files[$att_id] = [
+						'file_id'		=> $att_id,
+						'file_date'		=> current_time( 'mysql' ),
+						'file_exclude'	=> (bool) (int) $attachment[1],
+						'file_user_id'	=> $current_user_id
+					];
 
 					// check whether any files are already attached to this post
 					if ( ( $files_meta = get_post_meta( $att_id, '_da_posts', true ) ) !== '' && is_array( $files_meta ) && ! empty( $files_meta ) ) {
@@ -158,7 +158,7 @@ class Download_Attachments_Metabox {
 
 						update_post_meta( $att_id, '_da_posts', array_unique( $files_meta ) );
 					} else
-						update_post_meta( $att_id, '_da_posts', array( $post_id ) );
+						update_post_meta( $att_id, '_da_posts', [ $post_id ] );
 
 					// first time?
 					if ( get_post_meta( $att_id, '_da_downloads', true ) === '' )
@@ -197,10 +197,10 @@ class Download_Attachments_Metabox {
 	 */
 	public function ajax_update_attachments() {
 		if ( isset( $_POST['danonce'], $_POST['post_id'], $_POST['attachments_ids'], $_POST['action'] ) && ($post_id = (int) $_POST['post_id']) > 0 && $_POST['action'] === 'da-new-file' && is_array( $_POST['attachments_ids'] ) && ! empty( $_POST['attachments_ids'] ) && current_user_can( 'manage_download_attachments' ) && wp_verify_nonce( $_POST['danonce'], 'da-add-file-nonce-' . $post_id ) !== false ) {
-			$rows = array();
+			$rows = [];
 
 			if ( isset( $_POST['attachments_ids'][0] ) && $_POST['attachments_ids'][0] === 'empty' )
-				$_POST['attachments_ids'] = array();
+				$_POST['attachments_ids'] = [];
 
 			if ( ! empty( $_POST['attachments_ids'] ) ) {
 				$attachments = array_unique( array_map( 'intval', $_POST['attachments_ids'] ) );
@@ -218,9 +218,9 @@ class Download_Attachments_Metabox {
 				}
 			}
 
-			echo json_encode( array( 'status' => 'OK', 'files' => $rows, 'info' => '' ) );
+			echo json_encode( [ 'status' => 'OK', 'files' => $rows, 'info' => '' ] );
 		} else
-			echo json_encode( array( 'status' => 'ERROR', 'files' => array(), 'info' => __( 'Unexpected error occured. Please refresh the page and try again.', 'download-attachments' ) ) );
+			echo json_encode( [ 'status' => 'ERROR', 'files' => [], 'info' => __( 'Unexpected error occured. Please refresh the page and try again.', 'download-attachments' ) ] );
 
 		exit;
 	}
@@ -232,7 +232,7 @@ class Download_Attachments_Metabox {
 		if ( ! current_user_can( 'manage_download_attachments' ) )
 			return;
 
-		// filterable metabox settings 
+		// filterable metabox settings
 		$context = apply_filters( 'da_metabox_context', 'normal' );
 		$priority = apply_filters( 'da_metabox_priority', 'high' );
 
@@ -246,18 +246,15 @@ class Download_Attachments_Metabox {
 				if ( ! isset( $post_id ) )
 					$post_id = false;
 
-				if ( apply_filters( 'da_metabox_limit', true, $post_id ) ) {
-					add_meta_box(
-					'download_attachments_metabox', __( 'Attachments', 'download-attachments' ), array( $this, 'display_metabox' ), $post_type, $context, $priority
-					);
-				}
+				if ( apply_filters( 'da_metabox_limit', true, $post_id ) )
+					add_meta_box( 'download_attachments_metabox', __( 'Attachments', 'download-attachments' ), [ $this, 'display_metabox' ], $post_type, $context, $priority );
 			}
 		}
 	}
 
 	/**
 	 * Display metabox.
-	 * 
+	 *
 	 * @param object $post
 	 * @return mixed
 	 */
@@ -306,7 +303,7 @@ class Download_Attachments_Metabox {
 
 				foreach ( Download_Attachments()->options['backend_columns'] as $column => $bool ) {
 					if ( $bool )
-						$columns ++;
+						$columns++;
 				}
 
 				echo '
@@ -329,13 +326,13 @@ class Download_Attachments_Metabox {
 
 	/**
 	 * Prepare attachments data for output.
-	 * 
+	 *
 	 * @param int $post_id
 	 * @param array $file_ids
 	 * @return array
 	 */
-	public function prepare_files_data( $post_id = 0, $file_ids = array() ) {
-		$files = array();
+	public function prepare_files_data( $post_id = 0, $file_ids = [] ) {
+		$files = [];
 
 		if ( ( $files_meta = get_post_meta( $post_id, '_da_attachments', true ) ) !== '' && is_array( $files_meta ) && ! empty( $files_meta ) ) {
 			$empty_file_ids = empty( $file_ids );
@@ -344,13 +341,13 @@ class Download_Attachments_Metabox {
 				if ( ! $empty_file_ids && ! in_array( $file['file_id'], $file_ids, true ) )
 					continue;
 
-				$files[$file['file_id']] = array(
-					'file_id'		 => $file['file_id'],
-					'file_date'		 => $file['file_date'],
-					'file_exclude'	 => '<input class="exclude-attachment" id="att-exclude-' . $file['file_id'] . '" type="checkbox" name="da_attachment_data[' . $file['file_id'] . '][exclude]" value="true" ' . checked( (isset( $file['file_exclude'] ) && $file['file_exclude'] === true ? true : false ), true, false ) . '/><input type="hidden" name="da_attachment_data[' . $file['file_id'] . '][id]" value="' . $file['file_id'] . '" />',
-					'file_user_id'	 => $file['file_user_id'],
-					'file_downloads' => (int) get_post_meta( $file['file_id'], '_da_downloads', true )
-				);
+				$files[$file['file_id']] = [
+					'file_id'			=> $file['file_id'],
+					'file_date'			=> $file['file_date'],
+					'file_exclude'		=> '<input class="exclude-attachment" id="att-exclude-' . $file['file_id'] . '" type="checkbox" name="da_attachment_data[' . $file['file_id'] . '][exclude]" value="true" ' . checked( (isset( $file['file_exclude'] ) && $file['file_exclude'] === true ? true : false ), true, false ) . '/><input type="hidden" name="da_attachment_data[' . $file['file_id'] . '][id]" value="' . $file['file_id'] . '" />',
+					'file_user_id'		=> $file['file_user_id'],
+					'file_downloads'	=> (int) get_post_meta( $file['file_id'], '_da_downloads', true )
+				];
 			}
 		}
 
@@ -358,15 +355,15 @@ class Download_Attachments_Metabox {
 
 		if ( ! empty( $new_file_ids ) ) {
 			$files_data = get_posts(
-				array(
-					'include'		 => $new_file_ids,
-					'posts_per_page' => -1,
-					'offset'		 => 0,
-					'orderby'		 => 'post_date',
-					'order'			 => 'DESC',
-					'post_type'		 => 'attachment',
-					'post_status'	 => 'any'
-				)
+				[
+					'include'			=> $new_file_ids,
+					'posts_per_page'	=> -1,
+					'offset'			=> 0,
+					'orderby'			=> 'post_date',
+					'order'				=> 'DESC',
+					'post_type'			=> 'attachment',
+					'post_status'		=> 'any'
+				]
 			);
 
 			if ( ! empty( $files_data ) ) {
@@ -431,17 +428,17 @@ class Download_Attachments_Metabox {
 
 	/**
 	 * Display table's row.
-	 * 
+	 *
 	 * @param int $post_id
 	 * @param bool $ajax
 	 * @param array $file
 	 * @return mixed
 	 */
-	public function get_table_row( $post_id = 0, $ajax = false, $file = array() ) {
-		$html = '<tr' . ($ajax === true ? ' style="display: none;"' : '') . ' id="att-' . $file['file_id'] . '"><td class="file-drag"><span class="dashicons dashicons-menu"></span></td>';
+	public function get_table_row( $post_id = 0, $ajax = false, $file = [] ) {
+		$html = '<tr' . ( $ajax === true ? ' style="display: none;"' : '' ) . ' id="att-' . $file['file_id'] . '"><td class="file-drag"><span class="dashicons dashicons-menu"></span></td>';
 
 		foreach ( Download_Attachments()->columns as $column => $name ) {
-			if ( $column === 'exclude' || ( ! in_array( $column, array( 'index', 'icon' ) ) && isset( Download_Attachments()->options['backend_columns'][$column] ) && Download_Attachments()->options['backend_columns'][$column] === true ) ) {
+			if ( $column === 'exclude' || ( ! in_array( $column, [ 'index', 'icon' ], true ) && isset( Download_Attachments()->options['backend_columns'][$column] ) && Download_Attachments()->options['backend_columns'][$column] === true ) ) {
 				if ( $column === 'size' )
 					$value = ' data-order="' . $file['file_size_bytes'] . '"';
 				elseif ( $column === 'date' )
@@ -468,7 +465,6 @@ class Download_Attachments_Metabox {
 
 		return $html;
 	}
-
 }
 
 new Download_Attachments_Metabox();
