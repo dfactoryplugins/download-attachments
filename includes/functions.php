@@ -191,6 +191,7 @@ function da_get_download_attachments( $post_id = 0, $args = [] ) {
 			$attachments[$attachment->ID]['icon_url'] = ( file_exists( DOWNLOAD_ATTACHMENTS_PATH . 'images/ext/' . $extension . '.gif' ) ? DOWNLOAD_ATTACHMENTS_URL . '/images/ext/' . $extension . '.gif' : DOWNLOAD_ATTACHMENTS_URL . '/images/ext/unknown.gif' );
 			$attachments[$attachment->ID]['menu_order'] = isset( $attachments[$attachment->ID]['menu_order'] ) ? $attachments[$attachment->ID]['menu_order'] : $attachment->menu_order;
 			$attachments[$attachment->ID]['date_added'] = $attachment->post_date;
+			$attachments[$attachment->ID]['timestamp'] = strtotime( $attachment->post_date, 0 );
 			$attachments[$attachment->ID]['user_added'] = $attachment->post_author;
 		}
 	}
