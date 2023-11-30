@@ -91,7 +91,7 @@ extract( $args );
 					<td class="attachment-index"><?php echo $i ++; ?></td> 
 				<?php endif; ?>
 
-				<td class="attachment-title">
+				<td class="attachment-title" data-order="<?php echo esc_attr( $attachment_title ); ?>">
 
 					<?php if ( $display_icon === 1 ) : ?>
 						<img class="attachment-icon" src="<?php echo $attachment['icon_url']; ?>" alt="<?php echo $attachment['type']; ?>" /> 
@@ -126,7 +126,7 @@ extract( $args );
 				<?php endif; ?>
 
 				<?php if ( $display_date === 1 ) : ?>
-					<td class="attachment-date"><?php echo date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $attachment['date_added'] ) ); ?></td>
+					<td class="attachment-date" data-order="<?php echo $attachment['timestamp']; ?>"><?php echo date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $attachment['date_added'] ) ); ?></td>
 				<?php endif; ?>
 
 				<?php if ( $display_user === 1 ) : ?>
@@ -134,7 +134,7 @@ extract( $args );
 				<?php endif; ?>
 
 				<?php if ( $display_size === 1 ) : ?>
-					<td class="attachment-size" data-size="<?php echo $attachment['size']; ?>"><?php echo size_format( $attachment['size'] ); ?></td>
+					<td class="attachment-size" data-order="<?php echo $attachment['size']; ?>"><?php echo size_format( $attachment['size'] ); ?></td>
 				<?php endif; ?>
 
 				<?php if ( $display_count === 1 ) : ?>

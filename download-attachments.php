@@ -459,48 +459,106 @@ if ( ! class_exists( 'Download_Attachments' ) ) :
 				wp_enqueue_style( 'download-attachments-admin' );
 			// metabox
 			} elseif ( in_array( $page, array( 'post.php', 'post-new.php' ), true ) ) {
-				wp_register_script( 'download-attachments-admin-post', DOWNLOAD_ATTACHMENTS_URL . '/js/admin-post.js', array( 'jquery' ) );
-				wp_register_script( 'download-attachments-admin-stupid-table-sort', DOWNLOAD_ATTACHMENTS_URL . '/assets/stupid-jquery-table-sort/stupidtable' . ( ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', array( 'jquery' ) );
+				wp_register_script( 'da-admin-datatables', DOWNLOAD_ATTACHMENTS_URL . '/assets/datatables/datatables' . ( ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', [], '1.13.8' );
+				wp_register_script( 'da-admin-post', DOWNLOAD_ATTACHMENTS_URL . '/js/admin-post.js', [ 'jquery', 'da-admin-datatables' ], $this->defaults['version'] );
+				wp_register_style( 'da-admin-datatables', DOWNLOAD_ATTACHMENTS_URL . '/assets/datatables/datatables' . ( ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '.min' : '' ) . '.css', [], '1.13.8' );
 
-				$columns = 0;
+				$columnTypes = [];
 
-				foreach ( $this->options['backend_columns'] as $column => $bool ) {
-					if ( $bool === true )
-						$columns ++;
+				// number of columns
+				$no_columns = 0;
+
+				// get changeable admin columns
+				$backend_columns = $this->options['backend_columns'];
+
+				// all possible admin columns
+				$columns = [ 'drag', 'id', 'exclude', 'author', 'title', 'type', 'size', 'date', 'downloads', 'actions' ];
+
+				foreach ( $columns as $column ) {
+					switch ( $column ) {
+						case 'drag':
+							$columnTypes[] = [ 'orderable' => false ];
+							break;
+							
+						case 'id':
+							if ( $backend_columns[$column] )
+								$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+							break;
+
+						case 'exclude':
+							$columnTypes[] = [ 'orderable' => false ];
+							break;
+
+						case 'author':
+							if ( $backend_columns[$column] )
+								$columnTypes[] = [ 'orderable' => true ];
+							break;
+
+						case 'title':
+							$columnTypes[] = [ 'orderable' => true ];
+							break;
+
+						case 'type':
+							if ( $backend_columns[$column] )
+								$columnTypes[] = [ 'orderable' => true ];
+							break;
+
+						case 'size':
+							if ( $backend_columns[$column] )
+								$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+							break;
+
+						case 'date':
+							if ( $backend_columns[$column] )
+								$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+							break;
+
+						case 'downloads':
+							if ( $backend_columns[$column] )
+								$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+							break;
+
+						case 'actions':
+							$columnTypes[] = [ 'orderable' => false ];
+							break;
+					}
 				}
 
-				global $post;
+				foreach ( $backend_columns as $bool ) {
+					if ( $bool === true )
+						$no_columns++;
+				}
 
-				wp_localize_script(
-					'download-attachments-admin-post',
-					'daArgs',
-					array(
-						'addTitle'				 => __( 'Select Attachments', 'download-attachments' ),
-						'editTitle'				 => __( 'Edit attachment', 'download-attachments' ),
-						'buttonAddNewFile'		 => __( 'Add selected attachments', 'download-attachments' ),
-						'buttonEditFile'		 => __( 'Save attachment', 'download-attachments' ),
-						'selectTitle'			 => __( 'Insert download link', 'download-attachments' ),
-						'buttonInsertLink'		 => __( 'Insert into post', 'download-attachments' ),
-						'noFiles'				 => __( 'No attachments added yet.', 'download-attachments' ),
-						'deleteFile'			 => __( 'Do you want to remove this attachment?', 'download-attachments' ),
-						'removeFile'			 => __( 'Remove', 'download-attachments' ),
-						'editFile'				 => __( 'Edit', 'download-attachments' ),
-						'activeColumns'			 => ( $columns + 3 ),
-						'internalUnknownError'	 => __( 'Unexpected error occured. Please refresh the page and try again.', 'download-attachments' ),
-						'library'				 => ( $this->options['library'] === 'all' ? 1 : 0 ),
-						'addNonce'				 => wp_create_nonce( 'da-add-file-nonce-' . ( isset( $post->ID ) ? $post->ID : 0 ) ),
-						'saveNonce'				 => wp_create_nonce( 'da-save-files-nonce-' . ( isset( $post->ID ) ? $post->ID : 0 ) ),
-						'attachmentLink'		 => $this->options['attachment_link']
-					)
-				);
+				// prepare script data
+				$script_data = [
+					'addTitle'				=> __( 'Select Attachments', 'download-attachments' ),
+					'editTitle'				=> __( 'Edit attachment', 'download-attachments' ),
+					'buttonAddNewFile'		=> __( 'Add selected attachments', 'download-attachments' ),
+					'buttonEditFile'		=> __( 'Save attachment', 'download-attachments' ),
+					'selectTitle'			=> __( 'Insert download link', 'download-attachments' ),
+					'buttonInsertLink'		=> __( 'Insert into post', 'download-attachments' ),
+					'noFiles'				=> __( 'No attachments added yet.', 'download-attachments' ),
+					'deleteFile'			=> __( 'Do you want to remove this attachment?', 'download-attachments' ),
+					'removeFile'			=> __( 'Remove', 'download-attachments' ),
+					'editFile'				=> __( 'Edit', 'download-attachments' ),
+					'activeColumns'			=> $no_columns + 3,
+					'columnTypes'			=> $columnTypes,
+					'internalUnknownError'	=> __( 'Unexpected error occured. Please refresh the page and try again.', 'download-attachments' ),
+					'library'				=> ( $this->options['library'] === 'all' ? 1 : 0 ),
+					'addNonce'				=> wp_create_nonce( 'da-add-file-nonce-' . ( isset( $post->ID ) ? $post->ID : 0 ) ),
+					'saveNonce'				=> wp_create_nonce( 'da-save-files-nonce-' . ( isset( $post->ID ) ? $post->ID : 0 ) ),
+					'attachmentLink'		=> $this->options['attachment_link']
+				];
 
-				wp_enqueue_media( array( 'post' => ( isset( $post->ID ) ? (int) $post->ID : 0 ) ) );
-				wp_enqueue_style( 'download-attachments-admin' );
-				wp_enqueue_script( 'download-attachments-admin-post' );
-				wp_enqueue_script( 'download-attachments-admin-stupid-table-sort' );
+				wp_add_inline_script( 'da-admin-post', 'var daArgsPost = ' . wp_json_encode( $script_data ) . ";\n", 'before' );
+
+				wp_enqueue_media( [ 'post' => ( isset( $post->ID ) ? (int) $post->ID : 0 ) ] );
+				wp_enqueue_style( 'da-admin' );
+				wp_enqueue_style( 'da-admin-datatables' );
+				wp_enqueue_script( 'da-admin-post' );
 
 				if ( $post->post_type === 'attachment' )
-					wp_enqueue_script( 'download-attachments-admin-attachment', DOWNLOAD_ATTACHMENTS_URL . '/js/admin-attachment.js', array( 'jquery' ), $this->defaults['version'] );
+					wp_enqueue_script( 'da-admin-attachment', DOWNLOAD_ATTACHMENTS_URL . '/js/admin-attachment.js', [ 'jquery' ], $this->defaults['version'] );
 			}
 		}
 
@@ -511,8 +569,10 @@ if ( ! class_exists( 'Download_Attachments' ) ) :
 		 */
 		public function wp_enqueue_scripts() {
 			if ( $this->options['use_css_style'] === true ) {
-				wp_register_style( 'download-attachments-frontend', DOWNLOAD_ATTACHMENTS_URL . '/css/frontend.css' );
-				wp_enqueue_style( 'download-attachments-frontend' );
+				if ( $this->options['display_style'] === 'dynatable' )
+					wp_enqueue_style( 'da-frontend', DOWNLOAD_ATTACHMENTS_URL . '/assets/datatables/datatables' . ( ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '.min' : '' ) . '.css', [], '1.13.8' );
+				else
+					wp_enqueue_style( 'da-frontend', DOWNLOAD_ATTACHMENTS_URL . '/css/frontend.css', [], $this->defaults['version'] );
 			}
 		}
 

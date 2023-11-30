@@ -300,41 +300,71 @@ function da_display_download_attachments( $post_id = 0, $args = array() ) {
 		$args['count'] = count( $args['attachments'] );
 
 		if ( $args['style'] === 'dynatable' ) {
-			wp_register_script( 'download-attachments-dynatable-js', DOWNLOAD_ATTACHMENTS_URL . '/assets/jquery-dynatable/jquery.dynatable' . ( ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', array( 'jquery' ) );
-			wp_enqueue_script( 'download-attachments-frontend-dynatable', DOWNLOAD_ATTACHMENTS_URL . '/js/frontend.js', array( 'jquery', 'download-attachments-dynatable-js' ) );
-			wp_localize_script(
-				'download-attachments-frontend-dynatable',
-				'daDynatableArgs',
-				apply_filters(
-					'da_display_attachments_dynatable_args',
-					array(
-						'features'	=> array(
-							'paginate'		=> true,
-							'sort'			=> true,
-							'pushState'		=> true,
-							'search'		=> true,
-							'recordCount'	=> true,
-							'perPageSelect'	=> true
-						),
-						'inputs'	=> array(
-							'recordCountPlacement'		=> 'after',
-							'paginationLinkPlacement'	=> 'after',
-							'paginationPrev'			=> __( 'Previous', 'download-attachments' ),
-							'paginationNext'			=> __( 'Next', 'download-attachments' ),
-							'paginationGap'				=> array( 1, 2, 2, 1 ),
-							'searchPlacement'			=> 'before',
-							'perPagePlacement'			=> 'before',
-							'perPageText'				=> __( 'Show', 'download-attachments' ) . ': ',
-							'recordCountText'			=> __( 'Showing', 'download-attachments' ) . ' ',
-							'processingText'			=> __( 'Processing', 'download-attachments' ). '...'
-						),
-						'dataset'	=> array(
-							'perPageDefault'	=> 5,
-							'perPageOptions'	=> array( 5, 10, 25, 50 )
-						)
-					)
-				)
+			wp_register_script( 'da-frontend-datatables', DOWNLOAD_ATTACHMENTS_URL . '/assets/datatables/datatables' . ( ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', [], '1.13.8' );
+			wp_enqueue_script( 'da-frontend', DOWNLOAD_ATTACHMENTS_URL . '/js/frontend.js', [ 'jquery', 'da-frontend-datatables' ], Download_Attachments()->defaults['version'] );
+
+			$columnTypes = [];
+
+			// index
+			if ( $args['display_index'] === 1 )
+				$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+
+			// title
+			$columnTypes[] = [ 'orderable' => true ];
+
+			// description
+			if ( $args['display_caption'] === 1 || ( $args['display_description'] === 1 && $args['use_desc_for_title'] === 0 ) )
+				$columnTypes[] = [ 'orderable' => false ];
+
+			// date added
+			if ( $args['display_date'] === 1 )
+				$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+
+			// added by
+			if ( $args['display_user'] === 1 )
+				$columnTypes[] = [ 'orderable' => true ];
+
+			// file size
+			if ( $args['display_size'] === 1 )
+				$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+
+			// downloads
+			if ( $args['display_count'] === 1 )
+				$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+
+			// prepare script data
+			$script_data = apply_filters(
+				'da_display_attachments_dynatable_args',
+				[
+					'columnTypes'	=> $columnTypes,
+					'features'		=> [
+						'paginate'		=> true, // paginate
+						'sort'			=> true, // ordering
+						'pushState'		=> true, // stateSave
+						'search'		=> true, // searching
+						'recordCount'	=> true, // info
+						'perPageSelect'	=> true	// lengthChange
+					],
+					'inputs'		=> [
+						'recordCountPlacement'		=> 'after',
+						'paginationLinkPlacement'	=> 'after',
+						'paginationPrev'			=> __( 'Previous', 'download-attachments' ),
+						'paginationNext'			=> __( 'Next', 'download-attachments' ),
+						'paginationGap'				=> [ 1, 2, 2, 1 ],
+						'searchPlacement'			=> 'before',
+						'perPagePlacement'			=> 'before',
+						'perPageText'				=> __( 'Show', 'download-attachments' ) . ': ',
+						'recordCountText'			=> __( 'Showing', 'download-attachments' ) . ' ',
+						'processingText'			=> __( 'Processing', 'download-attachments' ). '...'
+					],
+					'dataset'		=> [
+						'perPageDefault'	=> 5, // pageLength
+						'perPageOptions'	=> [ [ 1, 10, 25, 50, -1 ], [ 1, 10, 25, 50, esc_html__( 'All', 'download-attachments' ) ] ] // lengthMenu
+					]
+				]
 			);
+
+			wp_add_inline_script( 'da-frontend', 'var daDataTablesArgs = ' . wp_json_encode( $script_data ) . ";\n", 'before' );
 		}
 
 		ob_start();

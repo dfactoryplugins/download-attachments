@@ -1,5 +1,8 @@
 ( function( $ ) {
 
+	var tableInitialized = false;
+	var filesTable = null;
+
     // ready event
 	$( function() {
 		var daEditFrame = null;
@@ -98,6 +101,8 @@
 							} else {
 								$( '#da-files tbody' ).append( json.files );
 								$( '#da-files tbody tr' ).fadeIn( 300 );
+
+								initDataTable();
 							}
 
 							$( '#da-infobox' ).html( '' ).fadeOut( 300 );
@@ -300,8 +305,32 @@
 			}
 		} );
 
-		// make table sortable by columns
-		$( '#da-files' ).stupidtable();
+		var infoRow = $( '#da-files tbody tr#da-info' );
+
+		// any files?
+		if ( infoRow.length !== 1 )
+			initDataTable();
     } );
+
+	function initDataTable() {
+		if ( tableInitialized ) {
+			// refresh table
+			filesTable.draw();
+
+			return;
+		}
+
+		// make table sortable by columns
+		filesTable = $( '#da-files' ).DataTable( {
+			paging: false,
+			info: false,
+			searching: false,
+			ordering: true,
+			order: [],
+			columns: daArgs.columnTypes
+		} );
+
+		tableInitialized = true;
+	}
 
 } )( jQuery );

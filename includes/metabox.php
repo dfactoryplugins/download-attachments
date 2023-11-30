@@ -278,29 +278,9 @@ class Download_Attachments_Metabox {
 						<th class="file-drag"></th>';
 
 			foreach ( Download_Attachments()->columns as $column => $name ) {
-				if (  $column === 'exclude' || ( ! in_array( $column, array( 'index', 'icon' ) ) && isset( Download_Attachments()->options['backend_columns'][$column] ) && Download_Attachments()->options['backend_columns'][$column] === true ) ) {
-					$sort = '';
-					
-					switch ( $column ) {
-						case 'id':
-						case 'downloads':
-						case 'size':
-						case 'date':
-							$sort = ' data-sort="int"';
-							break;
-
-						case 'author':
-						case 'title':
-						case 'type':
-							$sort = ' data-sort="string-ins"';
-							break;
-
-						default:
-							$sort = '';
-					}
-
+				if (  $column === 'exclude' || ( ! in_array( $column, [ 'index', 'icon' ] ) && isset( Download_Attachments()->options['backend_columns'][$column] ) && Download_Attachments()->options['backend_columns'][$column] === true ) ) {
 					echo '
-						<th' . $sort . ' class="file-' . $column . '">' . ( ! empty( $sort ) ? '<a href="javascript:void(0)">' . $name . '</a>' : $name ) . '</th>';
+						<th class="file-' . $column . '">' . $name . '</th>';
 				}
 			}
 
@@ -463,13 +443,13 @@ class Download_Attachments_Metabox {
 		foreach ( Download_Attachments()->columns as $column => $name ) {
 			if ( $column === 'exclude' || ( ! in_array( $column, array( 'index', 'icon' ) ) && isset( Download_Attachments()->options['backend_columns'][$column] ) && Download_Attachments()->options['backend_columns'][$column] === true ) ) {
 				if ( $column === 'size' )
-					$value = ' data-sort-value="' . $file['file_size_bytes'] . '"';
+					$value = ' data-order="' . $file['file_size_bytes'] . '"';
 				elseif ( $column === 'date' )
-					$value = ' data-sort-value="' . $file['file_date_timestamp'] . '"';
+					$value = ' data-order="' . $file['file_date_timestamp'] . '"';
 				elseif ( $column === 'author' )
-					$value = ' data-sort-value="' . $file['file_author_string'] . '"';
+					$value = ' data-order="' . $file['file_author_string'] . '"';
 				elseif ( $column === 'title' )
-					$value = ' data-sort-value="' . $file['file_title_string'] . '"';
+					$value = ' data-order="' . $file['file_title_string'] . '"';
 				else
 					$value = '';
 
