@@ -465,17 +465,18 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 
 			// settings
 			if ( $page === 'settings_page_download-attachments' ) {
-				wp_register_script( 'download-attachments-admin-settings', DOWNLOAD_ATTACHMENTS_URL . '/js/admin-settings.js', array( 'jquery' ) );
-				wp_localize_script(
-					'download-attachments-admin-settings',
-					'daArgs',
-					array(
-						'resetToDefaults'			=> __( 'Are you sure you want to reset these settings to defaults?', 'download-attachments' ),
-						'resetDownloadsToDefaults'	=> __( 'Are you sure you want to reset number of downloads of all attachments?', 'download-attachments' )
-					)
-				);
-				wp_enqueue_script( 'download-attachments-admin-settings' );
-				wp_enqueue_style( 'download-attachments-admin' );
+				wp_register_script( 'da-admin-settings', DOWNLOAD_ATTACHMENTS_URL . '/js/admin-settings.js', [ 'jquery' ], $this->defaults['version'] );
+
+				// prepare script data
+				$script_data = [
+					'resetToDefaults'			=> esc_html__( 'Are you sure you want to reset these settings to defaults?', 'download-attachments' ),
+					'resetDownloadsToDefaults'	=> esc_html__( 'Are you sure you want to reset number of downloads of all attachments?', 'download-attachments' )
+				];
+
+				wp_add_inline_script( 'da-admin-settings', 'var daArgsSettings = ' . wp_json_encode( $script_data ) . ";\n", 'before' );
+
+				wp_enqueue_script( 'da-admin-settings' );
+				wp_enqueue_style( 'da-admin' );
 			// metabox
 			} elseif ( in_array( $page, [ 'post.php', 'post-new.php' ], true ) ) {
 				wp_register_script( 'da-admin-datatables', DOWNLOAD_ATTACHMENTS_URL . '/assets/datatables/datatables' . ( ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', [], '1.13.8' );
@@ -483,9 +484,6 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 				wp_register_style( 'da-admin-datatables', DOWNLOAD_ATTACHMENTS_URL . '/assets/datatables/datatables' . ( ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '.min' : '' ) . '.css', [], '1.13.8' );
 
 				$columnTypes = [];
-
-				// number of columns
-				$no_columns = 0;
 
 				// get changeable admin columns
 				$backend_columns = $this->options['backend_columns'];
@@ -543,11 +541,6 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 					}
 				}
 
-				foreach ( $backend_columns as $bool ) {
-					if ( $bool === true )
-						$no_columns++;
-				}
-
 				// prepare script data
 				$script_data = [
 					'addTitle'				=> __( 'Select Attachments', 'download-attachments' ),
@@ -560,7 +553,6 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 					'deleteFile'			=> __( 'Do you want to remove this attachment?', 'download-attachments' ),
 					'removeFile'			=> __( 'Remove', 'download-attachments' ),
 					'editFile'				=> __( 'Edit', 'download-attachments' ),
-					'activeColumns'			=> $no_columns + 3,
 					'columnTypes'			=> $columnTypes,
 					'internalUnknownError'	=> __( 'Unexpected error occured. Please refresh the page and try again.', 'download-attachments' ),
 					'library'				=> ( $this->options['library'] === 'all' ? 1 : 0 ),

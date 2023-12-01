@@ -44,7 +44,7 @@
 				if ( id !== '' ) {
 					attachment = wp.media.attachment( id );
 					attachment.fetch();
-					selection.add( attachment ? [ attachment ] : [ ] );
+					selection.add( attachment ? [ attachment ] : [] );
 				}
 			} );
 		} );
@@ -58,7 +58,7 @@
 		daAddFrame.on( 'select', function() {
 			var library = daAddFrame.state().get( 'selection' );
 			var ids = library.pluck( 'id' );
-			var attachments = [ ];
+			var attachments = [];
 
 			$.each( $( '#da-files tbody tr[id^="att"]' ), function( i ) {
 				id = $( this ).attr( 'id' ).split( '-' )[1];
@@ -94,15 +94,35 @@
 							// if no files
 							if ( infoRow.length === 1 ) {
 								infoRow.fadeOut( 300, function() {
+									// remove info row
 									$( this ).remove();
+
+									// add new files
 									$( '#da-files tbody' ).append( json.files );
+
+									// display new files
 									$( '#da-files tbody tr' ).fadeIn( 300 );
+
+									// initialize datatables
+									initDataTable();
 								} );
 							} else {
-								$( '#da-files tbody' ).append( json.files );
-								$( '#da-files tbody tr' ).fadeIn( 300 );
+								// check all files
+								for ( const row of json.files ) {
+									// create node from html
+									var node = $.parseHTML( row );
 
-								initDataTable();
+									// add it
+									filesTable.row.add( node[0] );
+								}
+
+								filesTable.on( 'draw', function() {
+									// display new added nodes
+									$( '#da-files tbody tr' ).fadeIn( 300 );
+								} );
+
+								// redraw
+								filesTable.draw();
 							}
 
 							$( '#da-infobox' ).html( '' ).fadeOut( 300 );
@@ -126,8 +146,10 @@
 			if ( attachments_remove.length > 0 ) {
 				// remove deselected attachments
 				$.each( attachments_remove, function( i, id ) {
-					$( 'tr#att-' + id ).fadeOut( 300, function() {
-						$( this ).remove();
+					var node = $( 'tr#att-' + id );
+
+					node.fadeOut( 300, function() {
+						filesTable.row( node ).remove().draw();
 					} );
 				} );
 			}
@@ -203,11 +225,11 @@
 		// remove file
 		$( document ).on( 'click', '.da-remove-file', function() {
 			if ( confirm( daArgsPost.deleteFile ) ) {
-				$( 'tr#att-' + parseInt( $( this ).closest( 'tr[id^="att"]' ).attr( 'id' ).split( '-' )[1] ) ).fadeOut( 300, function() {
-					$( this ).remove();
+				var attId = $( this ).closest( 'tr[id^="att"]' ).attr( 'id' ).split( '-' )[1];
+				var node = $( 'tr#att-' + parseInt( attId ) );
 
-					if ( $( '#da-files tbody tr' ).length === 0 )
-						$( '#da-files tbody' ).hide().append( '<tr id="da-info"><td colspan="' + daArgsPost.activeColumns + '">' + daArgsPost.noFiles + '</td></tr>' ).fadeIn( 300 );
+				node.fadeOut( 300, function() {
+					filesTable.row( node ).remove().draw();
 				} );
 			}
 
@@ -219,7 +241,7 @@
 			if ( $( this ).find( 'input' ).is( ':disabled' ) )
 				return false;
 
-			var attachments = [ ];
+			var attachments = [];
 			var postID = parseInt( $( '#da-files' ).attr( 'rel' ) );
 
 			// display spinner
@@ -313,12 +335,8 @@
     } );
 
 	function initDataTable() {
-		if ( tableInitialized ) {
-			// refresh table
-			filesTable.draw();
-
+		if ( tableInitialized )
 			return;
-		}
 
 		// make table sortable by columns
 		filesTable = $( '#da-files' ).DataTable( {
@@ -327,7 +345,10 @@
 			searching: false,
 			ordering: true,
 			order: [],
-			columns: daArgsPost.columnTypes
+			columns: daArgsPost.columnTypes,
+			language: {
+				emptyTable: daArgsPost.noFiles
+			}
 		} );
 
 		tableInitialized = true;
