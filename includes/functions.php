@@ -309,30 +309,30 @@ function da_display_download_attachments( $post_id = 0, $args = [] ) {
 
 			// index
 			if ( $args['display_index'] === 1 )
-				$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+				$columnTypes[] = [ 'orderable' => true, 'type' => 'num', 'searchable' => true ];
 
 			// title
-			$columnTypes[] = [ 'orderable' => true ];
+			$columnTypes[] = [ 'orderable' => true, 'searchable' => true ];
 
 			// description
 			if ( $args['display_caption'] === 1 || ( $args['display_description'] === 1 && $args['use_desc_for_title'] === 0 ) )
-				$columnTypes[] = [ 'orderable' => false ];
+				$columnTypes[] = [ 'orderable' => false, 'searchable' => true ];
 
 			// date added
 			if ( $args['display_date'] === 1 )
-				$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+				$columnTypes[] = [ 'orderable' => true, 'type' => 'num', 'searchable' => true ];
 
 			// added by
 			if ( $args['display_user'] === 1 )
-				$columnTypes[] = [ 'orderable' => true ];
+				$columnTypes[] = [ 'orderable' => true, 'searchable' => true ];
 
 			// file size
 			if ( $args['display_size'] === 1 )
-				$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+				$columnTypes[] = [ 'orderable' => true, 'type' => 'num', 'searchable' => true ];
 
 			// downloads
 			if ( $args['display_count'] === 1 )
-				$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+				$columnTypes[] = [ 'orderable' => true, 'type' => 'num', 'searchable' => true ];
 
 			// prepare script data
 			$script_data = apply_filters(
@@ -348,20 +348,20 @@ function da_display_download_attachments( $post_id = 0, $args = [] ) {
 						'perPageSelect'	=> true	// lengthChange
 					],
 					'inputs'		=> [
-						'recordCountPlacement'		=> 'after',
-						'paginationLinkPlacement'	=> 'after',
-						'paginationPrev'			=> __( 'Previous', 'download-attachments' ),
-						'paginationNext'			=> __( 'Next', 'download-attachments' ),
-						'paginationGap'				=> [ 1, 2, 2, 1 ],
-						'searchPlacement'			=> 'before',
-						'perPagePlacement'			=> 'before',
-						'perPageText'				=> __( 'Show', 'download-attachments' ) . ': ',
-						'recordCountText'			=> __( 'Showing', 'download-attachments' ) . ' ',
-						'processingText'			=> __( 'Processing', 'download-attachments' ). '...'
+						'recordCountPlacement'		=> 'after', // part of dom
+						'paginationLinkPlacement'	=> 'after', // part of dom
+						'paginationPrev'			=> __( 'Previous', 'download-attachments' ), // language.paginate.previous
+						'paginationNext'			=> __( 'Next', 'download-attachments' ), // language.paginate.next
+						'paginationGap'				=> [ 1, 2, 2, 1 ], // first and last value has to be 1
+						'searchPlacement'			=> 'before', // part of dom
+						'perPagePlacement'			=> 'before', // part of dom
+						'perPageText'				=> __( 'Show _MENU_ entries', 'download-attachments' ), // language.lengthMenu
+						'recordCountText'			=> __( 'Showing _START_ to _END_ of _TOTAL_ entries', 'download-attachments' ) . ' ', // language.info
+						'processingText'			=> __( 'Processing', 'download-attachments' ) . '...' // language.loadingRecords
 					],
 					'dataset'		=> [
 						'perPageDefault'	=> 5, // pageLength
-						'perPageOptions'	=> [ [ 1, 10, 25, 50, -1 ], [ 1, 10, 25, 50, esc_html__( 'All', 'download-attachments' ) ] ] // lengthMenu
+						'perPageOptions'	=> [ [ 5, 10, 25, 50, -1 ], [ 5, 10, 25, 50, esc_html__( 'All', 'download-attachments' ) ] ] // lengthMenu
 					]
 				]
 			);
