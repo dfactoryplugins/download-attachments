@@ -344,24 +344,18 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 
 				// encrypt enabled
 				if ( isset( $this->options['encrypt_urls'] ) && $this->options['encrypt_urls'] ) {
-					$pattern = '/^' . $this->options['download_link'] . '\/(\X+)$/';
-
-					if ( preg_match( $pattern, $wp->request, $vars ) === 1 ) {
+					if ( preg_match( '/^' . $this->options['download_link'] . '\/(\X+)$/', $wp->request, $vars ) === 1 ) {
 						// allow for id customization
 						$id = apply_filters( 'da_download_attachment_id', $vars[1] );
 
 						da_download_attachment( (int) da_decrypt_attachment_id( $id ) );
 					}
 				// no encryption
-				} else {
-					$pattern = '/^' . $this->options['download_link'] . '\/(\d+)$/';
+				} elseif ( preg_match( '/^' . $this->options['download_link'] . '\/(\d+)$/', $wp->request, $vars ) === 1 ) {
+					// allow for id customization
+					$id = apply_filters( 'da_download_attachment_id', $vars[1] );
 
-					if ( preg_match( $pattern, $wp->request, $vars ) === 1 ) {
-						// allow for id customization
-						$id = apply_filters( 'da_download_attachment_id', $vars[1] );
-
-						da_download_attachment( (int) $id );
-					}
+					da_download_attachment( (int) $id );
 				}
 			}
 		}

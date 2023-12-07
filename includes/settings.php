@@ -690,20 +690,31 @@ class Download_Attachments_Settings {
 			// download method - redirect to file target
 			$new_input['link_target'] = isset( $input['link_target'], $this->redirect_targets[$input['link_target']] ) ? $input['link_target'] : Download_Attachments()->defaults['general']['link_target'];
 
+			// encrypt urls
+			$new_input['encrypt_urls'] = isset( $input['encrypt_urls'], $this->choices[$input['encrypt_urls']] ) ? ( $input['encrypt_urls'] === 'yes' ? true : false ) : Download_Attachments()->defaults['general']['encrypt_urls'];
+
 			// pretty urls
 			$new_input['pretty_urls'] = isset( $input['pretty_urls'], $this->choices[$input['pretty_urls']] ) ? ( $input['pretty_urls'] === 'yes' ? true : false ) : Download_Attachments()->defaults['general']['pretty_urls'];
 
 			// download link
-			if ( $input['pretty_urls'] ) {
+			if ( $new_input['pretty_urls'] ) {
 				$new_input['download_link'] = sanitize_title( $input['download_link'] );
 
 				if ( $new_input['download_link'] === '' )
 					$new_input['download_link'] = Download_Attachments()->defaults['general']['download_link'];
+
+				if ( $new_input['encrypt_urls'] )
+					$rule = $new_input['download_link'] . '/([A-Za-z0-9_,-]+)/?';
+				else
+					$rule = $new_input['download_link'] . '/(\d+)/?';
+
+				// add new rule
+				add_rewrite_rule( $rule, 'index.php?' . $new_input['download_link'] . '=$matches[1]', 'top' );
 			} else
 				$new_input['download_link'] = Download_Attachments()->defaults['general']['download_link'];
 
-			// encrypt urls
-			$new_input['encrypt_urls'] = isset( $input['encrypt_urls'], $this->choices[$input['encrypt_urls']] ) ? ( $input['encrypt_urls'] === 'yes' ? true : false ) : Download_Attachments()->defaults['general']['encrypt_urls'];
+			// rewrite rules
+			flush_rewrite_rules();
 
 			// deactivation delete
 			$new_input['deactivation_delete'] = (isset( $input['deactivation_delete'] ) && in_array( $input['deactivation_delete'], array_keys( $this->choices ), true ) ? ($input['deactivation_delete'] === 'yes' ? true : false) : Download_Attachments()->defaults['general']['deactivation_delete']);
@@ -814,6 +825,9 @@ class Download_Attachments_Settings {
 				if ( array_key_exists( $key, Download_Attachments()->defaults['general'] ) )
 					$new_input[$key] = Download_Attachments()->defaults['general'][$key];
 			}
+
+			// rewrite rules
+			flush_rewrite_rules();
 
 			$input = $new_input;
 
