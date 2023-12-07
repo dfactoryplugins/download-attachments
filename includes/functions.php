@@ -762,10 +762,6 @@ function da_download_attachment( $attachment_id = 0 ) {
 			if ( ! in_array( 'set_time_limit', explode( ',', ini_get( 'disable_functions' ) ) ) && ! ini_get( 'safe_mode' ) )
 				@set_time_limit( 0 );
 
-			// disable magic quotes runtime
-			if ( function_exists( 'get_magic_quotes_runtime' ) && get_magic_quotes_runtime() && version_compare( phpversion(), '5.4', '<' ) )
-				set_magic_quotes_runtime( 0 );
-
 			// set needed headers
 			nocache_headers();
 			header( 'Robots: none' );
