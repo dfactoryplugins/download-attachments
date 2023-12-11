@@ -457,9 +457,10 @@ class Download_Attachments_Metabox {
 		$html .= '<td class="file-actions">';
 
 		if ( current_user_can( 'edit_post', $file['file_id'] ) )
-			$html .= '<a href="' . (Download_Attachments()->options['attachment_link'] === 'modal' ? '#' : esc_url( admin_url( 'post.php?post=' . $file['file_id'] . '&action=edit' ) )) . '"><span class="dashicons dashicons-edit da-edit-file"></span></a> ';
+			$html .= '<a href="' . ( Download_Attachments()->options['attachment_link'] === 'modal' ? '#' : esc_url( admin_url( 'post.php?post=' . (int) $file['file_id'] . '&action=edit' ) ) ) . '"><span title="' . esc_attr__( 'Edit', 'download-attachments' ) . '" class="dashicons dashicons-edit da-edit-file"></span></a> ';
 		else
-			$html .= '<span class="button-secondary" disabled="disabled">' . __( 'Edit', 'download-attachments' ) . '</span> ';
+			$html .= '<span title="' . esc_attr__( 'Edit', 'download-attachments' ) . '" class="dashicons dashicons-edit disabled"></span> ';
+
 
 		$html .= '<a href="#"><span class="dashicons dashicons-trash da-remove-file remove"></span></a></td></tr>';
 
