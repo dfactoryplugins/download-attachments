@@ -819,7 +819,7 @@ class Download_Attachments_Settings {
 					}
 			}
 
-			$keys = [ 'label', 'download_method', 'post_types', 'pretty_urls', 'download_link', 'encrypt_urls', 'deactivation_delete' ];
+			$keys = [ 'label', 'link_target', 'download_method', 'post_types', 'pretty_urls', 'download_link', 'encrypt_urls', 'deactivation_delete' ];
 
 			foreach ( $keys as $key ) {
 				if ( array_key_exists( $key, Download_Attachments()->defaults['general'] ) )
@@ -850,7 +850,7 @@ class Download_Attachments_Settings {
 		} elseif ( isset( $_POST['reset_da_admin'] ) ) {
 			$new_input = $old_input;
 
-			$keys = [ 'backend_columns', 'backend_content', 'attachment_link', 'library', 'downloads_in_media_library' ];
+			$keys = [ 'backend_columns', 'restrict_edit_downloads', 'backend_content', 'attachment_link', 'library', 'downloads_in_media_library' ];
 
 			foreach ( $keys as $key ) {
 				if ( array_key_exists( $key, Download_Attachments()->defaults['general'] ) )
