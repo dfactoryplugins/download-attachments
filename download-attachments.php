@@ -342,20 +342,22 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 			if ( $this->options['pretty_urls'] ) {
 				global $wp;
 
+				$download_link = sanitize_title( $this->options['download_link'], $this->defaults['general']['download_link'] );
+
 				// encrypt enabled
 				if ( isset( $this->options['encrypt_urls'] ) && $this->options['encrypt_urls'] ) {
-					if ( preg_match( '/^' . $this->options['download_link'] . '\/(\X+)$/', $wp->request, $vars ) === 1 ) {
+					if ( preg_match( '/^' . $download_link . '\/(\X+)$/', $wp->request, $vars ) === 1 ) {
 						// allow for id customization
-						$id = apply_filters( 'da_download_attachment_id', $vars[1] );
+						$id = (int) apply_filters( 'da_download_attachment_id', $vars[1] );
 
-						da_download_attachment( (int) da_decrypt_attachment_id( $id ) );
+						da_download_attachment( da_decrypt_attachment_id( $id ) );
 					}
 				// no encryption
-				} elseif ( preg_match( '/^' . $this->options['download_link'] . '\/(\d+)$/', $wp->request, $vars ) === 1 ) {
+				} elseif ( preg_match( '/^' . $download_link . '\/(\d+)$/', $wp->request, $vars ) === 1 ) {
 					// allow for id customization
-					$id = apply_filters( 'da_download_attachment_id', $vars[1] );
+					$id = (int) apply_filters( 'da_download_attachment_id', $vars[1] );
 
-					da_download_attachment( (int) $id );
+					da_download_attachment( $id );
 				}
 			}
 		}
@@ -535,29 +537,32 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 					}
 				}
 
+				// get post id
+				$post_id = isset( $post->ID ) ? (int) $post->ID : 0;
+
 				// prepare script data
 				$script_data = [
-					'addTitle'				=> __( 'Select Attachments', 'download-attachments' ),
-					'editTitle'				=> __( 'Edit attachment', 'download-attachments' ),
-					'buttonAddNewFile'		=> __( 'Add selected attachments', 'download-attachments' ),
-					'buttonEditFile'		=> __( 'Save attachment', 'download-attachments' ),
-					'selectTitle'			=> __( 'Insert download link', 'download-attachments' ),
-					'buttonInsertLink'		=> __( 'Insert into post', 'download-attachments' ),
-					'noFiles'				=> __( 'No attachments added yet.', 'download-attachments' ),
-					'deleteFile'			=> __( 'Do you want to remove this attachment?', 'download-attachments' ),
-					'removeFile'			=> __( 'Remove', 'download-attachments' ),
-					'editFile'				=> __( 'Edit', 'download-attachments' ),
+					'addTitle'				=> esc_html__( 'Select Attachments', 'download-attachments' ),
+					'editTitle'				=> esc_html__( 'Edit attachment', 'download-attachments' ),
+					'buttonAddNewFile'		=> esc_html__( 'Add selected attachments', 'download-attachments' ),
+					'buttonEditFile'		=> esc_html__( 'Save attachment', 'download-attachments' ),
+					'selectTitle'			=> esc_html__( 'Insert download link', 'download-attachments' ),
+					'buttonInsertLink'		=> esc_html__( 'Insert into post', 'download-attachments' ),
+					'noFiles'				=> esc_html__( 'No attachments added yet.', 'download-attachments' ),
+					'deleteFile'			=> esc_html__( 'Do you want to remove this attachment?', 'download-attachments' ),
+					'removeFile'			=> esc_html__( 'Remove', 'download-attachments' ),
+					'editFile'				=> esc_html__( 'Edit', 'download-attachments' ),
 					'columnTypes'			=> $columnTypes,
-					'internalUnknownError'	=> __( 'Unexpected error occured. Please refresh the page and try again.', 'download-attachments' ),
+					'internalUnknownError'	=> esc_html__( 'Unexpected error occured. Please refresh the page and try again.', 'download-attachments' ),
 					'library'				=> ( $this->options['library'] === 'all' ? 1 : 0 ),
-					'addNonce'				=> wp_create_nonce( 'da-add-file-nonce-' . ( isset( $post->ID ) ? $post->ID : 0 ) ),
-					'saveNonce'				=> wp_create_nonce( 'da-save-files-nonce-' . ( isset( $post->ID ) ? $post->ID : 0 ) ),
+					'addNonce'				=> wp_create_nonce( 'da-add-file-nonce-' . $post_id ),
+					'saveNonce'				=> wp_create_nonce( 'da-save-files-nonce-' . $post_id ),
 					'attachmentLink'		=> $this->options['attachment_link']
 				];
 
 				wp_add_inline_script( 'da-admin-post', 'var daArgsPost = ' . wp_json_encode( $script_data ) . ";\n", 'before' );
 
-				wp_enqueue_media( [ 'post' => ( isset( $post->ID ) ? (int) $post->ID : 0 ) ] );
+				wp_enqueue_media( [ 'post' => $post_id ] );
 				wp_enqueue_style( 'da-admin' );
 				wp_enqueue_style( 'da-admin-datatables' );
 				wp_enqueue_script( 'da-admin-post' );
@@ -593,7 +598,7 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 			global $post_type, $pagenow;
 
 			// check for admin page
-			if ( $pagenow != 'post-new.php' && $pagenow !== 'post.php' )
+			if ( $pagenow !== 'post-new.php' && $pagenow !== 'post.php' )
 				return;
 
 			$post_type_obj = get_post_type_object( $post_type );

@@ -52,9 +52,9 @@ class Download_Attachments_List_Widget extends WP_Widget {
 	 */
 	public function __construct() {
 		parent::__construct(
-			'Download_Attachments_List_Widget', __( 'Attachments', 'download-attachments' ),
+			'Download_Attachments_List_Widget', esc_html__( 'Attachments', 'download-attachments' ),
 			[
-				'description'	=> __( 'Displays a list of attachments.', 'download-attachments' ),
+				'description'	=> esc_html__( 'Displays a list of attachments.', 'download-attachments' ),
 				'classname'		=> 'widget_download_attachments_list'
 			]
 		);
@@ -113,9 +113,15 @@ class Download_Attachments_List_Widget extends WP_Widget {
 	 * @return void
 	 */
 	public function widget( $args, $instance ) {
-		$html = '';
+		// empty title?
+		if ( empty( $instance['title'] ) )
+			$instance['title'] = $this->da_defaults['title'];
+
+		// filter title
 		$instance['title'] = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
+
 		$instance['echo'] = false;
+
 		// display all posts on 0
 		$instance['number_of_posts'] = $instance['number_of_posts'] == 0 ? -1 : $instance['number_of_posts'];
 
@@ -123,7 +129,7 @@ class Download_Attachments_List_Widget extends WP_Widget {
 
 		// hide widgets if no attachments for the current post
 		if ( ! empty( $attachments_html ) ) {
-			$html = $args['before_widget'] . ( ! empty( $instance['title'] ) ? $args['before_title'] . $instance['title'] . $args['after_title'] : '');
+			$html = $args['before_widget'] . ( ! empty( $instance['title'] ) ? $args['before_title'] . esc_html( $instance['title'] ) . $args['after_title'] : '' );
 			$html .= $attachments_html;
 			$html .= $args['after_widget'];
 		}
@@ -140,86 +146,86 @@ class Download_Attachments_List_Widget extends WP_Widget {
 	public function form( $instance ) {
 		$html = '
 		<p>
-			<label for="' . $this->get_field_id( 'title' ) . '">' . __( 'Title', 'download-attachments' ) . ':</label>
-			<input id="' . $this->get_field_id( 'title' ) . '" class="widefat" name="' . $this->get_field_name( 'title' ) . '" type="text" value="' . esc_attr( isset( $instance['title'] ) ? $instance['title'] : $this->da_defaults['title']  ) . '" />
+			<label for="' . esc_attr( $this->get_field_id( 'title' ) ) . '">' . esc_html__( 'Title', 'download-attachments' ) . ':</label>
+			<input id="' . esc_attr( $this->get_field_id( 'title' ) ) . '" class="widefat" name="' . esc_attr( $this->get_field_name( 'title' ) ) . '" type="text" value="' . esc_attr( isset( $instance['title'] ) ? $instance['title'] : $this->da_defaults['title'] ) . '" />
 		</p>
 		<p>
-			<label for="' . $this->get_field_id( 'attached_to' ) . '">' . __( 'Display attached to', 'download-attachments' ) . ':</label>
-			<select id="' . $this->get_field_id( 'attached_to' ) . '" name="' . $this->get_field_name( 'attached_to' ) . '">';
+			<label for="' . esc_attr( $this->get_field_id( 'attached_to' ) ) . '">' . esc_html__( 'Display attached to', 'download-attachments' ) . ':</label>
+			<select id="' . esc_attr( $this->get_field_id( 'attached_to' ) ) . '" name="' . esc_attr( $this->get_field_name( 'attached_to' ) ) . '">';
 
 		foreach ( $this->da_attached_to_types as $type => $name ) {
 			$html .= '
-			<option value="' . esc_attr( $type ) . '" ' . selected( $type, ( isset( $instance['attached_to'] ) ? $instance['attached_to'] : $this->da_defaults['attached_to'] ), false ) . '>' . $name . '</option>';
+			<option value="' . esc_attr( $type ) . '" ' . selected( $type, ( isset( $instance['attached_to'] ) ? $instance['attached_to'] : $this->da_defaults['attached_to'] ), false ) . '>' . esc_html( $name ) . '</option>';
 		}
 
 		$html .= '
 			</select>
 		</p>
 		<p>
-			<label for="' . $this->get_field_id( 'style' ) . '">' . __( 'Display style', 'download-attachments' ) . ':</label>
-			<select id="' . $this->get_field_id( 'style' ) . '" name="' . $this->get_field_name( 'style' ) . '">';
+			<label for="' . esc_attr( $this->get_field_id( 'style' ) ) . '">' . esc_html__( 'Display style', 'download-attachments' ) . ':</label>
+			<select id="' . esc_attr( $this->get_field_id( 'style' ) ) . '" name="' . esc_attr( $this->get_field_name( 'style' ) ) . '">';
 
 		foreach ( $this->da_style_types as $type => $name ) {
 			$html .= '
-			<option value="' . esc_attr( $type ) . '" ' . selected( $type, ( isset( $instance['style'] ) ? $instance['style'] : $this->da_defaults['style'] ), false ) . '>' . $name . '</option>';
+			<option value="' . esc_attr( $type ) . '" ' . selected( $type, ( isset( $instance['style'] ) ? $instance['style'] : $this->da_defaults['style'] ), false ) . '>' . esc_html( $name ) . '</option>';
 		}
 
 		$html .= '
 			</select>
 		</p>
 		<p>
-			<label for="' . $this->get_field_id( 'link_type' ) . '">' . __( 'Link to', 'download-attachments' ) . ':</label>
-			<select id="' . $this->get_field_id( 'link_type' ) . '" name="' . $this->get_field_name( 'link_type' ) . '">';
+			<label for="' . esc_attr( $this->get_field_id( 'link_type' ) ) . '">' . esc_html__( 'Link to', 'download-attachments' ) . ':</label>
+			<select id="' . esc_attr( $this->get_field_id( 'link_type' ) ) . '" name="' . esc_attr( $this->get_field_name( 'link_type' ) ) . '">';
 
 		foreach ( $this->da_link_types as $type => $name ) {
 			$html .= '
-			<option value="' . esc_attr( $type ) . '" ' . selected( $type, ( isset( $instance['link_type'] ) ? $instance['link_type'] : $this->da_defaults['link_type'] ), false ) . '>' . $name . '</option>';
+			<option value="' . esc_attr( $type ) . '" ' . selected( $type, ( isset( $instance['link_type'] ) ? $instance['link_type'] : $this->da_defaults['link_type'] ), false ) . '>' . esc_html( $name ) . '</option>';
 		}
 
 		$html .= '
 			</select>
 		</p>
 		<p>
-			<label for="' . $this->get_field_id( 'orderby' ) . '">' . __( 'Orderby', 'download-attachments' ) . ':</label>
-			<select id="' . $this->get_field_id( 'orderby' ) . '" name="' . $this->get_field_name( 'orderby' ) . '">';
+			<label for="' . esc_attr( $this->get_field_id( 'orderby' ) ) . '">' . esc_html__( 'Orderby', 'download-attachments' ) . ':</label>
+			<select id="' . esc_attr( $this->get_field_id( 'orderby' ) ) . '" name="' . esc_attr( $this->get_field_name( 'orderby' ) ) . '">';
 
 		foreach ( $this->da_orderby_types as $id => $name ) {
 			$html .= '
-			<option value="' . esc_attr( $id ) . '" ' . selected( $id, ( isset( $instance['orderby'] ) ? $instance['orderby'] : $this->da_defaults['orderby'] ), false ) . '>' . $name . '</option>';
+			<option value="' . esc_attr( $id ) . '" ' . selected( $id, ( isset( $instance['orderby'] ) ? $instance['orderby'] : $this->da_defaults['orderby'] ), false ) . '>' . esc_html( $name ) . '</option>';
 		}
 
 		$html .= '
 			</select>
 		</p>
 		<p>
-			<label for="' . $this->get_field_id( 'order' ) . '">' . __( 'Order', 'download-attachments' ) . ':</label>
-			<select id="' . $this->get_field_id( 'order' ) . '" name="' . $this->get_field_name( 'order' ) . '">';
+			<label for="' . esc_attr( $this->get_field_id( 'order' ) ) . '">' . esc_html__( 'Order', 'download-attachments' ) . ':</label>
+			<select id="' . esc_attr( $this->get_field_id( 'order' ) ) . '" name="' . esc_attr( $this->get_field_name( 'order' ) ) . '">';
 
 		foreach ( $this->da_order_types as $id => $name ) {
 			$html .= '
-			<option value="' . esc_attr( $id ) . '" ' . selected( $id, ( isset( $instance['order'] ) ? $instance['order'] : $this->da_defaults['order'] ), false ) . '>' . $name . '</option>';
+			<option value="' . esc_attr( $id ) . '" ' . selected( $id, ( isset( $instance['order'] ) ? $instance['order'] : $this->da_defaults['order'] ), false ) . '>' . esc_html( $name ) . '</option>';
 		}
 
 		$html .= '
 			</select>
 		</p>
 		<p>
-			<label for="' . $this->get_field_id( 'number_of_posts' ) . '">' . __( 'Number of attachments to show', 'download-attachments' ) . ':</label>
-			<input id="' . $this->get_field_id( 'number_of_posts' ) . '" class="tiny-text" step="1" min="0" name="' . $this->get_field_name( 'number_of_posts' ) . '" type="number" size="3" value="' . esc_attr( isset( $instance['number_of_posts'] ) ? $instance['number_of_posts'] : $this->da_defaults['number_of_posts']  ) . '" />
+			<label for="' . esc_attr( $this->get_field_id( 'number_of_posts' ) ) . '">' . esc_html__( 'Number of attachments to show', 'download-attachments' ) . ':</label>
+			<input id="' . esc_attr( $this->get_field_id( 'number_of_posts' ) ) . '" class="tiny-text" step="1" min="0" name="' . esc_attr( $this->get_field_name( 'number_of_posts' ) ) . '" type="number" size="3" value="' . esc_attr( isset( $instance['number_of_posts'] ) ? $instance['number_of_posts'] : $this->da_defaults['number_of_posts'] ) . '" />
 		</p>
 		<p>
-			<label for="' . $this->get_field_id( 'no_attachments_message' ) . '">' . __( 'No attachments message', 'download-attachments' ) . ':</label>
-			<input id="' . $this->get_field_id( 'no_attachments_message' ) . '" class="widefat" type="text" name="' . $this->get_field_name( 'no_attachments_message' ) . '" value="' . esc_attr( isset( $instance['no_attachments_message'] ) ? $instance['no_attachments_message'] : $this->da_defaults['no_attachments_message']  ) . '" />
+			<label for="' . esc_attr( $this->get_field_id( 'no_attachments_message' ) ) . '">' . esc_html__( 'No attachments message', 'download-attachments' ) . ':</label>
+			<input id="' . esc_attr( $this->get_field_id( 'no_attachments_message' ) ) . '" class="widefat" type="text" name="' . esc_attr( $this->get_field_name( 'no_attachments_message' ) ) . '" value="' . esc_attr( isset( $instance['no_attachments_message'] ) ? $instance['no_attachments_message'] : $this->da_defaults['no_attachments_message'] ) . '" />
 		</p>
 		<p>
-			<input id="' . $this->get_field_id( 'display_index' ) . '" type="checkbox" name="' . $this->get_field_name( 'display_index' ) . '" ' . checked( true, isset( $instance['display_index'] ) ? $instance['display_index'] : $this->da_defaults['display_index'], false ) . ' /> <label for="' . $this->get_field_id( 'display_index' ) . '">' . __( 'Display index?', 'download-attachments' ) . '</label><br />
-			<input id="' . $this->get_field_id( 'display_user' ) . '" type="checkbox" name="' . $this->get_field_name( 'display_user' ) . '" ' . checked( true, isset( $instance['display_user'] ) ? $instance['display_user'] : $this->da_defaults['display_user'], false ) . ' /> <label for="' . $this->get_field_id( 'display_user' ) . '">' . __( 'Display attachment user?', 'download-attachments' ) . '</label><br />
-			<input id="' . $this->get_field_id( 'display_icon' ) . '" type="checkbox" name="' . $this->get_field_name( 'display_icon' ) . '" ' . checked( true, isset( $instance['display_icon'] ) ? $instance['display_icon'] : $this->da_defaults['display_icon'], false ) . ' /> <label for="' . $this->get_field_id( 'display_icon' ) . '">' . __( 'Display attachment icon?', 'download-attachments' ) . '</label><br />
-			<input id="' . $this->get_field_id( 'display_count' ) . '" type="checkbox" name="' . $this->get_field_name( 'display_count' ) . '" ' . checked( true, (isset( $instance['display_count'] ) ? $instance['display_count'] : $this->da_defaults['display_count'] ), false ) . ' /> <label for="' . $this->get_field_id( 'display_count' ) . '">' . __( 'Display attachment downloads?', 'download-attachments' ) . '</label><br />
-			<input id="' . $this->get_field_id( 'display_size' ) . '" type="checkbox" name="' . $this->get_field_name( 'display_size' ) . '" ' . checked( true, isset( $instance['display_size'] ) ? $instance['display_size'] : $this->da_defaults['display_size'], false ) . ' /> <label for="' . $this->get_field_id( 'display_size' ) . '">' . __( 'Display file size?', 'download-attachments' ) . '</label><br />
-			<input id="' . $this->get_field_id( 'display_date' ) . '" type="checkbox" name="' . $this->get_field_name( 'display_date' ) . '" ' . checked( true, isset( $instance['display_date'] ) ? $instance['display_date'] : $this->da_defaults['display_date'], false ) . ' /> <label for="' . $this->get_field_id( 'display_date' ) . '">' . __( 'Display file date?', 'download-attachments' ) . '</label><br />
-			<input id="' . $this->get_field_id( 'display_caption' ) . '" type="checkbox" name="' . $this->get_field_name( 'display_caption' ) . '" ' . checked( true, (isset( $instance['display_caption'] ) ? $instance['display_caption'] : $this->da_defaults['display_caption'] ), false ) . ' /> <label for="' . $this->get_field_id( 'display_caption' ) . '">' . __( 'Display attachment caption?', 'download-attachments' ) . '</label><br />
-			<input id="' . $this->get_field_id( 'display_description' ) . '" type="checkbox" name="' . $this->get_field_name( 'display_description' ) . '" ' . checked( true, (isset( $instance['display_description'] ) ? $instance['display_description'] : $this->da_defaults['display_description'] ), false ) . ' /> <label for="' . $this->get_field_id( 'display_description' ) . '">' . __( 'Display attachment description?', 'download-attachments' ) . '</label><br />
+			<input id="' . esc_attr( $this->get_field_id( 'display_index' ) ) . '" type="checkbox" name="' . esc_attr( $this->get_field_name( 'display_index' ) ) . '" ' . checked( true, isset( $instance['display_index'] ) ? $instance['display_index'] : $this->da_defaults['display_index'], false ) . ' /> <label for="' . esc_attr( $this->get_field_id( 'display_index' ) ) . '">' . esc_html__( 'Display index?', 'download-attachments' ) . '</label><br />
+			<input id="' . esc_attr( $this->get_field_id( 'display_user' ) ) . '" type="checkbox" name="' . esc_attr( $this->get_field_name( 'display_user' ) ) . '" ' . checked( true, isset( $instance['display_user'] ) ? $instance['display_user'] : $this->da_defaults['display_user'], false ) . ' /> <label for="' . esc_attr( $this->get_field_id( 'display_user' ) ) . '">' . esc_html__( 'Display attachment user?', 'download-attachments' ) . '</label><br />
+			<input id="' . esc_attr( $this->get_field_id( 'display_icon' ) ) . '" type="checkbox" name="' . esc_attr( $this->get_field_name( 'display_icon' ) ) . '" ' . checked( true, isset( $instance['display_icon'] ) ? $instance['display_icon'] : $this->da_defaults['display_icon'], false ) . ' /> <label for="' . esc_attr( $this->get_field_id( 'display_icon' ) ) . '">' . esc_html__( 'Display attachment icon?', 'download-attachments' ) . '</label><br />
+			<input id="' . esc_attr( $this->get_field_id( 'display_count' ) ) . '" type="checkbox" name="' . esc_attr( $this->get_field_name( 'display_count' ) ) . '" ' . checked( true, ( isset( $instance['display_count'] ) ? $instance['display_count'] : $this->da_defaults['display_count'] ), false ) . ' /> <label for="' . esc_attr( $this->get_field_id( 'display_count' ) ) . '">' . esc_html__( 'Display attachment downloads?', 'download-attachments' ) . '</label><br />
+			<input id="' . esc_attr( $this->get_field_id( 'display_size' ) ) . '" type="checkbox" name="' . esc_attr( $this->get_field_name( 'display_size' ) ) . '" ' . checked( true, isset( $instance['display_size'] ) ? $instance['display_size'] : $this->da_defaults['display_size'], false ) . ' /> <label for="' . esc_attr( $this->get_field_id( 'display_size' ) ) . '">' . esc_html__( 'Display file size?', 'download-attachments' ) . '</label><br />
+			<input id="' . esc_attr( $this->get_field_id( 'display_date' ) ) . '" type="checkbox" name="' . esc_attr( $this->get_field_name( 'display_date' ) ) . '" ' . checked( true, isset( $instance['display_date'] ) ? $instance['display_date'] : $this->da_defaults['display_date'], false ) . ' /> <label for="' . esc_attr( $this->get_field_id( 'display_date' ) ) . '">' . esc_html__( 'Display file date?', 'download-attachments' ) . '</label><br />
+			<input id="' . esc_attr( $this->get_field_id( 'display_caption' ) ) . '" type="checkbox" name="' . esc_attr( $this->get_field_name( 'display_caption' ) ) . '" ' . checked( true, ( isset( $instance['display_caption'] ) ? $instance['display_caption'] : $this->da_defaults['display_caption'] ), false ) . ' /> <label for="' . esc_attr( $this->get_field_id( 'display_caption' ) ) . '">' . esc_html__( 'Display attachment caption?', 'download-attachments' ) . '</label><br />
+			<input id="' . esc_attr( $this->get_field_id( 'display_description' ) ) . '" type="checkbox" name="' . esc_attr( $this->get_field_name( 'display_description' ) ) . '" ' . checked( true, ( isset( $instance['display_description'] ) ? $instance['display_description'] : $this->da_defaults['display_description'] ), false ) . ' /> <label for="' . esc_attr( $this->get_field_id( 'display_description' ) ) . '">' . esc_html__( 'Display attachment description?', 'download-attachments' ) . '</label><br />
 		</p>';
 
 		echo $html;

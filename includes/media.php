@@ -43,9 +43,9 @@ class Download_Attachments_Media {
 
 				$fields['attachment_downloads'] = [
 					'value'	=> $value,
-					'label'	=> __( 'Downloads', 'download-attachments' ),
+					'label'	=> esc_html__( 'Downloads', 'download-attachments' ),
 					'input'	=> 'html',
-					'html'	=> '<input type="text" style="width: 30%;" class="text" id="attachments-' . $post->ID . '-attachment_downloads" name="attachments[' . $post->ID . '][attachment_downloads]" value="' . $value . '" />'
+					'html'	=> '<input type="text" style="width: 30%;" class="text" id="attachments-' . (int) $post->ID . '-attachment_downloads" name="attachments[' . (int) $post->ID . '][attachment_downloads]" value="' . $value . '" />'
 				];
 			}
 		}
@@ -97,7 +97,7 @@ class Download_Attachments_Media {
 				unset( $columns[$column] );
 			}
 
-			$columns['downloads_count'] = __( 'Downloads', 'download-attachments' );
+			$columns['downloads_count'] = esc_html__( 'Downloads', 'download-attachments' );
 
 			foreach ( $two_last as $column => $name ) {
 				$columns[$column] = $name;
@@ -163,7 +163,7 @@ class Download_Attachments_Media {
 			<?php wp_nonce_field( 'download_attachments_downloads', 'da_nonce' ); ?>
 
 			<span id="attachment-downloads-display">
-				<?php echo __( 'Downloads', 'download-attachments' ) . ': <strong>' . number_format_i18n( $downloads ) . '</strong>'; ?>
+				<?php echo esc_html__( 'Downloads', 'download-attachments' ) . ': <strong>' . esc_html( number_format_i18n( $downloads ) ) . '</strong>'; ?>
 			</span>
 
 			<?php
@@ -172,16 +172,16 @@ class Download_Attachments_Media {
 
 			if ( $restrict === false || ( $restrict === true && current_user_can( apply_filters( 'da_restrict_edit_capability', 'manage_options' ) ) ) ) {
 				?>
-				<a href="#attachment-downloads" class="edit-attachment-downloads hide-if-no-js"><?php _e( 'Edit', 'download-attachments' ); ?></a>
+				<a href="#attachment-downloads" class="edit-attachment-downloads hide-if-no-js"><?php esc_html_e( 'Edit', 'download-attachments' ); ?></a>
 
 				<div id="attachment-downloads-input-container" class="hide-if-js">
 
-					<p><?php _e( 'Adjust the downloads count for this attachment.', 'download-attachments' ); ?></p>
-					<input type="hidden" id="attachment-downloads-current" value="<?php echo (int) $downloads; ?>" />
-					<input type="number" min="0" name="attachment_downloads" id="attachment-downloads-input" value="<?php echo (int) $downloads; ?>"/><br />
+					<p><?php esc_html_e( 'Adjust the downloads count for this attachment.', 'download-attachments' ); ?></p>
+					<input type="hidden" id="attachment-downloads-current" value="<?php echo $downloads; ?>" />
+					<input type="number" min="0" name="attachment_downloads" id="attachment-downloads-input" value="<?php echo $downloads; ?>"/><br />
 					<p>
-						<a href="#attachment-downloads" class="save-attachment-downloads hide-if-no-js button"><?php _e( 'OK', 'download-attachments' ); ?></a>
-						<a href="#attachment-downloads" class="cancel-attachment-downloads hide-if-no-js"><?php _e( 'Cancel', 'download-attachments' ); ?></a>
+						<a href="#attachment-downloads" class="save-attachment-downloads hide-if-no-js button"><?php esc_html_e( 'OK', 'download-attachments' ); ?></a>
+						<a href="#attachment-downloads" class="cancel-attachment-downloads hide-if-no-js"><?php esc_html_e( 'Cancel', 'download-attachments' ); ?></a>
 					</p>
 
 				</div>

@@ -32,7 +32,9 @@ class Download_Attachments_Metabox {
 
 		if ( ( $files_meta = get_post_meta( $attachment_id, '_da_posts', true ) ) !== '' && is_array( $files_meta ) && ! empty( $files_meta ) ) {
 			foreach ( $files_meta as $id ) {
-				if ( ( $files = get_post_meta( $id, '_da_attachments', true ) ) !== '' && is_array( $files ) && ! empty( $files ) ) {
+				$post_id = (int) $id;
+
+				if ( ( $files = get_post_meta( $post_id, '_da_attachments', true ) ) !== '' && is_array( $files ) && ! empty( $files ) ) {
 					foreach ( $files as $key => $file ) {
 						if ( (int) $file['file_id'] === $attachment_id ) {
 							unset( $files[$key] );
@@ -40,7 +42,7 @@ class Download_Attachments_Metabox {
 						}
 					}
 
-					update_post_meta( $id, '_da_attachments', $files );
+					update_post_meta( $post_id, '_da_attachments', $files );
 				}
 			}
 		}
@@ -82,7 +84,7 @@ class Download_Attachments_Metabox {
 			$attachments = [];
 
 			foreach ( $_POST['da_attachment_data'] as $attachment ) {
-				$attachments[] = [ $attachment['id'], (int) array_key_exists( 'exclude', $attachment ) ];
+				$attachments[] = [ (int) $attachment['id'], (int) array_key_exists( 'exclude', $attachment ) ];
 			}
 
 			unset( $_POST['da_attachment_data'] );
@@ -174,7 +176,7 @@ class Download_Attachments_Metabox {
 			foreach ( $files as $att_id => $file ) {
 				// file no longer exists on the list
 				if ( ! in_array( $att_id, $keys, true ) ) {
-					if ( ($files_meta = get_post_meta( $att_id, '_da_posts', true )) !== '' && is_array( $files_meta ) && ! empty( $files_meta ) ) {
+					if ( ( $files_meta = get_post_meta( $att_id, '_da_posts', true ) ) !== '' && is_array( $files_meta ) && ! empty( $files_meta ) ) {
 						foreach ( $files_meta as $key => $post_file_id ) {
 							if ( $post_file_id === $post_id ) {
 								unset( $files_meta[$key] );
@@ -194,9 +196,11 @@ class Download_Attachments_Metabox {
 
 	/**
 	 * Update attachments using AJAX.
+	 *
+	 * @return void
 	 */
 	public function ajax_update_attachments() {
-		if ( isset( $_POST['danonce'], $_POST['post_id'], $_POST['attachments_ids'], $_POST['action'] ) && ($post_id = (int) $_POST['post_id']) > 0 && $_POST['action'] === 'da-new-file' && is_array( $_POST['attachments_ids'] ) && ! empty( $_POST['attachments_ids'] ) && current_user_can( 'manage_download_attachments' ) && wp_verify_nonce( $_POST['danonce'], 'da-add-file-nonce-' . $post_id ) !== false ) {
+		if ( isset( $_POST['danonce'], $_POST['post_id'], $_POST['attachments_ids'], $_POST['action'] ) && ( $post_id = (int) $_POST['post_id'] ) > 0 && $_POST['action'] === 'da-new-file' && is_array( $_POST['attachments_ids'] ) && ! empty( $_POST['attachments_ids'] ) && current_user_can( 'manage_download_attachments' ) && wp_verify_nonce( $_POST['danonce'], 'da-add-file-nonce-' . $post_id ) !== false ) {
 			$rows = [];
 
 			if ( isset( $_POST['attachments_ids'][0] ) && $_POST['attachments_ids'][0] === 'empty' )
@@ -220,7 +224,7 @@ class Download_Attachments_Metabox {
 
 			echo json_encode( [ 'status' => 'OK', 'files' => $rows, 'info' => '' ] );
 		} else
-			echo json_encode( [ 'status' => 'ERROR', 'files' => [], 'info' => __( 'Unexpected error occured. Please refresh the page and try again.', 'download-attachments' ) ] );
+			echo json_encode( [ 'status' => 'ERROR', 'files' => [], 'info' => esc_html__( 'Unexpected error occured. Please refresh the page and try again.', 'download-attachments' ) ] );
 
 		exit;
 	}
@@ -239,15 +243,15 @@ class Download_Attachments_Metabox {
 		foreach ( Download_Attachments()->options['post_types'] as $post_type => $bool ) {
 			if ( $bool === true ) {
 				if ( isset( $_GET['post'] ) )
-					$post_id = $_GET['post'];
+					$post_id = (int) $_GET['post'];
 				elseif ( isset( $_POST['post_ID'] ) )
-					$post_id = $_POST['post_ID'];
+					$post_id = (int) $_POST['post_ID'];
 
 				if ( ! isset( $post_id ) )
 					$post_id = false;
 
 				if ( apply_filters( 'da_metabox_limit', true, $post_id ) )
-					add_meta_box( 'download_attachments_metabox', __( 'Attachments', 'download-attachments' ), [ $this, 'display_metabox' ], $post_type, $context, $priority );
+					add_meta_box( 'download_attachments_metabox', esc_html__( 'Attachments', 'download-attachments' ), [ $this, 'display_metabox' ], $post_type, $context, $priority );
 			}
 		}
 	}
@@ -269,7 +273,7 @@ class Download_Attachments_Metabox {
 				<input type="button" class="button button-secondary" value="' . esc_attr__( 'Add new attachment', 'download-attachments' ) . '"/>
 			</p>
 			<p id="da-spinner"></p>
-			<table id="da-files" class="widefat" rel="' . $post->ID . '">
+			<table id="da-files" class="widefat" rel="' . (int) $post->ID . '">
 				<thead>
 					<tr>
 						<th class="file-drag"></th>';
@@ -277,12 +281,12 @@ class Download_Attachments_Metabox {
 			foreach ( Download_Attachments()->columns as $column => $name ) {
 				if (  $column === 'exclude' || ( ! in_array( $column, [ 'index', 'icon' ] ) && isset( Download_Attachments()->options['backend_columns'][$column] ) && Download_Attachments()->options['backend_columns'][$column] === true ) ) {
 					echo '
-						<th class="file-' . $column . '">' . $name . '</th>';
+						<th class="file-' . esc_attr( $column ) . '">' . esc_html( $name ) . '</th>';
 				}
 			}
 
 			echo '
-						<th class="file-actions">' . __( 'Actions', 'download-attachments' ) . '</th>
+						<th class="file-actions">' . esc_html__( 'Actions', 'download-attachments' ) . '</th>
 					</tr>
 				</thead>';
 
@@ -309,7 +313,7 @@ class Download_Attachments_Metabox {
 				echo '
 				<tbody>
 					<tr id="da-info">
-					<td colspan="' . ($columns + 3) . '">' . __( 'No attachments added yet.', 'download-attachments' ) . '</td>
+					<td colspan="' . (int) ( $columns + 3 ) . '">' . esc_html__( 'No attachments added yet.', 'download-attachments' ) . '</td>
 					</tr>
 				</tbody>';
 			}
@@ -332,6 +336,7 @@ class Download_Attachments_Metabox {
 	 * @return array
 	 */
 	public function prepare_files_data( $post_id = 0, $file_ids = [] ) {
+		$post_id = (int) $post_id;
 		$files = [];
 
 		if ( ( $files_meta = get_post_meta( $post_id, '_da_attachments', true ) ) !== '' && is_array( $files_meta ) && ! empty( $files_meta ) ) {
@@ -344,7 +349,7 @@ class Download_Attachments_Metabox {
 				$files[$file['file_id']] = [
 					'file_id'			=> $file['file_id'],
 					'file_date'			=> $file['file_date'],
-					'file_exclude'		=> '<input class="exclude-attachment" id="att-exclude-' . $file['file_id'] . '" type="checkbox" name="da_attachment_data[' . $file['file_id'] . '][exclude]" value="true" ' . checked( (isset( $file['file_exclude'] ) && $file['file_exclude'] === true ? true : false ), true, false ) . '/><input type="hidden" name="da_attachment_data[' . $file['file_id'] . '][id]" value="' . $file['file_id'] . '" />',
+					'file_exclude'		=> '<input class="exclude-attachment" id="att-exclude-' . (int) $file['file_id'] . '" type="checkbox" name="da_attachment_data[' . (int) $file['file_id'] . '][exclude]" value="true" ' . checked( ( isset( $file['file_exclude'] ) && $file['file_exclude'] === true ), true, false ) . '/><input type="hidden" name="da_attachment_data[' . (int) $file['file_id'] . '][id]" value="' . (int) $file['file_id'] . '" />',
 					'file_user_id'		=> $file['file_user_id'],
 					'file_downloads'	=> (int) get_post_meta( $file['file_id'], '_da_downloads', true )
 				];
@@ -372,7 +377,7 @@ class Download_Attachments_Metabox {
 
 				foreach ( $files_data as $file ) {
 					$title = '';
-					$real_title = esc_attr( $file->post_title );
+					$real_title = $file->post_title;
 					$filename = get_attached_file( $file->ID );
 					$filetype = wp_check_filetype( $filename );
 
@@ -385,24 +390,24 @@ class Download_Attachments_Metabox {
 					// old file, was on the list already
 					if ( isset( $files[$file->ID] ) ) {
 						$display_name = get_the_author_meta( 'display_name', $files[$file->ID]['file_user_id'] );
-						$full_name = get_avatar( $files[$file->ID]['file_user_id'], 16 ) . $display_name;
+						$full_name = get_avatar( $files[$file->ID]['file_user_id'], 16 ) . ' ' . esc_attr( $display_name );
 						$timestamp = strtotime( $files[$file->ID]['file_date'] );
 
 						$files[$file->ID]['file_date'] = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp, false );
 						$files[$file->ID]['file_date_timestamp'] = $timestamp;
-						$files[$file->ID]['file_author'] = (current_user_can( 'edit_users' ) ? '<a href="' . esc_url( admin_url( 'user-edit.php?user_id=' . $files[$file->ID]['file_user_id'] ) ) . '">' . $full_name . '</a>' : $full_name);
+						$files[$file->ID]['file_author'] = ( current_user_can( 'edit_users' ) ? '<a href="' . esc_url( admin_url( 'user-edit.php?user_id=' . $files[$file->ID]['file_user_id'] ) ) . '">' . $full_name . '</a>' : $full_name );
 						$files[$file->ID]['file_author_string'] = $display_name;
 					} else {
 						$display_name = get_the_author_meta( 'display_name', $user_id );
-						$full_name = get_avatar( $user_id, 16 ) . $display_name;
+						$full_name = get_avatar( $user_id, 16 ) . ' ' . esc_attr( $display_name );
 
 						$files[$file->ID]['file_id'] = $file->ID;
-						$files[$file->ID]['file_exclude'] = '<input class="exclude-attachment" id="att-exclude-' . $file->ID . '" type="checkbox" name="da_attachment_data[' . $file->ID . '][exclude]" value="true"/><input type="hidden" name="da_attachment_data[' . $file->ID . '][id]" value="' . $file->ID . '" />';
+						$files[$file->ID]['file_exclude'] = '<input class="exclude-attachment" id="att-exclude-' . (int) $file->ID . '" type="checkbox" name="da_attachment_data[' . (int) $file->ID . '][exclude]" value="true"/><input type="hidden" name="da_attachment_data[' . (int) $file->ID . '][id]" value="' . (int) $file->ID . '" />';
 						$files[$file->ID]['file_user_id'] = $user_id;
 						$files[$file->ID]['file_downloads'] = 0;
 						$files[$file->ID]['file_date'] = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $date, false );
 						$files[$file->ID]['file_date_timestamp'] = $date;
-						$files[$file->ID]['file_author'] = (current_user_can( 'edit_users' ) ? '<a href="' . esc_url( admin_url( 'user-edit.php?user_id=' . $user_id ) ) . '">' . $full_name . '</a>' : $full_name);
+						$files[$file->ID]['file_author'] = ( current_user_can( 'edit_users' ) ? '<a href="' . esc_url( admin_url( 'user-edit.php?user_id=' . $user_id ) ) . '">' . $full_name . '</a>' : $full_name );
 						$files[$file->ID]['file_author_string'] = $display_name;
 					}
 
@@ -416,8 +421,8 @@ class Download_Attachments_Metabox {
 
 					$files[$file->ID]['file_size'] = $size;
 					$files[$file->ID]['file_size_bytes'] = $size_bytes;
-					$files[$file->ID]['file_type'] = ($filetype['ext'] === 'jpeg' ? 'jpg' : $filetype['ext']);
-					$files[$file->ID]['file_title'] = '<p><a target="_blank" href="' . esc_url( wp_get_attachment_url( $file->ID ) ) . '">' . $real_title . '</a>' . $title . '</p>';
+					$files[$file->ID]['file_type'] = ( $filetype['ext'] === 'jpeg' ? 'jpg' : $filetype['ext'] );
+					$files[$file->ID]['file_title'] = '<p><a target="_blank" href="' . esc_url( wp_get_attachment_url( $file->ID ) ) . '">' . esc_html( $real_title ) . '</a>' . $title . '</p>';
 					$files[$file->ID]['file_title_string'] = $real_title;
 				}
 			}
@@ -435,22 +440,34 @@ class Download_Attachments_Metabox {
 	 * @return mixed
 	 */
 	public function get_table_row( $post_id = 0, $ajax = false, $file = [] ) {
-		$html = '<tr' . ( $ajax === true ? ' style="display: none;"' : '' ) . ' id="att-' . $file['file_id'] . '"><td class="file-drag"><span class="dashicons dashicons-menu"></span></td>';
+		$html = '<tr' . ( $ajax === true ? ' style="display: none;"' : '' ) . ' id="att-' . (int) $file['file_id'] . '"><td class="file-drag"><span class="dashicons dashicons-menu"></span></td>';
 
 		foreach ( Download_Attachments()->columns as $column => $name ) {
 			if ( $column === 'exclude' || ( ! in_array( $column, [ 'index', 'icon' ], true ) && isset( Download_Attachments()->options['backend_columns'][$column] ) && Download_Attachments()->options['backend_columns'][$column] === true ) ) {
-				if ( $column === 'size' )
-					$value = ' data-order="' . $file['file_size_bytes'] . '"';
-				elseif ( $column === 'date' )
-					$value = ' data-order="' . $file['file_date_timestamp'] . '"';
-				elseif ( $column === 'author' )
-					$value = ' data-order="' . $file['file_author_string'] . '"';
-				elseif ( $column === 'title' )
-					$value = ' data-order="' . $file['file_title_string'] . '"';
-				else
-					$value = '';
+				// whether value should be escaped
+				$esc_value = true;
 
-				$html .= '<td class="file-' . $column . '"' . $value . '>' . $file['file_' . $column] . '</td>';
+				if ( $column === 'size' )
+					$data_order_value = $file['file_size_bytes'];
+				elseif ( $column === 'date' )
+					$data_order_value = (int) $file['file_date_timestamp'];
+				elseif ( $column === 'author' ) {
+					$data_order_value = $file['file_author_string'];
+
+					// author value is already escaped
+					$esc_value = false;
+				} elseif ( $column === 'title' ) {
+					$data_order_value = $file['file_title_string'];
+
+					// title value is already escaped
+					$esc_value = false;
+				} elseif ( $column === 'exclude' ) {
+					// exclude value is already escaped
+					$esc_value = false;
+				} else
+					$data_order_value = '';
+
+				$html .= '<td class="file-' . esc_attr( $column ) . '"' . ( $data_order_value !== '' ? ' data-order="' . esc_attr( $data_order_value ) . '"' : '' ) . '>' . ( $esc_value ? esc_html( $file['file_' . $column] ) : $file['file_' . $column] ) . '</td>';
 			}
 		}
 
@@ -461,8 +478,7 @@ class Download_Attachments_Metabox {
 		else
 			$html .= '<span title="' . esc_attr__( 'Edit', 'download-attachments' ) . '" class="dashicons dashicons-edit disabled"></span> ';
 
-
-		$html .= '<a href="#"><span class="dashicons dashicons-trash da-remove-file remove"></span></a></td></tr>';
+		$html .= '<a href="#"><span title="' . esc_attr__( 'Remove', 'download-attachments' ) . '" class="dashicons dashicons-trash da-remove-file remove"></span></a></td></tr>';
 
 		return $html;
 	}

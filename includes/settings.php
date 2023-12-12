@@ -122,47 +122,41 @@ class Download_Attachments_Settings {
 	 * @return void
 	 */
 	public function options_page() {
-		$tab_key = ( isset( $_GET['tab'] ) ? esc_attr( $_GET['tab'] ) : 'general' );
-		$options_page = 'options-general.php';
-		$form_page = 'options.php';
+		$tab_key = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'general';
 
 		echo '
 		<div class="wrap">
-			<h1>' . __( 'Download Attachments', 'download-attachments' ) . '</h1>';
-
-			echo '
+			<h1>' . esc_html__( 'Download Attachments', 'download-attachments' ) . '</h1>
 			<h2 class="nav-tab-wrapper">';
 
 		foreach ( $this->tabs as $key => $name ) {
 			echo '
-			<a class="nav-tab ' . ( $tab_key == $key ? 'nav-tab-active' : '' ) . '" href="' . esc_url( admin_url( $options_page . '?page=download-attachments&tab=' . $key ) ) . '">' . $name['name'] . '</a>';
+			<a class="nav-tab' . ( $tab_key === $key ? ' nav-tab-active' : '' ) . '" href="' . esc_url( admin_url( 'options-general.php?page=download-attachments&tab=' . $key ) ) . '">' . esc_html( $name['name'] ) . '</a>';
 		}
 
 		echo '
 			</h2>
-			<div class="download-attachments-settings">';
-
-		echo '
+			<div class="download-attachments-settings">
 				<div class="df-sidebar">
 					<div class="df-credits">
-						<h3 class="hndle">' . __( 'Download Attachments', 'download-attachments' ) . ' ' . Download_Attachments()->defaults['version'] . '</h3>
+						<h3 class="hndle">' . esc_html__( 'Download Attachments', 'download-attachments' ) . ' ' . esc_attr( Download_Attachments()->defaults['version'] ) . '</h3>
 						<div class="inside">
-							<h4 class="inner">' . __( 'Need support?', 'download-attachments' ) . '</h4>
+							<h4 class="inner">' . esc_html__( 'Need support?', 'download-attachments' ) . '</h4>
 							<p class="inner">' . sprintf( __( 'If you are having problems with this plugin, please browse it\'s <a href="%s" target="_blank">Documentation</a> or talk about them in the <a href="%s" target="_blank">Support forum</a>', 'download-attachments' ), 'http://www.dfactory.co/docs/download-attachments/?utm_source=download-attachments-settings&utm_medium=link&utm_campaign=docs', 'http://www.dfactory.co/support/?utm_source=download-attachments-settings&utm_medium=link&utm_campaign=support' ) . '</p>
 							<hr/>
-							<h4 class="inner">' . __( 'Do you like this plugin?', 'download-attachments' ) . '</h4>
+							<h4 class="inner">' . esc_html__( 'Do you like this plugin?', 'download-attachments' ) . '</h4>
 							<p class="inner">' . sprintf( __( '<a href="%s" target="_blank">Rate it 5</a> on WordPress.org', 'download-attachments' ), 'https://wordpress.org/support/plugin/download-attachments/reviews/?filter=5' ) . '<br />' .
 							sprintf( __( 'Blog about it & link to the <a href="%s" target="_blank">plugin page</a>.', 'download-attachments' ), 'http://www.dfactory.co/products/download-attachments/?utm_source=download-attachments-settings&utm_medium=link&utm_campaign=blog-about' ) . '<br />' .
 							sprintf( __( 'Check out our other <a href="%s" target="_blank">WordPress plugins</a>.', 'download-attachments' ), 'http://www.dfactory.co/products/?utm_source=download-attachments-settings&utm_medium=link&utm_campaign=other-plugins' ) . '
 							</p>
 							<hr/>
-							<p class="df-link inner">' . __( 'Created by', 'download-attachments' ) . ' <a href="http://www.dfactory.co/?utm_source=download-attachments-settings&utm_medium=link&utm_campaign=created-by" target="_blank" title="dFactory - Quality plugins for WordPress"><img src="' . DOWNLOAD_ATTACHMENTS_URL . '/images/logo-dfactory.png' . '" title="dFactory - Quality plugins for WordPress" alt="dFactory - Quality plugins for WordPress"/></a></p>
+							<p class="df-link inner">' . esc_html__( 'Created by', 'download-attachments' ) . ' <a href="http://www.dfactory.co/?utm_source=download-attachments-settings&utm_medium=link&utm_campaign=created-by" target="_blank" title="dFactory - Quality plugins for WordPress"><img src="' . esc_url( DOWNLOAD_ATTACHMENTS_URL ) . '/images/logo-dfactory.png" title="dFactory - Quality plugins for WordPress" alt="dFactory - Quality plugins for WordPress"/></a></p>
 						</div>
 					</div>
 				</div>';
 
 		echo '
-				<form action="' . $form_page . '" method="post" >';
+				<form action="options.php" method="post" >';
 
 		wp_nonce_field( 'update-options' );
 
@@ -176,9 +170,7 @@ class Download_Attachments_Settings {
 		submit_button( __( 'Reset to defaults', 'download-attachments' ), 'secondary ' . $this->tabs[$tab_key]['reset'], $this->tabs[$tab_key]['reset'], false );
 
 		echo '
-					</p>';
-
-		echo '
+					</p>
 				</form>
 			</div>
 			<div class="clear"></div>
@@ -193,34 +185,34 @@ class Download_Attachments_Settings {
 	public function register_settings() {
 		// general section
 		register_setting( 'download_attachments_general', 'download_attachments_general', [ $this, 'validate_general' ] );
-		add_settings_section( 'download_attachments_general', __( 'General settings', 'download-attachments' ), '', 'download_attachments_general' );
-		add_settings_field( 'da_general_label', __( 'Label', 'download-attachments' ), [ $this, 'da_general_label' ], 'download_attachments_general', 'download_attachments_general' );
-		add_settings_field( 'da_general_user_roles', __( 'User roles', 'download-attachments' ), [ $this, 'da_general_user_roles' ], 'download_attachments_general', 'download_attachments_general' );
-		add_settings_field( 'da_general_post_types', __( 'Supported post types', 'download-attachments' ), [ $this, 'da_general_post_types' ], 'download_attachments_general', 'download_attachments_general' );
-		add_settings_field( 'da_general_download_method', __( 'Download method', 'download-attachments' ), [ $this, 'da_general_download_method' ], 'download_attachments_general', 'download_attachments_general' );
-		add_settings_field( 'da_general_pretty_urls', __( 'Pretty URLs', 'download-attachments' ), [ $this, 'da_general_pretty_urls' ], 'download_attachments_general', 'download_attachments_general' );
-		add_settings_field( 'da_general_encrypt_urls', __( 'Encrypt URLs', 'download-attachments' ), [ $this, 'da_general_encrypt_urls' ], 'download_attachments_general', 'download_attachments_general' );
-		add_settings_field( 'da_general_reset_downloads', __( 'Reset count', 'download-attachments' ), [ $this, 'da_general_reset_downloads' ], 'download_attachments_general', 'download_attachments_general' );
-		add_settings_field( 'da_general_deactivation_delete', __( 'Deactivation', 'download-attachments' ), [ $this, 'da_general_deactivation_delete' ], 'download_attachments_general', 'download_attachments_general' );
+		add_settings_section( 'download_attachments_general', esc_html__( 'General settings', 'download-attachments' ), '', 'download_attachments_general' );
+		add_settings_field( 'da_general_label', esc_html__( 'Label', 'download-attachments' ), [ $this, 'da_general_label' ], 'download_attachments_general', 'download_attachments_general' );
+		add_settings_field( 'da_general_user_roles', esc_html__( 'User roles', 'download-attachments' ), [ $this, 'da_general_user_roles' ], 'download_attachments_general', 'download_attachments_general' );
+		add_settings_field( 'da_general_post_types', esc_html__( 'Supported post types', 'download-attachments' ), [ $this, 'da_general_post_types' ], 'download_attachments_general', 'download_attachments_general' );
+		add_settings_field( 'da_general_download_method', esc_html__( 'Download method', 'download-attachments' ), [ $this, 'da_general_download_method' ], 'download_attachments_general', 'download_attachments_general' );
+		add_settings_field( 'da_general_pretty_urls', esc_html__( 'Pretty URLs', 'download-attachments' ), [ $this, 'da_general_pretty_urls' ], 'download_attachments_general', 'download_attachments_general' );
+		add_settings_field( 'da_general_encrypt_urls', esc_html__( 'Encrypt URLs', 'download-attachments' ), [ $this, 'da_general_encrypt_urls' ], 'download_attachments_general', 'download_attachments_general' );
+		add_settings_field( 'da_general_reset_downloads', esc_html__( 'Reset count', 'download-attachments' ), [ $this, 'da_general_reset_downloads' ], 'download_attachments_general', 'download_attachments_general' );
+		add_settings_field( 'da_general_deactivation_delete', esc_html__( 'Deactivation', 'download-attachments' ), [ $this, 'da_general_deactivation_delete' ], 'download_attachments_general', 'download_attachments_general' );
 
 		// frontend section
 		register_setting( 'download_attachments_display', 'download_attachments_general', [ $this, 'validate_general' ] );
-		add_settings_section( 'download_attachments_display', __( 'Display settings', 'download-attachments' ), '', 'download_attachments_display' );
-		add_settings_field( 'da_general_frontend_display', __( 'Fields display', 'download-attachments' ), [ $this, 'da_general_frontend_display' ], 'download_attachments_display', 'download_attachments_display' );
-		add_settings_field( 'da_general_display_style', __( 'Display style', 'download-attachments' ), [ $this, 'da_general_display_style' ], 'download_attachments_display', 'download_attachments_display' );
-		add_settings_field( 'da_general_frontend_content', __( 'Downloads description', 'download-attachments' ), [ $this, 'da_general_frontend_content' ], 'download_attachments_display', 'download_attachments_display' );
-		add_settings_field( 'da_general_css_style', __( 'Use CSS style', 'download-attachments' ), [ $this, 'da_general_css_style' ], 'download_attachments_display', 'download_attachments_display' );
-		add_settings_field( 'da_general_download_box_display', __( 'Display position', 'download-attachments' ), [ $this, 'da_general_download_box_display' ], 'download_attachments_display', 'download_attachments_display' );
+		add_settings_section( 'download_attachments_display', esc_html__( 'Display settings', 'download-attachments' ), '', 'download_attachments_display' );
+		add_settings_field( 'da_general_frontend_display', esc_html__( 'Fields display', 'download-attachments' ), [ $this, 'da_general_frontend_display' ], 'download_attachments_display', 'download_attachments_display' );
+		add_settings_field( 'da_general_display_style', esc_html__( 'Display style', 'download-attachments' ), [ $this, 'da_general_display_style' ], 'download_attachments_display', 'download_attachments_display' );
+		add_settings_field( 'da_general_frontend_content', esc_html__( 'Downloads description', 'download-attachments' ), [ $this, 'da_general_frontend_content' ], 'download_attachments_display', 'download_attachments_display' );
+		add_settings_field( 'da_general_css_style', esc_html__( 'Use CSS style', 'download-attachments' ), [ $this, 'da_general_css_style' ], 'download_attachments_display', 'download_attachments_display' );
+		add_settings_field( 'da_general_download_box_display', esc_html__( 'Display position', 'download-attachments' ), [ $this, 'da_general_download_box_display' ], 'download_attachments_display', 'download_attachments_display' );
 
 		// admin section
 		register_setting( 'download_attachments_admin', 'download_attachments_general', [ $this, 'validate_general' ] );
-		add_settings_section( 'download_attachments_admin', __( 'Admin settings', 'download-attachments' ), '', 'download_attachments_admin' );
-		add_settings_field( 'da_general_backend_display', __( 'Fields display', 'download-attachments' ), [ $this, 'da_general_backend_display' ], 'download_attachments_admin', 'download_attachments_admin' );
-		add_settings_field( 'da_general_backend_content', __( 'Downloads description', 'download-attachments' ), [ $this, 'da_general_backend_content' ], 'download_attachments_admin', 'download_attachments_admin' );
-		add_settings_field( 'da_restrict_edit_downloads', __( 'Restrict Edit', 'download-attachments' ), [ $this, 'da_restrict_edit_downloads' ], 'download_attachments_admin', 'download_attachments_admin' );
-		add_settings_field( 'da_general_attachment_link', __( 'Edit attachment link', 'download-attachments' ), [ $this, 'da_general_attachment_link' ], 'download_attachments_admin', 'download_attachments_admin' );
-		add_settings_field( 'da_general_libraries', __( 'Media Library', 'download-attachments' ), [ $this, 'da_general_libraries' ], 'download_attachments_admin', 'download_attachments_admin' );
-		add_settings_field( 'da_general_downloads_in_media_library', __( 'Downloads count', 'download-attachments' ), [ $this, 'da_general_downloads_in_media_library' ], 'download_attachments_admin', 'download_attachments_admin' );
+		add_settings_section( 'download_attachments_admin', esc_html__( 'Admin settings', 'download-attachments' ), '', 'download_attachments_admin' );
+		add_settings_field( 'da_general_backend_display', esc_html__( 'Fields display', 'download-attachments' ), [ $this, 'da_general_backend_display' ], 'download_attachments_admin', 'download_attachments_admin' );
+		add_settings_field( 'da_general_backend_content', esc_html__( 'Downloads description', 'download-attachments' ), [ $this, 'da_general_backend_content' ], 'download_attachments_admin', 'download_attachments_admin' );
+		add_settings_field( 'da_restrict_edit_downloads', esc_html__( 'Restrict Edit', 'download-attachments' ), [ $this, 'da_restrict_edit_downloads' ], 'download_attachments_admin', 'download_attachments_admin' );
+		add_settings_field( 'da_general_attachment_link', esc_html__( 'Edit attachment link', 'download-attachments' ), [ $this, 'da_general_attachment_link' ], 'download_attachments_admin', 'download_attachments_admin' );
+		add_settings_field( 'da_general_libraries', esc_html__( 'Media Library', 'download-attachments' ), [ $this, 'da_general_libraries' ], 'download_attachments_admin', 'download_attachments_admin' );
+		add_settings_field( 'da_general_downloads_in_media_library', esc_html__( 'Downloads count', 'download-attachments' ), [ $this, 'da_general_downloads_in_media_library' ], 'download_attachments_admin', 'download_attachments_admin' );
 	}
 
 	/**
@@ -249,11 +241,11 @@ class Download_Attachments_Settings {
 
 		foreach ( $this->post_types as $val ) {
 			echo '
-				<input id="da-general-post-types-' . $val . '" type="checkbox" name="download_attachments_general[post_types][]" value="' . esc_attr( $val ) . '" ' . checked( true, (isset( Download_Attachments()->options['post_types'][$val] ) ? Download_Attachments()->options['post_types'][$val] : false ), false ) . '/><label for="da-general-post-types-' . $val . '">' . $val . '</label>';
+				<input id="da-general-post-types-' . esc_attr( $val ) . '" type="checkbox" name="download_attachments_general[post_types][]" value="' . esc_attr( $val ) . '" ' . checked( true, ( isset( Download_Attachments()->options['post_types'][$val] ) ? Download_Attachments()->options['post_types'][$val] : false ), false ) . '/><label for="da-general-post-types-' . esc_attr( $val ) . '">' . esc_html( $val ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Select which post types would you like to enable for your downloads.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Select which post types would you like to enable for your downloads.', 'download-attachments' ) . '</p>
 			</fieldset>
 		</div>';
 	}
@@ -270,16 +262,16 @@ class Download_Attachments_Settings {
 
 		foreach ( $this->download_methods as $val => $trans ) {
 			echo '
-				<input id="da-general-download-method-' . $val . '" type="radio" name="download_attachments_general[download_method]" value="' . esc_attr( $val ) . '" ' . checked( $val, Download_Attachments()->options['download_method'], false ) . '/><label for="da-general-download-method-' . $val . '">' . $trans . '</label>';
+				<input id="da-general-download-method-' . esc_attr( $val ) . '" type="radio" name="download_attachments_general[download_method]" value="' . esc_attr( $val ) . '" ' . checked( $val, Download_Attachments()->options['download_method'], false ) . '/><label for="da-general-download-method-' . esc_attr( $val ) . '">' . esc_html( $trans ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Select download method.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Select download method.', 'download-attachments' ) . '</p>
 				<div id="da_general_download_method_target"' . ( Download_Attachments()->options['download_method'] === 'force' ? ' style="display: none;"' : '' ) . '>';
 
 		foreach ( $this->redirect_targets as $target ) {
 			echo '
-					<label><input id="da_general_download_method_target_label-' . $target . '" type="radio" name="download_attachments_general[link_target]" value="' . $target . '" ' . checked( $target, Download_Attachments()->options['link_target'], false ) . ' />' . esc_html( $target ) . '</label>';
+					<label><input id="da_general_download_method_target_label-' . esc_attr( $target ) . '" type="radio" name="download_attachments_general[link_target]" value="' . esc_attr( $target ) . '" ' . checked( $target, Download_Attachments()->options['link_target'], false ) . ' />' . esc_html( $target ) . '</label>';
 		}
 
 		echo '
@@ -302,11 +294,11 @@ class Download_Attachments_Settings {
 		foreach ( Download_Attachments()->columns as $val => $trans ) {
 			if ( ! in_array( $val, [ 'title', 'index', 'icon', 'exclude' ], true ) )
 				echo '
-				<input id="da-general-backend-display-' . $val . '" type="checkbox" name="download_attachments_general[backend_columns][]" value="' . esc_attr( $val ) . '" ' . checked( true, Download_Attachments()->options['backend_columns'][$val], false ) . '/><label for="da-general-backend-display-' . $val . '">' . $trans . '</label>';
+				<input id="da-general-backend-display-' . esc_attr( $val ) . '" type="checkbox" name="download_attachments_general[backend_columns][]" value="' . esc_attr( $val ) . '" ' . checked( true, Download_Attachments()->options['backend_columns'][$val], false ) . '/><label for="da-general-backend-display-' . esc_attr( $val ) . '">' . esc_html( $trans ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Select which columns would you like to enable on backend for your downloads.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Select which columns would you like to enable on backend for your downloads.', 'download-attachments' ) . '</p>
 			</fieldset>
 		</div>';
 	}
@@ -324,11 +316,11 @@ class Download_Attachments_Settings {
 		foreach ( Download_Attachments()->columns as $val => $trans ) {
 			if ( ! in_array( $val, [ 'id', 'type', 'title', 'exclude' ], true ) )
 				echo '
-				<input id="da-general-frontend-display-' . $val . '" type="checkbox" name="download_attachments_general[frontend_columns][]" value="' . esc_attr( $val ) . '" ' . checked( true, Download_Attachments()->options['frontend_columns'][$val], false ) . '/><label for="da-general-frontend-display-' . $val . '">' . $trans . '</label>';
+				<input id="da-general-frontend-display-' . esc_attr( $val ) . '" type="checkbox" name="download_attachments_general[frontend_columns][]" value="' . esc_attr( $val ) . '" ' . checked( true, Download_Attachments()->options['frontend_columns'][$val], false ) . '/><label for="da-general-frontend-display-' . esc_attr( $val ) . '">' . esc_html( $trans ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Select which columns would you like to enable on frontend for your downloads.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Select which columns would you like to enable on frontend for your downloads.', 'download-attachments' ) . '</p>
 			<fieldset>
 		</div>';
 	}
@@ -345,11 +337,11 @@ class Download_Attachments_Settings {
 
 		foreach ( $this->choices as $val => $trans ) {
 			echo '
-				<input id="da-general-css-style-' . $val . '" type="radio" name="download_attachments_general[use_css_style]" value="' . esc_attr( $val ) . '" ' . checked( ($val === 'yes' ? true : false ), Download_Attachments()->options['use_css_style'], false ) . '/><label for="da-general-css-style-' . $val . '">' . $trans . '</label>';
+				<input id="da-general-css-style-' . esc_attr( $val ) . '" type="radio" name="download_attachments_general[use_css_style]" value="' . esc_attr( $val ) . '" ' . checked( ( $val === 'yes' ), Download_Attachments()->options['use_css_style'], false ) . '/><label for="da-general-css-style-' . esc_attr( $val ) . '">' . esc_html( $trans ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Select if you\'d like to use bultin CSS style.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Select if you\'d like to use bultin CSS style.', 'download-attachments' ) . '</p>
 			</fieldset>
 		</div>';
 	}
@@ -366,15 +358,15 @@ class Download_Attachments_Settings {
 
 		foreach ( $this->choices as $val => $trans ) {
 			echo '
-				<input id="da-general-pretty-urls-' . $val . '" type="radio" name="download_attachments_general[pretty_urls]" value="' . esc_attr( $val ) . '" ' . checked( ($val === 'yes' ? true : false ), Download_Attachments()->options['pretty_urls'], false ) . '/><label for="da-general-pretty-urls-' . $val . '">' . $trans . '</label>';
+				<input id="da-general-pretty-urls-' . esc_attr( $val ) . '" type="radio" name="download_attachments_general[pretty_urls]" value="' . esc_attr( $val ) . '" ' . checked( ( $val === 'yes' ), Download_Attachments()->options['pretty_urls'], false ) . '/><label for="da-general-pretty-urls-' . esc_attr( $val ) . '">' . esc_html( $trans ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Enable if you want to use pretty URLs.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Enable if you want to use pretty URLs.', 'download-attachments' ) . '</p>
 				<div id="da_general_download_link"' . ( ! Download_Attachments()->options['pretty_urls'] ? ' style="display: none;"' : '' ) . '>
-					<label for="da_general_download_link_label">' . __( 'Slug', 'download-attachments' ) . '</label>: <input id="da_general_download_link_label" type="text" name="download_attachments_general[download_link]" class="regular-text" value="' . esc_attr( Download_Attachments()->options['download_link'] ) . '"/>
-					<p class="description"><code>' . site_url() . '/<strong>' . Download_Attachments()->options['download_link'] . '</strong>/123/</code></p>
-					<p class="description">' . __( 'Download link slug.', 'download-attachments' ) . '</p>
+					<label for="da_general_download_link_label">' . esc_html__( 'Slug', 'download-attachments' ) . '</label>: <input id="da_general_download_link_label" type="text" name="download_attachments_general[download_link]" class="regular-text" value="' . esc_attr( Download_Attachments()->options['download_link'] ) . '"/>
+					<p class="description"><code>' . esc_url( site_url() ) . '/<strong>' . esc_html( Download_Attachments()->options['download_link'] ) . '</strong>/123/</code></p>
+					<p class="description">' . esc_html__( 'Download link slug.', 'download-attachments' ) . '</p>
 				</div>
 			</fieldset>
 		</div>';
@@ -387,16 +379,16 @@ class Download_Attachments_Settings {
 	 */
 	public function da_general_encrypt_urls() {
 		echo '
-		<div id="da_general_pretty_urls">
+		<div id="da_general_encrypt_urls">
 			<fieldset>';
 
 		foreach ( $this->choices as $val => $trans ) {
 			echo '
-				<input id="da-general-encrypt-urls-' . $val . '" type="radio" name="download_attachments_general[encrypt_urls]" value="' . esc_attr( $val ) . '" ' . checked( ($val === 'yes' ? true : false ), isset( Download_Attachments()->options['encrypt_urls'] ) ? Download_Attachments()->options['encrypt_urls'] : Download_Attachments()->defaults['general']['encrypt_urls'] , false ) . '/><label for="da-general-encrypt-urls-' . $val . '">' . $trans . '</label>';
+				<input id="da-general-encrypt-urls-' . esc_attr( $val ) . '" type="radio" name="download_attachments_general[encrypt_urls]" value="' . esc_attr( $val ) . '" ' . checked( ( $val === 'yes' ), isset( Download_Attachments()->options['encrypt_urls'] ) ? Download_Attachments()->options['encrypt_urls'] : Download_Attachments()->defaults['general']['encrypt_urls'] , false ) . '/><label for="da-general-encrypt-urls-' . esc_attr( $val ) . '">' . esc_html( $trans ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Enable if you want to encrypt the attachment ids in generated URL\'s', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Enable if you want to encrypt the attachment ids in generated URL\'s.', 'download-attachments' ) . '</p>
 			</fieldset>
 		</div>';
 	}
@@ -413,11 +405,11 @@ class Download_Attachments_Settings {
 
 		foreach ( $this->download_box_displays as $val => $trans ) {
 			echo '
-				<input id="da-general-download-box-display-' . $val . '" type="radio" name="download_attachments_general[download_box_display]" value="' . esc_attr( $val ) . '" ' . checked( $val, Download_Attachments()->options['download_box_display'], false ) . '/><label for="da-general-download-box-display-' . $val . '">' . $trans . '</label>';
+				<input id="da-general-download-box-display-' . esc_attr( $val ) . '" type="radio" name="download_attachments_general[download_box_display]" value="' . esc_attr( $val ) . '" ' . checked( $val, Download_Attachments()->options['download_box_display'], false ) . '/><label for="da-general-download-box-display-' . esc_attr( $val ) . '">' . esc_html( $trans ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Select where you would like your download attachments to be displayed.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Select where you would like your download attachments to be displayed.', 'download-attachments' ) . '</p>
 			</fieldset>
 		</div>';
 	}
@@ -434,11 +426,11 @@ class Download_Attachments_Settings {
 
 		foreach ( Download_Attachments()->display_styles as $val => $trans ) {
 			echo '
-				<input id="da-general-display-style-' . $val . '" type="radio" name="download_attachments_general[display_style]" value="' . esc_attr( $val ) . '" ' . checked( $val, isset( Download_Attachments()->options['display_style'] ) ? esc_attr( Download_Attachments()->options['display_style'] ) : Download_Attachments()->defaults['general']['display_style'], false ) . '/><label for="da-general-display-style-' . $val . '">' . $trans . '</label>';
+				<input id="da-general-display-style-' . esc_attr( $val ) . '" type="radio" name="download_attachments_general[display_style]" value="' . esc_attr( $val ) . '" ' . checked( $val, isset( Download_Attachments()->options['display_style'] ) ? esc_attr( Download_Attachments()->options['display_style'] ) : Download_Attachments()->defaults['general']['display_style'], false ) . '/><label for="da-general-display-style-' . esc_attr( $val ) . '">' . esc_html( $trans ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Select display style for file attachments.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Select display style for file attachments.', 'download-attachments' ) . '</p>
 			</fieldset>
 		</div>';
 	}
@@ -455,11 +447,11 @@ class Download_Attachments_Settings {
 
 		foreach ( $this->contents as $val => $trans ) {
 			echo '
-				<input id="da-general-backend-content-' . $val . '" type="checkbox" name="download_attachments_general[backend_content][]" value="' . esc_attr( $val ) . '" ' . checked( true, (isset( Download_Attachments()->options['backend_content'][$val] ) ? Download_Attachments()->options['backend_content'][$val] : false ), false ) . '/><label for="da-general-backend-content-' . $val . '">' . $trans . '</label>';
+				<input id="da-general-backend-content-' . esc_attr( $val ) . '" type="checkbox" name="download_attachments_general[backend_content][]" value="' . esc_attr( $val ) . '" ' . checked( true, ( isset( Download_Attachments()->options['backend_content'][$val] ) ? Download_Attachments()->options['backend_content'][$val] : false ), false ) . '/><label for="da-general-backend-content-' . esc_attr( $val ) . '">' . esc_html( $trans ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Select what fields to use on backend for download attachments description.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Select what fields to use on backend for download attachments description.', 'download-attachments' ) . '</p>
 			</fieldset>
 		</div>';
 	}
@@ -473,7 +465,7 @@ class Download_Attachments_Settings {
 		echo '
 		<div id="da_restrict_edit_downloads">
 			<fieldset>
-				<label><input type="checkbox" name="download_attachments_general[restrict_edit_downloads]" value="1" ' . checked( true, Download_Attachments()->options['restrict_edit_downloads'], false ) . ' />' . __( 'Enable to restrict downloads count editing to admins only.', 'download-attachments' ) . '</label>
+				<label><input type="checkbox" name="download_attachments_general[restrict_edit_downloads]" value="1" ' . checked( true, Download_Attachments()->options['restrict_edit_downloads'], false ) . ' />' . esc_html__( 'Enable to restrict downloads count editing to admins only.', 'download-attachments' ) . '</label>
 			</fieldset>
 		</div>';
 	}
@@ -490,11 +482,11 @@ class Download_Attachments_Settings {
 
 		foreach ( $this->contents as $val => $trans ) {
 			echo '
-				<input id="da-general-frontend-content-' . $val . '" type="checkbox" name="download_attachments_general[frontend_content][]" value="' . esc_attr( $val ) . '" ' . checked( true, (isset( Download_Attachments()->options['frontend_content'][$val] ) ? Download_Attachments()->options['frontend_content'][$val] : false ), false ) . '/><label for="da-general-frontend-content-' . $val . '">' . $trans . '</label>';
+				<input id="da-general-frontend-content-' . esc_attr( $val ) . '" type="checkbox" name="download_attachments_general[frontend_content][]" value="' . esc_attr( $val ) . '" ' . checked( true, ( isset( Download_Attachments()->options['frontend_content'][$val] ) ? Download_Attachments()->options['frontend_content'][$val] : false ), false ) . '/><label for="da-general-frontend-content-' . esc_attr( $val ) . '">' . esc_html( $trans ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Select what fields to use on frontend for download attachments description.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Select what fields to use on frontend for download attachments description.', 'download-attachments' ) . '</p>
 			</fieldset>
 		</div>';
 	}
@@ -511,11 +503,11 @@ class Download_Attachments_Settings {
 
 		foreach ( $this->attachment_links as $val => $trans ) {
 			echo '
-				<input id="da-general-attachment-link-' . $val . '" type="radio" name="download_attachments_general[attachment_link]" value="' . esc_attr( $val ) . '" ' . checked( $val, Download_Attachments()->options['attachment_link'], false ) . '/><label for="da-general-attachment-link-' . $val . '">' . $trans . '</label>';
+				<input id="da-general-attachment-link-' . esc_attr( $val ) . '" type="radio" name="download_attachments_general[attachment_link]" value="' . esc_attr( $val ) . '" ' . checked( $val, Download_Attachments()->options['attachment_link'], false ) . '/><label for="da-general-attachment-link-' . esc_attr( $val ) . '">' . esc_html( $trans ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Select where you would like to edit download attachments.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Select where you would like to edit download attachments.', 'download-attachments' ) . '</p>
 			</fieldset>
 		</div>';
 	}
@@ -532,11 +524,11 @@ class Download_Attachments_Settings {
 
 		foreach ( $this->libraries as $val => $trans ) {
 			echo '
-				<input id="da-general-libraries-' . $val . '" type="radio" name="download_attachments_general[library]" value="' . esc_attr( $val ) . '" ' . checked( $val, Download_Attachments()->options['library'], false ) . '/><label for="da-general-libraries-' . $val . '">' . $trans . '</label>';
+				<input id="da-general-libraries-' . esc_attr( $val ) . '" type="radio" name="download_attachments_general[library]" value="' . esc_attr( $val ) . '" ' . checked( $val, Download_Attachments()->options['library'], false ) . '/><label for="da-general-libraries-' . esc_attr( $val ) . '">' . esc_html( $trans ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Select which attachments should be visible in Media Library window.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Select which attachments should be visible in Media Library window.', 'download-attachments' ) . '</p>
 			</fieldset>
 		</div>';
 	}
@@ -553,11 +545,11 @@ class Download_Attachments_Settings {
 
 		foreach ( $this->choices as $val => $trans ) {
 			echo '
-				<input id="da-general-downloads-in-media-library-' . $val . '" type="radio" name="download_attachments_general[downloads_in_media_library]" value="' . esc_attr( $val ) . '" ' . checked( ($val === 'yes' ? true : false ), Download_Attachments()->options['downloads_in_media_library'], false ) . '/><label for="da-general-downloads-in-media-library-' . $val . '">' . $trans . '</label>';
+				<input id="da-general-downloads-in-media-library-' . esc_attr( $val ) . '" type="radio" name="download_attachments_general[downloads_in_media_library]" value="' . esc_attr( $val ) . '" ' . checked( ( $val === 'yes' ), Download_Attachments()->options['downloads_in_media_library'], false ) . '/><label for="da-general-downloads-in-media-library-' . esc_attr( $val ) . '">' . esc_html( $trans ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Enable if you want to display downloads count in your Media Library columns.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Enable if you want to display downloads count in your Media Library columns.', 'download-attachments' ) . '</p>
 			</fieldset>
 		</div>';
 	}
@@ -586,11 +578,11 @@ class Download_Attachments_Settings {
 				continue;
 
 			echo '
-				<input id="da-general-user-roles-' . $val . '" type="checkbox" name="download_attachments_general[user_roles][]" value="' . $val . '" ' . checked( true, in_array( $val, ( isset( Download_Attachments()->options['user_roles'] ) ? Download_Attachments()->options['user_roles'] : Download_Attachments()->defaults['general']['user_roles'] ) ), false ) . '/><label for="da-general-user-roles-' . $val . '">' . translate_user_role( $wp_roles->role_names[$val] ) . '</label>';
+				<input id="da-general-user-roles-' . esc_attr( $val ) . '" type="checkbox" name="download_attachments_general[user_roles][]" value="' . esc_attr( $val ) . '" ' . checked( true, in_array( $val, ( isset( Download_Attachments()->options['user_roles'] ) ? Download_Attachments()->options['user_roles'] : Download_Attachments()->defaults['general']['user_roles'] ) ), false ) . '/><label for="da-general-user-roles-' . esc_attr( $val ) . '">' . esc_html( translate_user_role( $wp_roles->role_names[$val] ) ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Select user roles allowed to add, remove and manage attachments.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Select user roles allowed to add, remove and manage attachments.', 'download-attachments' ) . '</p>
 			</fieldset>
 		</div>';
 	}
@@ -607,11 +599,11 @@ class Download_Attachments_Settings {
 
 		foreach ( $this->choices as $val => $trans ) {
 			echo '
-				<input id="da-general-deactivation-delete-' . $val . '" type="radio" name="download_attachments_general[deactivation_delete]" value="' . esc_attr( $val ) . '" ' . checked( ( $val === 'yes' ? true : false ), Download_Attachments()->options['deactivation_delete'], false ) . '/><label for="da-general-deactivation-delete-' . $val . '">' . $trans . '</label>';
+				<input id="da-general-deactivation-delete-' . esc_attr( $val ) . '" type="radio" name="download_attachments_general[deactivation_delete]" value="' . esc_attr( $val ) . '" ' . checked( ( $val === 'yes' ), Download_Attachments()->options['deactivation_delete'], false ) . '/><label for="da-general-deactivation-delete-' . esc_attr( $val ) . '">' . esc_html( $trans ) . '</label>';
 		}
 
 		echo '
-				<p class="description">' . __( 'Enable if you want all plugin data to be deleted on deactivation.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Enable if you want all plugin data to be deleted on deactivation.', 'download-attachments' ) . '</p>
 			</fieldset>
 		</div>';
 	}
@@ -626,10 +618,10 @@ class Download_Attachments_Settings {
 		<div id="da_general_deactivation_delete">
 			<fieldset>';
 
-		submit_button( __( 'Reset downloads', 'download-attachments' ), 'secondary', 'reset_da_downloads', false );
+		submit_button( esc_html__( 'Reset downloads', 'download-attachments' ), 'secondary', 'reset_da_downloads', false );
 
 		echo '
-				<p class="description">' . __( 'Click to reset the downloads count for all the attachments.', 'download-attachments' ) . '</p>
+				<p class="description">' . esc_html__( 'Click to reset the downloads count for all the attachments.', 'download-attachments' ) . '</p>
 			</fieldset>
 		</div>';
 	}
@@ -664,7 +656,7 @@ class Download_Attachments_Settings {
 				$role = $wp_roles->get_role( $role_name );
 
 				if ( ! $role->has_cap( 'manage_options' ) ) {
-					if ( ! empty( $input['user_roles'] ) && in_array( $role_name, array_map( 'esc_attr', $input['user_roles'] ) ) ) {
+					if ( ! empty( $input['user_roles'] ) && in_array( $role_name, array_map( 'sanitize_key', $input['user_roles'] ) ) ) {
 						$role->add_cap( Download_Attachments()->get_capability() );
 						$user_roles[] = $role_name;
 					} else
@@ -676,10 +668,10 @@ class Download_Attachments_Settings {
 
 			// post types
 			$post_types = [];
-			$new_input['post_types'] = ( isset( $input['post_types'] ) ? $input['post_types'] : [] );
+			$input['post_types'] = isset( $input['post_types'] ) ? $input['post_types'] : [];
 
 			foreach ( $this->post_types as $post_type ) {
-				$post_types[$post_type] = ( in_array( $post_type, $input['post_types'], true ) ? true : false );
+				$post_types[$post_type] = in_array( $post_type, $input['post_types'], true );
 			}
 
 			$new_input['post_types'] = $post_types;
@@ -691,14 +683,14 @@ class Download_Attachments_Settings {
 			$new_input['link_target'] = isset( $input['link_target'], $this->redirect_targets[$input['link_target']] ) ? $input['link_target'] : Download_Attachments()->defaults['general']['link_target'];
 
 			// encrypt urls
-			$new_input['encrypt_urls'] = isset( $input['encrypt_urls'], $this->choices[$input['encrypt_urls']] ) ? ( $input['encrypt_urls'] === 'yes' ? true : false ) : Download_Attachments()->defaults['general']['encrypt_urls'];
+			$new_input['encrypt_urls'] = isset( $input['encrypt_urls'], $this->choices[$input['encrypt_urls']] ) ? ( $input['encrypt_urls'] === 'yes' ) : Download_Attachments()->defaults['general']['encrypt_urls'];
 
 			// pretty urls
-			$new_input['pretty_urls'] = isset( $input['pretty_urls'], $this->choices[$input['pretty_urls']] ) ? ( $input['pretty_urls'] === 'yes' ? true : false ) : Download_Attachments()->defaults['general']['pretty_urls'];
+			$new_input['pretty_urls'] = isset( $input['pretty_urls'], $this->choices[$input['pretty_urls']] ) ? ( $input['pretty_urls'] === 'yes' ) : Download_Attachments()->defaults['general']['pretty_urls'];
 
 			// download link
 			if ( $new_input['pretty_urls'] ) {
-				$new_input['download_link'] = sanitize_title( $input['download_link'] );
+				$new_input['download_link'] = sanitize_title( $input['download_link'], Download_Attachments()->defaults['general']['download_link'] );
 
 				if ( $new_input['download_link'] === '' )
 					$new_input['download_link'] = Download_Attachments()->defaults['general']['download_link'];
@@ -717,7 +709,7 @@ class Download_Attachments_Settings {
 			flush_rewrite_rules();
 
 			// deactivation delete
-			$new_input['deactivation_delete'] = (isset( $input['deactivation_delete'] ) && in_array( $input['deactivation_delete'], array_keys( $this->choices ), true ) ? ($input['deactivation_delete'] === 'yes' ? true : false) : Download_Attachments()->defaults['general']['deactivation_delete']);
+			$new_input['deactivation_delete'] = isset( $input['deactivation_delete'] ) && in_array( $input['deactivation_delete'], array_keys( $this->choices ), true ) ? ( $input['deactivation_delete'] === 'yes' ) : Download_Attachments()->defaults['general']['deactivation_delete'];
 
 			$input = $new_input;
 		// save display
@@ -726,7 +718,7 @@ class Download_Attachments_Settings {
 
 			// frontend columns
 			$columns = [];
-			$input['frontend_columns'] = ( isset( $input['frontend_columns'] ) ? $input['frontend_columns'] : [] );
+			$input['frontend_columns'] = isset( $input['frontend_columns'] ) ? $input['frontend_columns'] : [];
 
 			foreach ( Download_Attachments()->columns as $column => $text ) {
 				if ( in_array( $column, [ 'id', 'type', 'exclude' ], true ) )
@@ -734,17 +726,17 @@ class Download_Attachments_Settings {
 				elseif ( $column === 'title' )
 					$columns[$column] = true;
 				else
-					$columns[$column] = ( in_array( $column, $input['frontend_columns'], true ) ? true : false );
+					$columns[$column] = in_array( $column, $input['frontend_columns'], true );
 			}
 
 			$new_input['frontend_columns'] = $columns;
 
 			// frontend content
 			$contents = [];
-			$input['frontend_content'] = ( isset( $input['frontend_content'] ) ? $input['frontend_content'] : [] );
+			$input['frontend_content'] = isset( $input['frontend_content'] ) ? $input['frontend_content'] : [];
 
 			foreach ( $this->contents as $content => $trans ) {
-				$contents[$content] = ( in_array( $content, $input['frontend_content'], true ) ? true : false );
+				$contents[$content] = in_array( $content, $input['frontend_content'], true );
 			}
 
 			$new_input['frontend_content'] = $contents;
@@ -753,10 +745,10 @@ class Download_Attachments_Settings {
 			$new_input['display_style'] = isset( $input['display_style'], Download_Attachments()->display_styles[$input['display_style']] ) ? $input['display_style'] : Download_Attachments()->defaults['general']['display_style'];
 
 			// use css style
-			$new_input['use_css_style'] = (isset( $input['use_css_style'] ) && in_array( $input['use_css_style'], array_keys( $this->choices ), true ) ? ($input['use_css_style'] === 'yes' ? true : false) : Download_Attachments()->defaults['general']['use_css_style']);
+			$new_input['use_css_style'] = isset( $input['use_css_style'] ) && in_array( $input['use_css_style'], array_keys( $this->choices ), true ) ? ( $input['use_css_style'] === 'yes' ) : Download_Attachments()->defaults['general']['use_css_style'];
 
 			// download box display
-			$new_input['download_box_display'] = (isset( $input['download_box_display'] ) && in_array( $input['download_box_display'], array_keys( $this->download_box_displays ), true ) ? $input['download_box_display'] : Download_Attachments()->defaults['general']['download_box_display']);
+			$new_input['download_box_display'] = isset( $input['download_box_display'] ) && in_array( $input['download_box_display'], array_keys( $this->download_box_displays ), true ) ? $input['download_box_display'] : Download_Attachments()->defaults['general']['download_box_display'];
 
 			$input = $new_input;
 		// save admin
@@ -765,7 +757,7 @@ class Download_Attachments_Settings {
 
 			// backend columns
 			$columns = [];
-			$input['backend_columns'] = ( isset( $input['backend_columns'] ) ? $input['backend_columns'] : [] );
+			$input['backend_columns'] = isset( $input['backend_columns'] ) ? $input['backend_columns'] : [];
 
 			foreach ( Download_Attachments()->columns as $column => $text ) {
 				if ( in_array( $column, [ 'index', 'icon', 'exclude' ], true ) )
@@ -773,7 +765,7 @@ class Download_Attachments_Settings {
 				elseif ( $column === 'title' )
 					$columns[$column] = true;
 				else
-					$columns[$column] = ( in_array( $column, $input['backend_columns'], true ) ? true : false );
+					$columns[$column] = in_array( $column, $input['backend_columns'], true );
 			}
 
 			$new_input['backend_columns'] = $columns;
@@ -782,22 +774,22 @@ class Download_Attachments_Settings {
 
 			// backend content
 			$contents = [];
-			$input['backend_content'] = ( isset( $input['backend_content'] ) ? $input['backend_content'] : [] );
+			$input['backend_content'] = isset( $input['backend_content'] ) ? $input['backend_content'] : [];
 
 			foreach ( $this->contents as $content => $trans ) {
-				$contents[$content] = ( in_array( $content, $input['backend_content'], true ) ? true : false );
+				$contents[$content] = in_array( $content, $input['backend_content'], true );
 			}
 
 			$new_input['backend_content'] = $contents;
 
 			// attachment link
-			$new_input['attachment_link'] = ( isset( $input['attachment_link'] ) && in_array( $input['attachment_link'], array_keys( $this->attachment_links ), true ) ? $input['attachment_link'] : Download_Attachments()->defaults['general']['attachment_link'] );
+			$new_input['attachment_link'] = isset( $input['attachment_link'] ) && in_array( $input['attachment_link'], array_keys( $this->attachment_links ), true ) ? $input['attachment_link'] : Download_Attachments()->defaults['general']['attachment_link'];
 
 			// library
-			$new_input['library'] = ( isset( $input['library'] ) && in_array( $input['library'], array_keys( $this->libraries ), true ) ? $input['library'] : Download_Attachments()->defaults['general']['library']);
+			$new_input['library'] = isset( $input['library'] ) && in_array( $input['library'], array_keys( $this->libraries ), true ) ? $input['library'] : Download_Attachments()->defaults['general']['library'];
 
 			// downloads in media library
-			$new_input['downloads_in_media_library'] = ( isset( $input['downloads_in_media_library'] ) && in_array( $input['downloads_in_media_library'], array_keys( $this->choices ), true ) ? ( $input['downloads_in_media_library'] === 'yes' ? true : false ) : Download_Attachments()->defaults['general']['downloads_in_media_library'] );
+			$new_input['downloads_in_media_library'] = isset( $input['downloads_in_media_library'] ) && in_array( $input['downloads_in_media_library'], array_keys( $this->choices ), true ) ? ( $input['downloads_in_media_library'] === 'yes' ) : Download_Attachments()->defaults['general']['downloads_in_media_library'];
 
 			$input = $new_input;
 		// reset general
@@ -831,7 +823,7 @@ class Download_Attachments_Settings {
 
 			$input = $new_input;
 
-			add_settings_error( 'reset_general_settings', 'reset_general_settings', __( 'General settings restored to defaults.', 'download-attachments' ), 'updated' );
+			add_settings_error( 'reset_general_settings', 'reset_general_settings', esc_html__( 'General settings restored to defaults.', 'download-attachments' ), 'updated' );
 		// reset display
 		} elseif ( isset( $_POST['reset_da_display'] ) ) {
 			$new_input = $old_input;
@@ -845,7 +837,7 @@ class Download_Attachments_Settings {
 
 			$input = $new_input;
 
-			add_settings_error( 'reset_display_settings', 'reset_display_settings', __( 'Display settings restored to defaults.', 'download-attachments' ), 'updated' );
+			add_settings_error( 'reset_display_settings', 'reset_display_settings', esc_html__( 'Display settings restored to defaults.', 'download-attachments' ), 'updated' );
 		// reset admin
 		} elseif ( isset( $_POST['reset_da_admin'] ) ) {
 			$new_input = $old_input;
@@ -859,7 +851,7 @@ class Download_Attachments_Settings {
 
 			$input = $new_input;
 
-			add_settings_error( 'reset_admin_settings', 'reset_admin_settings', __( 'Admin settings restored to defaults.', 'download-attachments' ), 'updated' );
+			add_settings_error( 'reset_admin_settings', 'reset_admin_settings', esc_html__( 'Admin settings restored to defaults.', 'download-attachments' ), 'updated' );
 		// reset downloads
 		} elseif ( isset( $_POST['reset_da_downloads'] ) ) {
 			// lets use wpdb to reset downloads a lot faster than normal update_post_meta for each post_id
@@ -868,9 +860,9 @@ class Download_Attachments_Settings {
 			$input = Download_Attachments()->options;
 
 			if ( $result === false )
-				add_settings_error( 'reset_downloads', 'reset_downloads_error', __( 'Error occurred while resetting the downloads count.', 'download-attachments' ), 'error' );
+				add_settings_error( 'reset_downloads', 'reset_downloads_error', esc_html__( 'Error occurred while resetting the downloads count.', 'download-attachments' ), 'error' );
 			else
-				add_settings_error( 'reset_downloads', 'reset_downloads_updated', __( 'Attachments downloads count has been reset.', 'download-attachments' ), 'updated' );
+				add_settings_error( 'reset_downloads', 'reset_downloads_updated', esc_html__( 'Attachments downloads count has been reset.', 'download-attachments' ), 'updated' );
 		}
 
 		return $input;

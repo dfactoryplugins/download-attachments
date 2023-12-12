@@ -104,7 +104,7 @@ class Download_Attachments_Shortcodes {
 		$args = shortcode_atts( $defaults, $args );
 
 		// deprecated attachment_id parameter support
-		$args['id'] = ! empty( $args['attachment_id'] ) ? (int) $args['attachment_id'] : (int) $args['id'];
+		$args['id'] = (int) ( ! empty( $args['attachment_id'] ) ? $args['attachment_id'] : $args['id'] );
 
 		$atts = [];
 
@@ -117,7 +117,7 @@ class Download_Attachments_Shortcodes {
 		if ( Download_Attachments()->options['download_method'] === 'redirect' )
 			$atts['target'] = Download_Attachments()->options['link_target'];
 
-		return da_download_attachment_link( (int) $args['id'], false, $atts );
+		return da_download_attachment_link( $args['id'], false, $atts );
 	}
 }
 
