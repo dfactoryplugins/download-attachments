@@ -108,7 +108,6 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 			$this->options = array_merge( $this->defaults['general'], get_option( 'download_attachments_general', $this->defaults['general'] ) );
 
 			// actions
-			add_action( 'plugins_loaded', [ $this, 'load_textdomain' ] );
 			add_action( 'after_setup_theme', [ $this, 'load_defaults' ] );
 			add_action( 'admin_head', [ $this, 'button_init' ] );
 			add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
@@ -144,7 +143,7 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Download_Attachments ) ) {
 				self::$instance = new Download_Attachments();
 
-				add_action( 'plugins_loaded', [ self::$instance, 'load_textdomain' ] );
+				add_action( 'init', [ self::$instance, 'load_textdomain' ] );
 
 				self::$instance->includes();
 			}
@@ -363,6 +362,15 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 		}
 
 		/**
+		 * Get administrator capability to manage downloads.
+		 *
+		 * @return string
+		 */
+		public function get_capability() {
+			return $this->capability;
+		}
+
+		/**
 		 * Run the shortcode on specific filter.
 		 *
 		 * @return void
@@ -378,20 +386,10 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 		}
 
 		/**
-		 * Get administrator capability to manage downloads.
-		 *
-		 * @param mixed $content
-		 * @return mixed
-		 */
-		public function get_capability() {
-			return $this->capability;
-		}
-
-		/**
 		 * Add frontend attachments box.
 		 *
-		 * @param mixed $content
-		 * @return mixed
+		 * @param string $content
+		 * @return string
 		 */
 		public function add_content( $content ) {
 			// hold display var
@@ -479,7 +477,7 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 				wp_register_script( 'da-admin-post', DOWNLOAD_ATTACHMENTS_URL . '/js/admin-post.js', [ 'jquery', 'da-admin-datatables' ], $this->defaults['version'] );
 				wp_register_style( 'da-admin-datatables', DOWNLOAD_ATTACHMENTS_URL . '/assets/datatables/datatables' . ( ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '.min' : '' ) . '.css', [], '1.13.8' );
 
-				$columnTypes = [];
+				$column_types = [];
 
 				// get changeable admin columns
 				$backend_columns = $this->options['backend_columns'];
@@ -490,49 +488,49 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 				foreach ( $columns as $column ) {
 					switch ( $column ) {
 						case 'drag':
-							$columnTypes[] = [ 'orderable' => false ];
+							$column_types[] = [ 'orderable' => false ];
 							break;
-							
+
 						case 'id':
 							if ( $backend_columns[$column] )
-								$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+								$column_types[] = [ 'orderable' => true, 'type' => 'num' ];
 							break;
 
 						case 'exclude':
-							$columnTypes[] = [ 'orderable' => false ];
+							$column_types[] = [ 'orderable' => false ];
 							break;
 
 						case 'author':
 							if ( $backend_columns[$column] )
-								$columnTypes[] = [ 'orderable' => true ];
+								$column_types[] = [ 'orderable' => true ];
 							break;
 
 						case 'title':
-							$columnTypes[] = [ 'orderable' => true ];
+							$column_types[] = [ 'orderable' => true ];
 							break;
 
 						case 'type':
 							if ( $backend_columns[$column] )
-								$columnTypes[] = [ 'orderable' => true ];
+								$column_types[] = [ 'orderable' => true ];
 							break;
 
 						case 'size':
 							if ( $backend_columns[$column] )
-								$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+								$column_types[] = [ 'orderable' => true, 'type' => 'num' ];
 							break;
 
 						case 'date':
 							if ( $backend_columns[$column] )
-								$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+								$column_types[] = [ 'orderable' => true, 'type' => 'num' ];
 							break;
 
 						case 'downloads':
 							if ( $backend_columns[$column] )
-								$columnTypes[] = [ 'orderable' => true, 'type' => 'num' ];
+								$column_types[] = [ 'orderable' => true, 'type' => 'num' ];
 							break;
 
 						case 'actions':
-							$columnTypes[] = [ 'orderable' => false ];
+							$column_types[] = [ 'orderable' => false ];
 							break;
 					}
 				}
@@ -552,7 +550,7 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 					'deleteFile'			=> esc_html__( 'Do you want to remove this attachment?', 'download-attachments' ),
 					'removeFile'			=> esc_html__( 'Remove', 'download-attachments' ),
 					'editFile'				=> esc_html__( 'Edit', 'download-attachments' ),
-					'columnTypes'			=> $columnTypes,
+					'columnTypes'			=> $column_types,
 					'internalUnknownError'	=> esc_html__( 'Unexpected error occured. Please refresh the page and try again.', 'download-attachments' ),
 					'library'				=> ( $this->options['library'] === 'all' ? 1 : 0 ),
 					'addNonce'				=> wp_create_nonce( 'da-add-file-nonce-' . $post_id ),

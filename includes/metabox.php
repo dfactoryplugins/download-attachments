@@ -12,6 +12,8 @@ class Download_Attachments_Metabox {
 
 	/**
 	 * Constructor class.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 		// actions
@@ -26,6 +28,7 @@ class Download_Attachments_Metabox {
 	 * Update files and posts ids when removing.
 	 *
 	 * @param int $attachment_id
+	 * @return void
 	 */
 	public function remove_attachment( $attachment_id ) {
 		$attachment_id = (int) $attachment_id;
@@ -125,9 +128,11 @@ class Download_Attachments_Metabox {
 		// get already added attachments
 		$files = get_post_meta( $post_id, '_da_attachments', true );
 
+		// empty array?
 		if ( isset( $post['attachment_data'][0] ) && $post['attachment_data'][0] === 'empty' )
 			$post['attachment_data'] = [];
 
+		// any data?
 		if ( ! empty( $post['attachment_data'] ) ) {
 			// get current user id
 			$current_user_id = get_current_user_id();
@@ -136,7 +141,7 @@ class Download_Attachments_Metabox {
 			foreach ( $post['attachment_data'] as $attachment ) {
 				$att_id = (int) $attachment[0];
 
-				// is it atttachment?
+				// is it attachment?
 				if ( get_post_type( $att_id ) !== 'attachment' )
 					continue;
 
@@ -144,9 +149,8 @@ class Download_Attachments_Metabox {
 				if ( isset( $files[$att_id] ) ) {
 					$new_files[$att_id] = $files[$att_id];
 					$new_files[$att_id]['file_exclude'] = (bool) (int) $attachment[1];
-				}
 				// new file
-				else {
+				} else {
 					$new_files[$att_id] = [
 						'file_id'		=> $att_id,
 						'file_date'		=> current_time( 'mysql' ),
@@ -213,7 +217,7 @@ class Download_Attachments_Metabox {
 					$files = $this->prepare_files_data( $post_id, $attachments );
 
 					foreach ( $attachments as $attachment_id ) {
-						// is it atttachment?
+						// is it attachment?
 						if ( get_post_type( $attachment_id ) !== 'attachment' )
 							continue;
 
@@ -231,6 +235,8 @@ class Download_Attachments_Metabox {
 
 	/**
 	 * Add metabox.
+	 *
+	 * @return void
 	 */
 	public function add_download_meta_box() {
 		if ( ! current_user_can( 'manage_download_attachments' ) )
@@ -260,7 +266,7 @@ class Download_Attachments_Metabox {
 	 * Display metabox.
 	 *
 	 * @param object $post
-	 * @return mixed
+	 * @return void
 	 */
 	public function display_metabox( $post ) {
 		echo '

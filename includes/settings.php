@@ -34,7 +34,7 @@ class Download_Attachments_Settings {
 	}
 
 	/**
-	 * Load defaults
+	 * Load defaults.
 	 *
 	 * @return void
 	 */
@@ -104,6 +104,7 @@ class Download_Attachments_Settings {
 	 */
 	public function load_post_types() {
 		$this->post_types = apply_filters( 'da_post_types', array_merge( [ 'post', 'page' ], get_post_types( [ '_builtin' => false, 'public' => true ], 'names' ) ) );
+
 		sort( $this->post_types, SORT_STRING );
 	}
 

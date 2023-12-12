@@ -67,7 +67,7 @@ A. Chances are, someone else has asked it. Check out the support forum at: http:
 
 = 1.2.24 =
 * New: Link target option for "Redirect to file" method
-* Fix: Invalid attachments link attributes 
+* Fix: Invalid attachments link attributes
 * Fix: Shortcode positioning broken
 * Tweak: Improved protected posts support
 * Tweak: Elementor compatibility improvement
@@ -213,7 +213,7 @@ Initial release
 
 = 1.2.24 =
 * New: Link target option for "Redirect to file" method
-* Fix: Invalid attachments link attributes 
+* Fix: Invalid attachments link attributes
 * Fix: Shortcode positioning broken
 * Tweak: Improved protected posts support
 * Tweak: Elementor compatibility improvement

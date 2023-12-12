@@ -31,7 +31,7 @@
 			$( '#da_general_download_method_target' ).slideToggle( 'fast' );
 		} );
 
-		// handle redirect to file download method 
+		// handle redirect to file download method
 		$( document ).on( 'change', '#da-general-pretty-urls-no, #da-general-pretty-urls-yes', function() {
 			$( '#da_general_download_link' ).slideToggle( 'fast' );
 		} );

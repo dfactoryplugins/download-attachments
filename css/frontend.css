@@ -3,9 +3,9 @@
     padding-bottom: 0.5em;
 }
 
-.download-attachments table { 
-	border-collapse: 
-	collapse; border-spacing: 0;
+.download-attachments table {
+	border-collapse: collapse;
+	border-spacing: 0;
 	background-color: transparent;
 	width: 100%; max-width: 100%;
 }
@@ -18,11 +18,11 @@
 }
 
 .download-attachments table td,
-.download-attachments table th { 
-	padding: 8px; 
-	line-height: 1.6; 
-	vertical-align: top; 
-	border-top: 1px solid #ddd; 
+.download-attachments table th {
+	padding: 8px;
+	line-height: 1.6;
+	vertical-align: top;
+	border-top: 1px solid #ddd;
 	text-align: left;
 }
 

@@ -18,7 +18,7 @@ if ( empty( $args ) || ! is_array( $args ) )
 // extract variable storing all the parameters and attachments
 extract( $args );
 
-// you can start editing here 
+// you can start editing here
 ?>
 
 <?php if ( ! ( $display_empty === 0 && $count === 0 ) ) : ?>
@@ -40,9 +40,9 @@ extract( $args );
 
 	<ul class="da-attachments-list">
 
-	<?php 
+	<?php
 	// attachments loop
-	foreach ( $attachments as $attachment ) : 
+	foreach ( $attachments as $attachment ) :
 	?>
 
 		<?php if ( $use_desc_for_title === 1 && $attachment_description !== '' ) :
@@ -58,13 +58,13 @@ extract( $args );
 			<?php endif; ?>
 
 			<?php if ( $display_icon === 1 ) : ?>
-				<img class="attachment-icon" src="<?php echo $attachment['icon_url']; ?>" alt="<?php echo $attachment['type']; ?>" /> 
+				<img class="attachment-icon" src="<?php echo $attachment['icon_url']; ?>" alt="<?php echo $attachment['type']; ?>" />
 			<?php endif; ?>
 
 			<?php if ( $link_before !== '' ) : ?>
 				<span class="attachment-link-before"><?php echo $link_before; ?></span>
 			<?php endif; ?>
-				
+
 			<?php da_download_attachment_link( $attachment['ID'], true, array( 'title' => $attachment_title, 'class' => 'attachment-link' ) ); ?>
 
 			<?php if ( $link_after !== '' ) : ?>

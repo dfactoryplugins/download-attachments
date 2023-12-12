@@ -18,13 +18,13 @@ if ( empty( $args ) || ! is_array( $args ) )
 // extract variable storing all the parameters and attachments
 extract( $args );
 
-// you can start editing here 
+// you can start editing here
 ?>
 
 <?php if ( ! ( $display_empty === 0 && $count === 0 ) && $container !== '' ) : ?>
 
 	<<?php echo $container . ( $container_id !== '' ? ' id="' . $container_id . '"' : '' ) . ( $container_class !== '' ? ' class="' . $container_class . '"' : '' ); ?>>
-	
+
 <?php endif; ?>
 
 <?php echo $content_before; ?>
@@ -34,9 +34,9 @@ extract( $args );
 
 	<ul class="da-attachments-posts">
 
-	<?php 
+	<?php
 	// attachments loop
-	foreach ( $attachments as $attachment ) : 
+	foreach ( $attachments as $attachment ) :
 	?>
 
 		<?php if ( $use_desc_for_title === 1 && $attachment['attachment_description'] !== '' ) :
@@ -52,7 +52,7 @@ extract( $args );
 			<?php endif; ?>
 
 			<?php if ( $display_icon === 1 ) : ?>
-				<img class="attachment-icon" src="<?php echo $attachment['icon_url']; ?>" alt="<?php echo $attachment['type']; ?>" /> 
+				<img class="attachment-icon" src="<?php echo $attachment['icon_url']; ?>" alt="<?php echo $attachment['type']; ?>" />
 			<?php endif; ?>
 
 			<?php if ( $link_before !== '' ) : ?>
@@ -94,9 +94,9 @@ extract( $args );
 	</ul>
 
 <?php elseif ( $display_empty === 1 ) : ?>
-	
+
 	<?php echo $display_option_none; ?>
-	
+
 <?php endif; ?>
 
 <?php echo $content_after; ?>

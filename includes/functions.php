@@ -783,7 +783,7 @@ function da_download_attachment( $attachment_id = 0 ) {
 
 			// start printing file
 			if ( $filepath = fopen( $filepath, 'rb' ) ) {
-				while ( ! feof( $filepath ) && ( ! connection_aborted()) ) {
+				while ( ! feof( $filepath ) && ( ! connection_aborted() ) ) {
 					echo fread( $filepath, 1048576 );
 					flush();
 				}
@@ -948,7 +948,7 @@ if ( ! function_exists( 'da_most_downloaded_attachments' ) ) {
 						$text = $attachment->post_excerpt;
 
 					if ( ! empty( $text ) )
-						$excerpt = wp_trim_words( str_replace( ']]>', ']]&gt;', strip_shortcodes( $text ) ), apply_filters( 'excerpt_length', 55 ), apply_filters( 'excerpt_more', ' ' . '[&hellip;]' ) );
+						$excerpt = wp_trim_words( str_replace( ']]>', ']]&gt;', strip_shortcodes( $text ) ), apply_filters( 'excerpt_length', 55 ), apply_filters( 'excerpt_more', ' [&hellip;]' ) );
 				}
 
 				if ( ! empty( $excerpt ) )

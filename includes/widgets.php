@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) )
 
 /**
  * Download_Attachments_Widgets class.
- * 
+ *
  * @class Download_Attachments_Widgets
  */
 class Download_Attachments_Widgets {
@@ -33,7 +33,7 @@ class Download_Attachments_Widgets {
 
 /**
  * Download_Attachments_List_Widget class.
- * 
+ *
  * @class Download_Attachments_List_Widget
  */
 class Download_Attachments_List_Widget extends WP_Widget {
@@ -77,7 +77,7 @@ class Download_Attachments_List_Widget extends WP_Widget {
 			'display_caption'			=> false, // show_attachment_excerpt
 			'display_description'		=> false
 		];
-		
+
 		$this->da_attached_to_types = [
 			''			=> __( 'All posts', 'download-attachments' ),
 			'current'	=> __( 'Current post', 'download-attachments' )
@@ -106,7 +106,7 @@ class Download_Attachments_List_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Display widget function.
+	 * Display widget.
 	 *
 	 * @param array $args
 	 * @param array $instance
@@ -241,13 +241,13 @@ class Download_Attachments_List_Widget extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		// attached to
 		$old_instance['attached_to'] = isset( $new_instance['attached_to'] ) && in_array( $new_instance['attached_to'], array_keys( $this->da_attached_to_types ), true ) ? $new_instance['attached_to'] : $this->da_defaults['attached_to'];
-		
+
 		// style
 		$old_instance['style'] = isset( $new_instance['style'] ) && in_array( $new_instance['style'], array_keys( $this->da_style_types ), true ) ? $new_instance['style'] : $this->da_defaults['style'];
 
 		// link type
 		$old_instance['link_type'] = isset( $new_instance['link_type'] ) && in_array( $new_instance['link_type'], array_keys( $this->da_link_types ), true ) ? $new_instance['link_type'] : $this->da_defaults['link_type'];
-		
+
 		// orderby
 		$old_instance['orderby'] = isset( $new_instance['orderby'] ) && in_array( $new_instance['orderby'], array_keys( $this->da_orderby_types ), true ) ? $new_instance['orderby'] : $this->da_defaults['orderby'];
 
@@ -263,13 +263,13 @@ class Download_Attachments_List_Widget extends WP_Widget {
 		$old_instance['display_date'] = isset( $new_instance['display_date'] );
 		$old_instance['display_caption'] = isset( $new_instance['display_caption'] );
 		$old_instance['display_description'] = isset( $new_instance['display_description'] );
-		
+
 		// number of posts
-		$old_instance['number_of_posts'] = (int) (isset( $new_instance['number_of_posts'] ) ? $new_instance['number_of_posts'] : $this->da_defaults['number_of_posts']);
-		
+		$old_instance['number_of_posts'] = (int) ( isset( $new_instance['number_of_posts'] ) ? $new_instance['number_of_posts'] : $this->da_defaults['number_of_posts'] );
+
 		// texts
-		$old_instance['title'] = sanitize_text_field( isset( $new_instance['title'] ) ? $new_instance['title'] : $this->da_defaults['title']  );
-		$old_instance['no_attachments_message'] = sanitize_text_field( isset( $new_instance['no_attachments_message'] ) ? $new_instance['no_attachments_message'] : $this->da_defaults['no_attachments_message']  );
+		$old_instance['title'] = sanitize_text_field( isset( $new_instance['title'] ) ? $new_instance['title'] : $this->da_defaults['title'] );
+		$old_instance['no_attachments_message'] = sanitize_text_field( isset( $new_instance['no_attachments_message'] ) ? $new_instance['no_attachments_message'] : $this->da_defaults['no_attachments_message'] );
 
 		return $old_instance;
 	}

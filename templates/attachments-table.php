@@ -18,7 +18,7 @@ if ( empty( $args ) || ! is_array( $args ) )
 // extract variable storing all the parameters and attachments
 extract( $args );
 
-// you can start editing here 
+// you can start editing here
 ?>
 
 <?php if ( ! ( $display_empty === 0 && $count === 0 ) ) : ?>
@@ -72,9 +72,9 @@ extract( $args );
 
 		<tbody>
 
-		<?php 
+		<?php
 		// attachments loop
-		foreach ( $attachments as $attachment ) : 
+		foreach ( $attachments as $attachment ) :
 		?>
 
 			<?php
@@ -88,13 +88,13 @@ extract( $args );
 			<tr class="<?php echo $attachment['type']; ?>">
 
 				<?php if ( $display_index === 1 ) : ?>
-					<td class="attachment-index"><?php echo $i++; ?></td> 
+					<td class="attachment-index"><?php echo $i++; ?></td>
 				<?php endif; ?>
 
 				<td class="attachment-title">
 
 					<?php if ( $display_icon === 1 ) : ?>
-						<img class="attachment-icon" src="<?php echo $attachment['icon_url']; ?>" alt="<?php echo $attachment['type']; ?>" /> 
+						<img class="attachment-icon" src="<?php echo $attachment['icon_url']; ?>" alt="<?php echo $attachment['type']; ?>" />
 					<?php endif; ?>
 
 					<?php if ( $link_before !== '' ) : ?>
@@ -150,9 +150,9 @@ extract( $args );
 	</table>
 
 <?php elseif ( $display_empty === 1 ) : ?>
-		
+
 	<?php echo $display_option_none; ?>
-		
+
 <?php endif; ?>
 
 <?php echo $content_after; ?>

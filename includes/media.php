@@ -12,6 +12,8 @@ class Download_Attachments_Media {
 
 	/**
 	 * Constructor class.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 		// actions
@@ -32,7 +34,7 @@ class Download_Attachments_Media {
 	 *
 	 * @param array $fields Attachment fields
 	 * @param object $post Post object
-	 * @return array Modified attachment fields
+	 * @return array
 	 */
 	function attachment_fields_to_edit( $fields, $post ) {
 		if ( wp_doing_ajax() ) {
@@ -76,7 +78,8 @@ class Download_Attachments_Media {
 	 * Display attachments download count.
 	 *
 	 * @param string $column
-	 * @param id $id
+	 * @param int $id
+	 * @return void
 	 */
 	public function custom_media_column_content( $column, $id ) {
 		if ( Download_Attachments()->options['downloads_in_media_library'] === true && $column === 'downloads_count' )
@@ -146,9 +149,8 @@ class Download_Attachments_Media {
 	 * @return void
 	 */
 	public function submitbox_views( $post ) {
-		if ( empty( $post ) ) {
+		if ( empty( $post ) )
 			global $post;
-		}
 
 		// break if current user can't edit this attachment
 		if ( ! current_user_can( 'edit_post', $post->ID ) )
