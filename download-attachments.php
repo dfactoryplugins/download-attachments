@@ -345,9 +345,9 @@ if ( ! class_exists( 'Download_Attachments' ) ) {
 
 				// encrypt enabled
 				if ( isset( $this->options['encrypt_urls'] ) && $this->options['encrypt_urls'] ) {
-					if ( preg_match( '/^' . $download_link . '\/(\X+)$/', $wp->request, $vars ) === 1 ) {
+					if ( preg_match( '/^' . $download_link . '\/([A-Za-z0-9_,-]+)$/', $wp->request, $vars ) === 1 ) {
 						// allow for id customization
-						$id = (int) apply_filters( 'da_download_attachment_id', $vars[1] );
+						$id = apply_filters( 'da_download_attachment_id', $vars[1] );
 
 						da_download_attachment( da_decrypt_attachment_id( $id ) );
 					}
