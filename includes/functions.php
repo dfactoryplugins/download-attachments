@@ -578,7 +578,7 @@ function da_download_attachment_link( $attachment_id = 0, $echo = false, $attr =
  * @return string
  */
 function da_get_download_attachment_url( $attachment_id = 0 ) {
-	if ( get_post_type( $attachment_id ) != 'attachment' )
+	if ( get_post_type( $attachment_id ) !== 'attachment' )
 		return '';
 
 	$options = Download_Attachments()->options;
@@ -596,17 +596,16 @@ function da_get_download_attachment_url( $attachment_id = 0 ) {
  * @return string
  */
 function da_encrypt_attachment_id( $id ) {
-	$auth_key = defined( 'AUTH_KEY' ) ? AUTH_KEY : '';
-	$auth_iv = defined( 'NONCE_KEY' ) ? NONCE_KEY : '';
+	$auth_key = defined( 'AUTH_KEY' ) ? AUTH_KEY : false;
+	$auth_iv = defined( 'NONCE_KEY' ) ? NONCE_KEY : false;
+	$cipher = 'AES-256-CBC';
+	$php_71x = version_compare( phpversion(), '7.1.0', '>=' ) && version_compare( phpversion(), '7.2.0', '<' );
 
-	// openssl strong encryption
-	if ( function_exists( 'openssl_encrypt' ) && defined( 'OPENSSL_RAW_DATA' ) ) {
-		$ivsize = openssl_cipher_iv_length( 'aes-128-cbc' );
-		$iv = openssl_random_pseudo_bytes( $ivsize );
-		$ciphertext = openssl_encrypt( $id, 'aes-128-cbc', $auth_key . $auth_iv, OPENSSL_RAW_DATA, $iv );
-		$encrypted_id = strtr( base64_encode( $iv . $ciphertext ), '+/=', '-_,' );
-	// mcrypt strong encryption
-	} elseif ( function_exists( 'mcrypt_encrypt' ) && defined( 'MCRYPT_BLOWFISH' ) ) {
+	// openssl encryption
+	if ( $auth_key && $auth_iv && function_exists( 'openssl_encrypt' ) && in_array( $cipher, array_map( 'strtoupper', openssl_get_cipher_methods() ) ) )
+		$encrypted_id = strtr( base64_encode( openssl_encrypt( $id, $cipher, $auth_key, 1, mb_strimwidth( $auth_iv, 0, openssl_cipher_iv_length( $cipher ), '', 'UTF-8' ) ) ), '+/=', '-_,' );
+	// mcrypt encryption
+	elseif ( $auth_key && $auth_iv && ! $php_71x && function_exists( 'mcrypt_encrypt' ) && function_exists( 'mcrypt_get_key_size' ) && function_exists( 'mcrypt_get_iv_size' ) && defined( 'MCRYPT_BLOWFISH' ) ) {
 		// get max key size of the mcrypt mode
 		$max_key_size = mcrypt_get_key_size( MCRYPT_BLOWFISH, MCRYPT_MODE_CBC );
 		$max_iv_size = mcrypt_get_iv_size( MCRYPT_BLOWFISH, MCRYPT_MODE_CBC );
@@ -632,17 +631,16 @@ function da_encrypt_attachment_id( $id ) {
  * @return int
  */
 function da_decrypt_attachment_id( $encrypted_id ) {
-	$auth_key = defined( 'AUTH_KEY' ) ? AUTH_KEY : '';
-	$auth_iv = defined( 'NONCE_KEY' ) ? NONCE_KEY : '';
+	$auth_key = defined( 'AUTH_KEY' ) ? AUTH_KEY : false;
+	$auth_iv = defined( 'NONCE_KEY' ) ? NONCE_KEY : false;
+	$cipher = 'AES-256-CBC';
+	$php_71x = version_compare( phpversion(), '7.1.0', '>=' ) && version_compare( phpversion(), '7.2.0', '<' );
 
-	// openssl strong encryption
-	if ( function_exists( 'openssl_decrypt' ) && defined( 'OPENSSL_RAW_DATA' ) ) {
-		$ivsize = openssl_cipher_iv_length( 'aes-128-cbc' );
-		$iv = mb_substr( base64_decode( strtr( $encrypted_id, '-_,', '+/=' ) ), 0, $ivsize, '8bit' );
-		$ciphertext = mb_substr( base64_decode( strtr( $encrypted_id, '-_,', '+/=' ) ), $ivsize, null, '8bit' );
-		$id = openssl_decrypt( $ciphertext, 'aes-128-cbc', $auth_key . $auth_iv, OPENSSL_RAW_DATA, $iv );
-	// mcrypt strong encryption
-	} elseif ( function_exists( 'mcrypt_decrypt' ) && defined( 'MCRYPT_BLOWFISH' ) ) {
+	// openssl decryption
+	if ( $auth_key && $auth_iv && function_exists( 'openssl_encrypt' ) && in_array( $cipher, array_map( 'strtoupper', openssl_get_cipher_methods() ) ) )
+		$id = openssl_decrypt( base64_decode( strtr( $encrypted_id, '-_,', '+/=' ) ), $cipher, $auth_key, 1, mb_strimwidth( $auth_iv, 0, openssl_cipher_iv_length( $cipher ), '', 'UTF-8' ) );
+	// mcrypt decryption
+	elseif ( $auth_key && $auth_iv && ! $php_71x && function_exists( 'mcrypt_decrypt' ) && function_exists( 'mcrypt_get_key_size' ) && function_exists( 'mcrypt_get_iv_size' ) && defined( 'MCRYPT_BLOWFISH' ) ) {
 		// get max key size of the mcrypt mode
 		$max_key_size = mcrypt_get_key_size( MCRYPT_BLOWFISH, MCRYPT_MODE_CBC );
 		$max_iv_size = mcrypt_get_iv_size( MCRYPT_BLOWFISH, MCRYPT_MODE_CBC );
@@ -650,11 +648,11 @@ function da_decrypt_attachment_id( $encrypted_id ) {
 		$encrypt_key = mb_strimwidth( $auth_key, 0, $max_key_size );
 		$encrypt_iv = mb_strimwidth( $auth_iv, 0, $max_iv_size );
 
-		$id = mcrypt_decrypt( MCRYPT_BLOWFISH, $encrypt_key, base64_decode( strtr( $encrypted_id, '-_,', '+/=' ) ), MCRYPT_MODE_CBC, $encrypt_iv );
-	// simple encryption
+		$id = rtrim( mcrypt_decrypt( MCRYPT_BLOWFISH, $encrypt_key, base64_decode( strtr( $encrypted_id, '-_,', '+/=' ) ), MCRYPT_MODE_CBC, $encrypt_iv ), "\0" );
+	// simple decryption
 	} elseif ( function_exists( 'gzinflate' ) )
 		$id = gzinflate( convert_uudecode( base64_decode( $encrypted_id ) ) );
-	// no encryption
+	// no decryption
 	else
 		$id = convert_uudecode( base64_decode( strtr( $encrypted_id, '-_,', '+/=' ) ) );
 
