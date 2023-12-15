@@ -42,7 +42,7 @@ class Download_Attachments_Shortcodes {
 			'container'				=> 'div',
 			'container_class'		=> 'download-attachments',
 			'container_id'			=> '',
-			'style'					=> isset( Download_Attachments()->options['display_style'] ) ? esc_attr( Download_Attachments()->options['display_style'] ) : 'list',
+			'style'					=> isset( Download_Attachments()->options['display_style'] ) ? sanitize_key( Download_Attachments()->options['display_style'] ) : 'list',
 			'link_before'			=> '',
 			'link_after'			=> '',
 			'display_index'			=> isset( Download_Attachments()->options['frontend_columns']['index'] ) ? (int) Download_Attachments()->options['frontend_columns']['index'] : 0,
