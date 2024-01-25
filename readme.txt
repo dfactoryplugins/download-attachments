@@ -5,7 +5,7 @@ Tags: attachment, attachments, file, files, download, downloads, upload, doc, do
 Requires at least: 4.7
 Requires PHP: 7.0.0
 Tested up to: 6.4.1
-Stable tag: 1.2.24
+Stable tag: 1.3
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 
@@ -64,6 +64,13 @@ A. Chances are, someone else has asked it. Check out the support forum at: http:
 3. screenshot-3.png
 
 == Changelog ==
+
+= 1.3 =
+* New: DataTables implementation
+* New: PHP 7.x and 8.x compatibility
+* New: Wordpress 6.x compatibility
+* Fix: Improved data sanitization and validation
+* Fix: Downloading files with pretty urls
 
 = 1.2.24 =
 * New: Link target option for "Redirect to file" method
@@ -211,9 +218,9 @@ Initial release
 
 == Upgrade Notice ==
 
-= 1.2.24 =
-* New: Link target option for "Redirect to file" method
-* Fix: Invalid attachments link attributes
-* Fix: Shortcode positioning broken
-* Tweak: Improved protected posts support
-* Tweak: Elementor compatibility improvement
+= 1.3 =
+* New: DataTables implementation
+* New: PHP 7.x and 8.x compatibility
+* New: Wordpress 6.x compatibility
+* Fix: Improved data sanitization and validation
+* Fix: Downloading files with pretty urls
