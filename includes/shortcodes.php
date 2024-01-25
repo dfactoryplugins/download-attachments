@@ -36,7 +36,7 @@ class Download_Attachments_Shortcodes {
 	 * @param array $args
 	 * @return string
 	 */
-	public function download_attachments_shortcode( $args ) {
+	public function download_attachments_shortcode( $atts ) {
 		$defaults = [
 			'post_id'				=> 0,
 			'container'				=> 'div',
@@ -66,14 +66,62 @@ class Download_Attachments_Shortcodes {
 			'echo'					=> 0
 		];
 
-		if ( ! isset( $args['title'] ) ) {
-			$args['title'] = '';
-
-			if ( Download_Attachments()->options['label'] !== '' )
-				$args['title'] = Download_Attachments()->options['label'];
+		// set title
+		if ( ! isset( $atts['title'] ) ) {
+			$atts['title'] = Download_Attachments()->options['label'] !== '' ? Download_Attachments()->options['label'] : '';
 		}
 
-		$args = shortcode_atts( $defaults, $args );
+		$atts = shortcode_atts( $defaults, $atts );
+		
+		// sanitize atts
+		$args = [
+			'post_id'				=> (int) $atts['post_id'],
+			'container'				=> sanitize_text_field( $atts['container'] ),
+			'container_class'		=> sanitize_html_class( $atts['container_class'] ),
+			'container_id'			=> sanitize_text_field( $atts['container_id'] ),
+			'style'					=> sanitize_key( $atts['style'] ),
+			'link_before'			=> wp_kses_post( $atts['link_before'] ),
+			'link_after'			=> wp_kses_post( $atts['link_after'] ),
+			'display_index'			=> (int) $atts['display_index'],
+			'display_user'			=> (int) $atts['display_user'],
+			'display_icon'			=> (int) $atts['display_icon'],
+			'display_count'			=> (int) $atts['display_count'],
+			'display_size'			=> (int) $atts['display_size'],
+			'display_date'			=> (int) $atts['display_date'],
+			'display_caption'		=> (int) $atts['display_caption'],
+			'display_description'	=> (int) $atts['display_description'],
+			'display_empty'			=> (int) $atts['display_empty'],
+			'display_option_none'	=> (int) $atts['display_option_none'],
+			'use_desc_for_title'	=> (int) $atts['use_desc_for_title'],
+			'exclude'				=> $atts['exclude'],
+			'include'				=> $atts['include'],
+			'title'					=> sanitize_text_field( $atts['title'] ),
+			'title_container'		=> sanitize_key( $atts['title_container'] ),
+			'title_class'			=> sanitize_html_class( $atts['title_class'] ),
+			'orderby'				=> sanitize_key( $atts['orderby'] ),
+			'order'					=> sanitize_key( $atts['order'] ),
+			'echo'					=> (int) $atts['echo'],
+		];
+		
+		// exclude
+		if ( is_array( $args['exclude'] ) ) {
+			$args['exclude'] = array_map( 'absint', $args['exclude'] );
+		} elseif ( is_numeric( $args['exclude'] ) ) {
+			$args['exclude'] = (int) $args['exclude'];
+		} elseif ( is_string( $args['exclude'] ) ) {
+			$args['exclude'] = sanitize_text_field( $args['exclude'] );
+		} else
+			$args['exclude'] = '';
+		
+		// include
+		if ( is_array( $args['include'] ) ) {
+			$args['include'] = array_map( 'absint', $args['include'] );
+		} elseif ( is_numeric( $args['include'] ) ) {
+			$args['include'] = (int) $args['include'];
+		} elseif ( is_string( $args['include'] ) ) {
+			$args['include'] = sanitize_text_field( $args['include'] );
+		} else
+			$args['include'] = '';
 
 		// we have to force return in shortcodes
 		$args['echo'] = 0;
@@ -93,7 +141,7 @@ class Download_Attachments_Shortcodes {
 	 * @param array $args
 	 * @return string
 	 */
-	public function download_attachment_shortcode( $args ) {
+	public function download_attachment_shortcode( $atts ) {
 		$defaults = [
 			'attachment_id'	=> 0, // deprecated
 			'id'			=> 0,
@@ -101,23 +149,22 @@ class Download_Attachments_Shortcodes {
 			'class'			=> ''
 		];
 
-		$args = shortcode_atts( $defaults, $args );
-
+		$atts = shortcode_atts( $defaults, $atts );
+		
 		// deprecated attachment_id parameter support
-		$args['id'] = (int) ( ! empty( $args['attachment_id'] ) ? $args['attachment_id'] : $args['id'] );
-
-		$atts = [];
-
-		if ( ! empty( $args['title'] ) )
-			$atts['title'] = $args['title'];
-
-		if ( ! empty( $args['class'] ) )
-			$atts['class'] = $args['class'];
+		$id = (int) ( ! empty( $atts['attachment_id'] ) ? $atts['attachment_id'] : $atts['id'] );
+		
+		// sanitize args
+		$args = [
+			'attachment_id' => $id,
+			'title'			=> sanitize_text_field( $atts['title'] ),
+			'class'			=> sanitize_html_class( $atts['class'] )
+		];
 
 		if ( Download_Attachments()->options['download_method'] === 'redirect' )
-			$atts['target'] = Download_Attachments()->options['link_target'];
+			$args['target'] = sanitize_key( Download_Attachments()->options['link_target'] );
 
-		return da_download_attachment_link( $args['id'], false, $atts );
+		return da_download_attachment_link( $id, false, $args );
 	}
 }
 
