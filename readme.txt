@@ -4,7 +4,7 @@ Donate link: http://www.dfactory.co/
 Tags: attachment, attachments, file, files, download, downloads, upload, doc, document, documents, monitor, manager
 Requires at least: 4.7
 Requires PHP: 7.0.0
-Tested up to: 6.4.1
+Tested up to: 6.4.3
 Stable tag: 1.3
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
