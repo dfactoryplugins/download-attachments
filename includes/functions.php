@@ -398,12 +398,14 @@ function da_display_download_attachments( $post_id = 0, $args = [] ) {
 
 			wp_add_inline_script( 'da-frontend', 'var daDataTablesArgs = ' . wp_json_encode( $script_data ) . ";\n", 'before' );
 		}
+		
+		$allowed_tags = apply_filters( 'da_allowed_html_tags', wp_kses_allowed_html( 'post' ) );
 
 		ob_start();
 
 		da_get_template( 'attachments-' . $args['style'] . '.php', $args );
 
-		$html = ob_get_contents();
+		$html = wp_kses( ob_get_contents(), $allowed_tags );
 
 		ob_end_clean();
 	} else

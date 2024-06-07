@@ -4,8 +4,8 @@ Donate link: http://www.dfactory.co/
 Tags: attachment, attachments, file, files, download, downloads, upload, doc, document, documents, monitor, manager
 Requires at least: 4.7
 Requires PHP: 7.0.0
-Tested up to: 6.4.3
-Stable tag: 1.3
+Tested up to: 6.5.4
+Stable tag: 1.3.1
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 
@@ -64,6 +64,9 @@ A. Chances are, someone else has asked it. Check out the support forum at: http:
 3. screenshot-3.png
 
 == Changelog ==
+
+= 1.3.1 =
+* Fix: Potential security issue
 
 = 1.3 =
 * New: DataTables implementation
@@ -218,9 +221,5 @@ Initial release
 
 == Upgrade Notice ==
 
-= 1.3 =
-* New: DataTables implementation
-* New: PHP 7.x and 8.x compatibility
-* New: Wordpress 6.x compatibility
-* Fix: Improved data sanitization and validation
-* Fix: Downloading files with pretty urls
+= 1.3.1 =
+* Fix: Potential security issue
