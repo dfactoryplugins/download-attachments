@@ -46,6 +46,12 @@ For more information, check out plugin page at [dFactory](http://www.dfactory.co
 
 Feel free to contribute to the source code on the [dFactory GitHub Repository](https://github.com/dfactoryplugins).
 
+## Frequently Asked Questions ##
+
+### Q. I have a question ###
+
+A. Chances are, someone else has asked it. Check out the support forum at: http://www.dfactory.co/support/
+
 ## Installation ##
 
 1. Install Download Attachments either via the WordPress.org plugin directory, or by uploading the files to your server
@@ -53,6 +59,61 @@ Feel free to contribute to the source code on the [dFactory GitHub Repository](h
 3. Go to the Download Attachments settings under News menu and set your desired options.
 
 ## Changelog ##
+
+#### 1.3.1 ####
+* Fix: Potential security issue
+
+#### 1.3 ####
+* New: DataTables implementation
+* New: PHP 7.x and 8.x compatibility
+* New: Wordpress 6.x compatibility
+* Fix: Improved data sanitization and validation
+* Fix: Downloading files with pretty urls
+
+#### 1.2.24 ####
+* New: Link target option for "Redirect to file" method
+* Fix: Invalid attachments link attributes
+* Fix: Shortcode positioning broken
+* Tweak: Improved protected posts support
+* Tweak: Elementor compatibility improvement
+
+#### 1.2.23 ####
+* Fix: Hide widget if no attachments found
+
+#### 1.2.22 ####
+* Fix: Attachment disappearing on autosave
+
+#### 1.2.21 ####
+* Fix: Attachment disappearing form the backend and frontend
+* Fix: Attachment title not visible in admin interface
+* Fix: Exclude / include shortcode paramaters not working
+
+#### 1.2.20 ####
+* Fix: Fatal error on da_get_download_attachment function call
+* Tweak: Style none for attachments list display
+
+#### 1.2.19 ####
+* New: Dynamic, sortable table display mode
+* New: Templates engine for the attachment display
+* New: Option to edit attachment downloads count
+* New: Attachments widget redesign
+* Fix: 404 error with pretty urls enabled
+* Tweak: Stronger openssl url encryption method
+
+#### 1.2.18 ####
+* Fix: Undefined encrypt_urls variable notice
+* Tweak: Added plugin documentation link
+
+####1.2.17 ####
+* New: Encrypt URL's option
+* Fix: Missing docx and xlsx file icons
+* Tweak: Revamped admin inteface
+
+#### 1.2.16 ####
+* New: Most Downloaded Attachments widget
+
+#### 1.2.15 ####
+* Tweak: Removed local translation files in favor of WP repository translations.
 
 #### 1.2.14 ####
 * Fix: TinyMCE editor broken on post types
