@@ -5,7 +5,7 @@ Tags: attachment, attachments, file, files, download, downloads, upload, doc, do
 Requires at least: 4.7
 Requires PHP: 7.0.0
 Tested up to: 6.5.4
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 
@@ -29,7 +29,7 @@ For more information, check out plugin page at [dFactory](http://www.dfactory.co
 * Based on Media Library attachments
 * Easy customisation of Frontend & Backend display
 * Pretty URLs for download links
-* Option to encrypt URLs
+* Encrypt URLs by default
 * Customizable tamplates engine
 * Custom download slug
 * Custom permission for metabox display
@@ -64,6 +64,10 @@ A. Chances are, someone else has asked it. Check out the support forum at: http:
 3. screenshot-3.png
 
 == Changelog ==
+
+= 1.3.2 =
+* Security: Serve downloads only for files attached and not marked as excluded.
+* Security: Encrypted download URLs are enabled by default to reduce enumeration risks.
 
 = 1.3.1 =
 * Fix: Potential security issue
@@ -221,5 +225,5 @@ Initial release
 
 == Upgrade Notice ==
 
-= 1.3.1 =
-* Fix: Potential security issue
+= 1.3.2 =
+* Security: Restricts downloads to files explicitly attached and honors exclusion flags.

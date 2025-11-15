@@ -19,6 +19,7 @@ For more information, check out plugin page at [dFactory](http://www.dfactory.co
 * Based on Media Library attachments
 * Easy customisation of Frontend & Backend display
 * Pretty URLs for download links
+* Encrypted download URLs
 * Custom download slug
 * Custom permission for metabox display
 * Option to exclude selected attachments from display
@@ -53,6 +54,10 @@ Feel free to contribute to the source code on the [dFactory GitHub Repository](h
 3. Go to the Download Attachments settings under News menu and set your desired options.
 
 ## Changelog ##
+
+#### 1.3.2 ####
+* Security: Only attachments that are assigned to a published post and not flagged as excluded can be downloaded.
+* Security: Oownload URLs are encrypted by default to make enumeration harder.
 
 #### 1.2.14 ####
 * Fix: TinyMCE editor broken on post types

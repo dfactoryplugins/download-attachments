@@ -741,100 +741,146 @@ function da_get_download_attachment( $attachment_id = 0 ) {
 }
 
 /**
+ * Determine whether the attachment is allowed to be downloaded.
+ *
+ * @param int $attachment_id
+ * @return bool
+ */
+function da_is_attachment_downloadable( $attachment_id = 0 ) {
+	$attachment_id = (int) $attachment_id;
+
+	if ( $attachment_id <= 0 || get_post_type( $attachment_id ) !== 'attachment' )
+		return apply_filters( 'da_attachment_download_allowed', false, $attachment_id, null, [] );
+
+	$attached_posts = get_post_meta( $attachment_id, '_da_posts', true );
+	if ( ! is_array( $attached_posts ) || empty( $attached_posts ) )
+		return apply_filters( 'da_attachment_download_allowed', false, $attachment_id, null, [] );
+
+	$allowed = false;
+	$allowed_post = null;
+	$attachment_meta = [];
+
+	foreach ( $attached_posts as $post_id ) {
+		$post_id = (int) $post_id;
+
+		if ( $post_id === 0 )
+			continue;
+
+		$post = get_post( $post_id );
+		if ( ! $post || $post->post_status !== 'publish' )
+			continue;
+
+		$post_attachments = get_post_meta( $post_id, '_da_attachments', true );
+		if ( ! is_array( $post_attachments ) || ! isset( $post_attachments[$attachment_id] ) )
+			continue;
+
+		$attachment_meta = $post_attachments[$attachment_id];
+		if ( isset( $attachment_meta['file_exclude'] ) && $attachment_meta['file_exclude'] === true )
+			continue;
+
+		$allowed = true;
+		$allowed_post = $post;
+		break;
+	}
+
+	return apply_filters( 'da_attachment_download_allowed', $allowed, $attachment_id, $allowed_post, $attachment_meta );
+}
+
+/**
  * Process attachment download.
  *
  * @param int $attachment_id
  * @return void|false
  */
 function da_download_attachment( $attachment_id = 0 ) {
-	if ( get_post_type( $attachment_id ) === 'attachment' ) {
-		// get options
-		$options = Download_Attachments()->options;
-
-		if ( ! isset( $options['download_method'] ) )
-			$options['download_method'] = 'force';
-
-		// get wp upload directory data
-		$uploads = wp_upload_dir();
-
-		// get file name
-		$attachment = get_post_meta( $attachment_id, '_wp_attached_file', true );
-
-		// get downloads count
-		$downloads_count = (int) get_post_meta( $attachment_id, '_da_downloads', true );
-
-		// force download
-		if ( $options['download_method'] === 'force' ) {
-			// get file path
-			$filepath = apply_filters( 'da_download_attachment_filepath', $uploads['basedir'] . '/' . $attachment, $attachment_id );
-
-			// file exists?
-			if ( ! file_exists( $filepath ) || ! is_readable( $filepath ) )
-				return false;
-
-			// if filename contains folders
-			if ( ( $position = strrpos( $attachment, '/', 0 ) ) !== false )
-				$filename = substr( $attachment, $position + 1 );
-			else
-				$filename = $attachment;
-
-			// disable compression
-			if ( ini_get( 'zlib.output_compression' ) )
-				@ini_set( 'zlib.output_compression', 0 );
-
-			if ( function_exists( 'apache_setenv' ) )
-				@apache_setenv( 'no-gzip', 1 );
-
-			// disable max execution time limit
-			if ( ! in_array( 'set_time_limit', explode( ',', ini_get( 'disable_functions' ) ) ) && ! ini_get( 'safe_mode' ) )
-				@set_time_limit( 0 );
-
-			// set needed headers
-			nocache_headers();
-			header( 'Robots: none' );
-			header( 'Content-Type: application/download' );
-			header( 'Content-Description: File Transfer' );
-			header( 'Content-Disposition: attachment; filename=' . rawurldecode( $filename ) );
-			header( 'Content-Transfer-Encoding: binary' );
-			header( 'Accept-Ranges: bytes' );
-			header( 'Expires: 0' );
-			header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
-			header( 'Pragma: public' );
-			header( 'Content-Length: ' . filesize( $filepath ) );
-
-			// increase downloads count
-			update_post_meta( $attachment_id, '_da_downloads', $downloads_count + 1, $downloads_count );
-
-			// action hook
-			do_action( 'da_process_file_download', $attachment_id );
-
-			// start printing file
-			if ( $filepath = fopen( $filepath, 'rb' ) ) {
-				while ( ! feof( $filepath ) && ( ! connection_aborted() ) ) {
-					echo fread( $filepath, 1048576 );
-					flush();
-				}
-
-				fclose( $filepath );
-			} else
-				return false;
-
-			exit;
-		// redirect to file
-		} else {
-			// increase downloads count
-			update_post_meta( $attachment_id, '_da_downloads', $downloads_count + 1, $downloads_count );
-
-			// action hook
-			do_action( 'da_process_file_download', $attachment_id );
-
-			// force file url
-			header( 'Location: ' . apply_filters( 'da_download_attachment_filepath', $uploads['baseurl'] . '/' . $attachment, $attachment_id ) );
-			exit;
-		}
-	// not an attachment
-	} else
+	if ( ! da_is_attachment_downloadable( $attachment_id ) )
 		return false;
+
+	// get options
+	$options = Download_Attachments()->options;
+
+	if ( ! isset( $options['download_method'] ) )
+		$options['download_method'] = 'force';
+
+	// get wp upload directory data
+	$uploads = wp_upload_dir();
+
+	// get file name
+	$attachment = get_post_meta( $attachment_id, '_wp_attached_file', true );
+
+	// get downloads count
+	$downloads_count = (int) get_post_meta( $attachment_id, '_da_downloads', true );
+
+	// force download
+	if ( $options['download_method'] === 'force' ) {
+		// get file path
+		$filepath = apply_filters( 'da_download_attachment_filepath', $uploads['basedir'] . '/' . $attachment, $attachment_id );
+
+		// file exists?
+		if ( ! file_exists( $filepath ) || ! is_readable( $filepath ) )
+			return false;
+
+		// if filename contains folders
+		if ( ( $position = strrpos( $attachment, '/', 0 ) ) !== false )
+			$filename = substr( $attachment, $position + 1 );
+		else
+			$filename = $attachment;
+
+		// disable compression
+		if ( ini_get( 'zlib.output_compression' ) )
+			@ini_set( 'zlib.output_compression', 0 );
+
+		if ( function_exists( 'apache_setenv' ) )
+			@apache_setenv( 'no-gzip', 1 );
+
+		// disable max execution time limit
+		if ( ! in_array( 'set_time_limit', explode( ',', ini_get( 'disable_functions' ) ) ) && ! ini_get( 'safe_mode' ) )
+			@set_time_limit( 0 );
+
+		// set needed headers
+		nocache_headers();
+		header( 'Robots: none' );
+		header( 'Content-Type: application/download' );
+		header( 'Content-Description: File Transfer' );
+		header( 'Content-Disposition: attachment; filename=' . rawurldecode( $filename ) );
+		header( 'Content-Transfer-Encoding: binary' );
+		header( 'Accept-Ranges: bytes' );
+		header( 'Expires: 0' );
+		header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
+		header( 'Pragma: public' );
+		header( 'Content-Length: ' . filesize( $filepath ) );
+
+		// increase downloads count
+		update_post_meta( $attachment_id, '_da_downloads', $downloads_count + 1, $downloads_count );
+
+		// action hook
+		do_action( 'da_process_file_download', $attachment_id );
+
+		// start printing file
+		if ( $filepath = fopen( $filepath, 'rb' ) ) {
+			while ( ! feof( $filepath ) && ( ! connection_aborted() ) ) {
+				echo fread( $filepath, 1048576 );
+				flush();
+			}
+
+			fclose( $filepath );
+		} else
+			return false;
+
+		exit;
+	}
+	// redirect to file
+	else {
+		// increase downloads count
+		update_post_meta( $attachment_id, '_da_downloads', $downloads_count + 1, $downloads_count );
+
+		// action hook
+		do_action( 'da_process_file_download', $attachment_id );
+
+		// force file url
+		header( 'Location: ' . apply_filters( 'da_download_attachment_filepath', $uploads['baseurl'] . '/' . $attachment, $attachment_id ) );
+		exit;
+	}
 }
 
 /**
